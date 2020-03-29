@@ -1,0 +1,11 @@
+c:\users\administrator\source\repos\pan.kaikj.wxsupermarket\pan.kaikj.wxsupermarket.AdoSqlHelper\bin\Debug\pan.kaikj.wxsupermarket.AdoSqlHelper.dll
+c:\users\administrator\source\repos\pan.kaikj.wxsupermarket\pan.kaikj.wxsupermarket.AdoSqlHelper\bin\Debug\pan.kaikj.wxsupermarket.AdoSqlHelper.pdb
+c:\users\administrator\source\repos\pan.kaikj.wxsupermarket\pan.kaikj.wxsupermarket.AdoSqlHelper\obj\Debug\pan.kaikj.wxsupermarket.AdoSqlHelper.csproj.CoreCompileInputs.cache
+c:\users\administrator\source\repos\pan.kaikj.wxsupermarket\pan.kaikj.wxsupermarket.AdoSqlHelper\obj\Debug\pan.kaikj.wxsupermarket.AdoSqlHelper.dll
+c:\users\administrator\source\repos\pan.kaikj.wxsupermarket\pan.kaikj.wxsupermarket.AdoSqlHelper\obj\Debug\pan.kaikj.wxsupermarket.AdoSqlHelper.pdb
+E:\微信超市\pan.kaikj.wxsupermarketTFC\pan.kaikj.wxsupermarket.AdoSqlHelper\bin\Debug\pan.kaikj.wxsupermarket.AdoSqlHelper.dll
+E:\微信超市\pan.kaikj.wxsupermarketTFC\pan.kaikj.wxsupermarket.AdoSqlHelper\bin\Debug\pan.kaikj.wxsupermarket.AdoSqlHelper.pdb
+E:\微信超市\pan.kaikj.wxsupermarketTFC\pan.kaikj.wxsupermarket.AdoSqlHelper\obj\Debug\pan.kaikj.wxsupermarket.AdoSqlHelper.csproj.CoreCompileInputs.cache
+E:\微信超市\pan.kaikj.wxsupermarketTFC\pan.kaikj.wxsupermarket.AdoSqlHelper\obj\Debug\pan.kaikj.wxsupermarket.AdoSqlHelper.dll
+E:\微信超市\pan.kaikj.wxsupermarketTFC\pan.kaikj.wxsupermarket.AdoSqlHelper\obj\Debug\pan.kaikj.wxsupermarket.AdoSqlHelper.pdb
+E:\微信超市\pan.kaikj.wxsupermarketTFC\pan.kaikj.wxsupermarket.AdoSqlHelper\obj\Debug\pan.kaikj.wxsupermarket.AdoSqlHelper.csprojAssemblyReference.cache

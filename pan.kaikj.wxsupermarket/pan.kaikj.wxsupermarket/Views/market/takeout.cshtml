@@ -1,0 +1,480 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <title>茶部落</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link href="/Content/amazeui.min.css" type="text/css" rel="stylesheet" />
+    <link href="/Content/style.css" type="text/css" rel="stylesheet" />
+    <script src="/Scripts/jquery-3.3.1.min.js"></script>
+    <link href="../Scripts/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" />
+    <link href="~/Content/commMarkt.css" rel="stylesheet" />
+    <script src="~/Scripts/comm.js"></script>
+</head>
+<body>
+    <header data-am-widget="header" class="am-header am-header-default sq-head ">
+        <div class="am-header-left am-header-nav">
+            <a href="/market/Index" class="">继续购物</a>
+        </div>
+    </header>
+    <div style="height: 49px;"></div>
+    <ul class="eat-list">
+        @{ List
+                                    <pan.kaikj.wxsupermarket.AdoModel.MshoppingCart>
+                                        modelList = ViewData["AllShoppingCartList"] == null ? null : (List<pan.kaikj.wxsupermarket.AdoModel.MshoppingCart>
+                                            )ViewData["AllShoppingCartList"];
+            decimal totalMon = 0M;
+            if (modelList != null && modelList.Count > 0)
+            {
+                foreach (var item in modelList)
+                {
+                    totalMon = totalMon + item.sellPrice * item.buyNum;
+                    <li>
+                        <span class="name" style="width: 47%;">@item.productname</span>
+                        <em class="price" data-price="@item.sellPrice" data-id="@item.shoppingCartId">￥@item.sellPrice.ToString("0.00")</em>
+                        <div class="d-stock" data-id="@item.productId">
+                            <a class="decrease">-</a>
+                            <input id="num" readonly="" class="text_box" name="" type="text" value="@item.buyNum">
+                            <a class="increase">+</a>
+                        </div>
+                    </li>
+                }
+            }
+        }
+        @*<li>
+                <span class="name">绿茶</span>
+                <em class="price" data-price="2.0" data-id="2">￥2.0</em>
+                <div class="d-stock ">
+                    <a class="decrease">-</a>
+                    <input id="num" readonly="" class="text_box" name="" type="text" value="1">
+                    <a class="increase">+</a>
+                </div>
+            </li>*@
+    </ul>
+    <div class="juli"></div>
+    <ul class="list-detail">
+        <li class="time">
+            <span>
+                送货时间：
+            </span> <input placeholder="立即配送" class="Wdate  kbtn" type="text" style="background:none;border:none;height:auto;"
+                           onclick="WdatePicker({ el: this, dateFmt: 'yyyy-MM-dd HH:mm:ss' })"
+                           id="deliveryTime" value="@System.DateTime.Now.AddMinutes(35).ToString("yyyy-MM-dd HH:mm")"
+
+            <i class="am-icon-angle-right"></i>
+        </li>
+        <div id="datePlugin" style="display:none;">
+            <div id="dateshadow" style="display: block;"></div>
+            <div id="datePage" class="page" style="overflow-y: scroll;">
+                <ul class="address-list" id="address-list">
+                    @{ List<pan.kaikj.wxsupermarket.AdoModel.MmailAddress>
+                                          modelListMail = ViewData["AllMmailAddresses"] == null ? 
+                                          null : (List<pan.kaikj.wxsupermarket.AdoModel.MmailAddress>)ViewData["AllMmailAddresses"];
+                        string defultAddress = string.Empty;
+                        string defultContactName = string.Empty;
+                        string defultContactTell = string.Empty;
+
+                        if (modelListMail != null && modelListMail.Count > 0)
+                        {
+                            foreach (var item in modelListMail)
+                            {
+                                if (item.isDefault == "1" || string.IsNullOrEmpty(defultAddress))
+                                {
+                                    defultAddress = @item.detailedAddress;
+                                    defultContactName = @item.contactName;
+                                    defultContactTell = @item.contactTell;
+                                }
+                                <li class="curr selGladd">
+                                    <p class="order-add1" data-gladdId="@item.addressId" data-address="@item.detailedAddress" data-gladdName="@item.contactName" data-gladdTel="@item.contactTell">
+                                        地址：
+                                        <span>@item.detailedAddress-@item.contactName-@item.contactTell</span>
+                                    </p>
+                                </li>
+
+                            }
+                        }
+                    }
+                    <ul class="contact addGladd">
+                        <li><input id="newAddress" type="text" placeholder="请输入详细地址" maxlength="50" /></li>
+                        <li><input id="newName" type="text" placeholder="请输入姓名" maxlength="20" /></li>
+                        <li><input id="newTel" type="text" placeholder="请输入手机号" maxlength="11" /></li>
+                    </ul>
+                    <button class="paybtn addGladd" type="button" id="submitNewGladd">使用新地址</button>
+            </div>
+        </div>
+        <li class="time">
+            <span>送货地址：</span>
+            <a href="#" class="address" id="selAddress" style="height:30px;">
+                <p id="gladdAddress" data-gladdId="900" data-gladdName="900" data-gladdTel="900">
+                    @(defultAddress + "-" + defultContactName + "-" + defultContactTell)
+                </p>
+            </a>
+            <i class="am-icon-angle-right"></i>
+        </li>
+    </ul>
+    <div class="juli"></div>
+    @*<textarea placeholder="备注说明" class="bz-infor" id="remark"></textarea>*@
+    <div class="juli"></div>
+    <div class="pricebox">
+        <p>总价：<i id="totalPrice">@totalMon.ToString("0.00")</i>元（含运费）</p>
+        <p>货到付款</p>
+        <button class="paybtn" type="button" id="creatOrder"> 立即下单</button>
+    </div>
+
+    <div class="am-modal am-modal-confirm" tabindex="-1" id="my-confirm">
+        <div class="am-modal-dialog">
+            <div class="am-modal-bd" style="height: 80px; line-height: 80px;">  您确定要清空购物车吗？</div>
+            <div class="am-modal-footer">
+                <span class="am-modal-btn" data-am-modal-cancel>取消</span>
+                <span class="am-modal-btn" data-am-modal-confirm id="clearShopCart" style="display:none;">确定</span>
+            </div>
+        </div>
+    </div>
+    <div class="botCount" id="botCount">
+        <script type="text/javascript">
+            //// 底部事件
+            $(function () {
+                initBotom(2);
+            });
+        </script>
+    </div>
+    <script src="../Scripts/angular.min.js"></script>
+    <script src="../Scripts/angular-messages.min.js"></script>
+    <script src="../Scripts/My97DatePicker/WdatePicker.js"></script>
+    <script>
+        var detailedAddress = "@defultAddress";
+        var contactName = "@defultContactName";
+        var contactTell ="@defultContactTell";
+
+        $(function () {
+            $("#datePlugin").hide();
+        });
+
+        //购物数量加减
+        $(function () {
+            $(".d-stock").delegate(".increase", "click", function () {
+                var self = $(this);
+
+                addShopingCartResult = false;
+                addShopingCart(self.parent().attr("data-id"), 1);
+                if (addShopingCartResult) {
+                    var current_num = parseInt(self.siblings('input').val());
+                    current_num += 1;
+                    if (current_num > 0) {
+                        self.siblings(".decrease").fadeIn();
+                        self.siblings(".text_box").fadeIn();
+                    }
+                    self.siblings('input').val(current_num);
+
+                    //// 购物车数量展示处理
+                    update_item(self, 1);
+                }
+            })
+
+            $(".d-stock").delegate(".decrease", "click", function () {
+                var self = $(this);
+                addShopingCartResult = false;
+                addShopingCart(self.parent().attr("data-id"), -1);
+                if (addShopingCartResult) {
+                    var current_num = parseInt(self.siblings('input').val());
+                    if (current_num > 0) {
+                        current_num -= 1;
+                        if (current_num < 1) {
+                            self.fadeOut();
+                            self.siblings(".text_box").fadeOut();
+                        }
+                        self.siblings('input').val(current_num);
+                        update_item(self, 0);
+                    }
+                }
+            })
+
+            //// 提交订单
+            $("#creatOrder").click(function () {
+
+                //// 首先做数据合法性验证
+                //// 送货时间
+                var deliveryTime = $("#deliveryTime").val();
+                //// 送货地址
+                var gladdAddress = $("#gladdAddress").text();
+                //// 备注
+               ////  var remark = $("#remark").val();
+                //// 订单总价
+                var totalPrice = $("#totalPrice").text();
+
+                //// 获取系统当天时间
+                var dateTimeNow = new Date();
+                dateTimeNow.setMinutes(dateTimeNow.getMinutes() + 30);
+
+                var thisDateTime = dateFtt("yyyy-MM-dd hh:mm:ss", dateTimeNow);
+
+                ///// 验证送货时间
+                if (deliveryTime) {
+                    if (thisDateTime > deliveryTime) {
+                        alert("送货时间请选择半个小时之后");
+                        return;
+                    }
+                } else {
+                    alert("请选中送货时间！");
+                    return;
+                }
+
+                if (!gladdAddress) {
+                    alert("请填上送货地址！");
+                    return;
+                }
+
+                if (!totalPrice) {
+                    alert("请选择需要购买的产品！");
+                    return;
+                }
+
+                ///// 开始提交创建订单
+                $.ajax({
+                    cache: false,//保留缓存数据
+                    type: "get",//为post请求
+                    url: "/market/AddOrder",//这是我在后台接受数据的文件名
+                    data: {
+                        deliveryTime: deliveryTime,
+                        detailedAddress: detailedAddress,
+                        contactName: contactName,
+                        contactTell: contactTell
+                        },//将该表单序列化
+                    async: true,//设置成true，这标志着在请求开始后，其他代码依然能够执行。如果把这个选项设置成false，这意味着所有的请求都不再是异步的了，这也会导致浏览器被锁死
+                    error: function (request) {//请求失败之后的操作
+                        alert("操作失败！");
+                        return false;
+                    },
+                    success: function (data) {//请求成功之后的操作
+                        if (data == "-1") {
+                            alert("请先登录");
+                            window.location.href = '../market/userCenter';
+                            return false;
+                        } else {
+                            if (data) {
+                                var dataObj = $.parseJSON(data);
+                                if (dataObj) {
+                                    if (dataObj["errcode"] == "0") {
+                                        alert("下单成功！");
+                                        ///// 订单提交处理
+                                        window.location.href = '/market/orderDetail?groupid=' + dataObj["errmsg"];
+                                        return;
+                                    }
+                                    alert(dataObj["errmsg"]);
+                                }
+                            } else {
+                                alert("操作失败！");
+                                return false;
+                            }
+                        }
+                    }
+                });
+            });
+        });
+
+        //删除提示信息
+        $(function () {
+            $('#doc-modal-list').find('.am-icon-close').add('#doc-confirm-toggle').
+                on('click', function () {
+                    $('#my-confirm').modal({
+                        relatedTarget: this,
+                        onConfirm: function (options) {
+                            var $link = $(this.relatedTarget).prev('a');
+                            var msg = $link.length ? '你要删除的饮品 为 ' + $link.data('id') :
+                                '确定了';
+
+                            $(".text_box").val(0);
+                            $(".decrease").hide();
+                            $("#totalPrice").html("0");
+                        },
+                        onCancel: function () {
+
+                        }
+                    });
+                });
+
+            $(".selGladd").click(function () {
+                var gladdId = $(this).find("p").attr("data-gladdId");
+                var gladdName = $(this).find("p").attr("data-gladdName");
+                var gladdTel = $(this).find("p").attr("data-gladdTel");
+                var gladdAddress = $(this).find("span").html();
+                $("#gladdAddress").html(gladdAddress);
+
+
+                $("#gladdAddress").attr("data-gladdId", gladdId);
+                $("#gladdAddress").attr("data-gladdName", gladdName);
+                $("#gladdAddress").attr("data-gladdTel", gladdTel);
+
+                $("#datePlugin").hide();
+
+                //// 更新所选择的地址为默认地址
+                $.ajax({
+                    cache: false,//保留缓存数据
+                    type: "get",//为post请求
+                    url: "/market/UpdateMailAddressDefault",//这是我在后台接受数据的文件名
+                    data: {
+                        addressId: gladdId
+                    },//将该表单序列化
+                    async: true,//设置成true，这标志着在请求开始后，其他代码依然能够执行。如果把这个选项设置成false，这意味着所有的请求都不再是异步的了，这也会导致浏览器被锁死
+                });
+            });
+            //$("body").on("click", ".selGladd", function () {
+            //    var gladdId = $(this).find("p").attr("data-gladdId");
+            //    var gladdName = $(this).find("p").attr("data-gladdName");
+            //    var gladdTel = $(this).find("p").attr("data-gladdTel");
+            //    var gladdAddress = $(this).find("span").html();
+            //    $("#gladdAddress").html(gladdAddress);
+
+
+            //    $("#gladdAddress").attr("data-gladdId", gladdId);
+            //    $("#gladdAddress").attr("data-gladdName", gladdName);
+            //    $("#gladdAddress").attr("data-gladdTel", gladdTel);
+
+            //    $("#datePlugin").hide();
+
+            //    //// 更新所选择的地址为默认地址
+            //    $.ajax({
+            //        cache: false,//保留缓存数据
+            //        type: "get",//为post请求
+            //        url: "/market/UpdateMailAddressDefault",//这是我在后台接受数据的文件名
+            //        data: {
+            //            addressId: gladdId
+            //        },//将该表单序列化
+            //        async: true,//设置成true，这标志着在请求开始后，其他代码依然能够执行。如果把这个选项设置成false，这意味着所有的请求都不再是异步的了，这也会导致浏览器被锁死
+            //    });
+            //});
+            $("body").on("click", "#submitNewGladd", function () {
+                var newAddress = $("#newAddress").val();
+                var newName = $("#newName").val();
+                var newTel = $("#newTel").val();
+
+                if (!newAddress) {
+                    alert("请输入详细地址！");
+                    return;
+                }
+
+                if (!newName) {
+                    alert("请输入姓名！");
+                    return;
+                }
+
+                if (!newTel) {
+                    alert("请输入手机号！");
+                    return;
+                }
+
+                if (!(/^1[3456789]\d{9}$/.test(newTel))) {
+                    alert("手机号码有误，请重填");
+                    return ;
+                }
+
+                detailedAddress = newAddress;
+                contactName = newName;
+                contactTell = newTel;
+
+                $("#gladdAddress").html(newAddress + "-" + newName + "-" + newTel);
+                $("#address-list").prepend('<li class="curr selGladd">\
+                                    <p class="order-add1" data-gladdId="1001" data-address="" data-gladdName="网购" data-gladdTel="">\
+                                        地址：\
+                                        <span>'+ newAddress + '-' + newName + '-' + newTel + '</span>\
+                                    </p>\
+                                </li>');
+                $("#datePlugin").hide();
+
+                //// 数据落地数据库
+                $.ajax({
+                    cache: false,//保留缓存数据
+                    type: "get",//为post请求
+                    url: "/market/AddMailAddress",//这是我在后台接受数据的文件名
+                    data: {
+                        detailedAddress: newAddress,
+                        contactName: newName,
+                        contactTell: newTel
+                    },//将该表单序列化
+                    async: true,//设置成true，这标志着在请求开始后，其他代码依然能够执行。如果把这个选项设置成false，这意味着所有的请求都不再是异步的了，这也会导致浏览器被锁死
+                });
+
+            });
+
+        });
+
+        //// 选择送货地址
+        $(function () {
+            $("#selAddress").click(function () {
+                $("#datePlugin").show();
+            });
+        });
+
+        //// 选择商品总价显示
+        function update_item(self, opertType) {
+            //// 购物车数量展示处理
+            var totalPrice = parseFloat($("#totalPrice").html().trim());
+            var thisPrice = parseFloat(self.parent().prev().attr("data-price"));
+            var thisId = parseFloat(self.parent().parent().find(".price").attr("data-id"));
+
+            totalPrice = opertType == 1 ? totalPrice + thisPrice : totalPrice - thisPrice;
+            $("#totalPrice").html(totalPrice.toFixed(2));
+        }
+
+        //// 添加到购物车
+        function addShopingCart(productId, buyNum) {
+            $.ajax({
+                cache: false,//保留缓存数据
+                type: "get",//为post请求
+                url: "/market/AddShopCart",//这是我在后台接受数据的文件名
+                data: {
+                    productId: productId,
+                    buyNum: buyNum
+                },//将该表单序列化
+                async: false,//设置成true，这标志着在请求开始后，其他代码依然能够执行。如果把这个选项设置成false，这意味着所有的请求都不再是异步的了，这也会导致浏览器被锁死
+                error: function (request) {//请求失败之后的操作
+                    alert("操作失败！");
+                    return false;
+                },
+                success: function (data) {//请求成功之后的操作
+                    if (data == "-1") {
+                        alert("请先登录");
+                        window.location.href = '../market/userCenter';
+                        return false;
+                    } else {
+                        if (data) {
+                            var dataObj = $.parseJSON(data);
+                            if (dataObj) {
+                                if (dataObj["errcode"] == "0") {
+                                    addShopingCartResult = true;
+                                    return true;
+                                }
+                                alert(dataObj["errmsg"]);
+                                return false;
+                            }
+                        } else {
+                            alert("操作失败！");
+                            return false;
+                        }
+                    }
+                }
+            });
+        }
+
+        /**************************************时间格式化处理************************************/
+        function dateFtt(fmt, date) { //author: meizz
+            var o = {
+                "M+": date.getMonth() + 1,                 //月份
+                "d+": date.getDate(),                    //日
+                "h+": date.getHours(),                   //小时
+                "m+": date.getMinutes(),                 //分
+                "s+": date.getSeconds(),                 //秒
+                "q+": Math.floor((date.getMonth() + 3) / 3), //季度
+                "S": date.getMilliseconds()             //毫秒
+            };
+            if (/(y+)/.test(fmt))
+                fmt = fmt.replace(RegExp.$1, (date.getFullYear() + "").substr(4 - RegExp.$1.length));
+            for (var k in o)
+                if (new RegExp("(" + k + ")").test(fmt))
+                    fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+            return fmt;
+        }
+    </script>
+</body>
+</html>

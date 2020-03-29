@@ -1,0 +1,10 @@
+c:\users\administrator\source\repos\pan.kaikj.wxsupermarket\pan.kaikj.wxsupermarket.model\bin\Debug\pan.kaikj.wxsupermarket.model.dll
+c:\users\administrator\source\repos\pan.kaikj.wxsupermarket\pan.kaikj.wxsupermarket.model\bin\Debug\pan.kaikj.wxsupermarket.model.pdb
+c:\users\administrator\source\repos\pan.kaikj.wxsupermarket\pan.kaikj.wxsupermarket.model\obj\Debug\pan.kaikj.wxsupermarket.model.csproj.CoreCompileInputs.cache
+c:\users\administrator\source\repos\pan.kaikj.wxsupermarket\pan.kaikj.wxsupermarket.model\obj\Debug\pan.kaikj.wxsupermarket.model.dll
+c:\users\administrator\source\repos\pan.kaikj.wxsupermarket\pan.kaikj.wxsupermarket.model\obj\Debug\pan.kaikj.wxsupermarket.model.pdb
+E:\微信超市\pan.kaikj.wxsupermarketTFC\pan.kaikj.wxsupermarket.model\bin\Debug\pan.kaikj.wxsupermarket.model.dll
+E:\微信超市\pan.kaikj.wxsupermarketTFC\pan.kaikj.wxsupermarket.model\bin\Debug\pan.kaikj.wxsupermarket.model.pdb
+E:\微信超市\pan.kaikj.wxsupermarketTFC\pan.kaikj.wxsupermarket.model\obj\Debug\pan.kaikj.wxsupermarket.model.csproj.CoreCompileInputs.cache
+E:\微信超市\pan.kaikj.wxsupermarketTFC\pan.kaikj.wxsupermarket.model\obj\Debug\pan.kaikj.wxsupermarket.model.dll
+E:\微信超市\pan.kaikj.wxsupermarketTFC\pan.kaikj.wxsupermarket.model\obj\Debug\pan.kaikj.wxsupermarket.model.pdb

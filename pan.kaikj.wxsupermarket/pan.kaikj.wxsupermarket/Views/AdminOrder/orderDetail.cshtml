@@ -1,0 +1,158 @@
+﻿
+<link href="../Content/listPag.css" rel="stylesheet" />
+<link href="../Content/comm.css" rel="stylesheet" />
+<link href="../Scripts/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" />
+
+<div class="console-title-border console-title">
+    <div class="pull-left">
+        <h5>订单管理</h5>
+        <h5 style="border-left: none">&gt;</h5>
+        <h5 style="border-left: none">订单详情</h5>
+    </div>
+</div>
+<div class="listOutCount" ng-app="myApp" ng-controller="myContro">
+    <div style="width: 100%; text-align: left">
+        <h3 style="font-weight: bolder;">订单详情</h3>
+    </div>
+    <div style="width: 100%;">
+        <input type="hidden" id="orderid" value="@Model.orderid" />
+        <div class="listCount">
+            <div class="oneListVaue ng-binding">订单ID：@Model.orderid</div>
+            <div class="oneListVaue ng-binding">订单组ID：@Model.orderGroupId</div>
+            <div class="oneListVaue ng-binding">用户ID：@Model.userId</div>
+        </div>
+        <div class="solidLin" style="margin-top: 0px"></div>
+
+        <div class="listCount">
+            <div class="oneListVaue ng-binding">用户名称：@Model.userName</div>
+            <div class="oneListVaue ng-binding">产品ID：@Model.productId</div>
+            <div class="oneListVaue ng-binding">产品名称：@Model.productname</div>
+        </div>
+        <div class="solidLin" style="margin-top: 0px"></div>
+
+        <div class="listCount">
+            <div class="oneListVaue ng-binding">产品规格：@Model.productformat</div>
+            <div class="oneListVaue ng-binding">购买数量：@Model.buyNum</div>
+            <div class="oneListVaue ng-binding">支付方式：@Model.payTypeDesc</div>
+        </div>
+        <div class="solidLin" style="margin-top: 0px"></div>
+
+        <div class="listCount">
+            <div class="oneListVaue ng-binding">产品原价：@Model.origPrice</div>
+            <div class="oneListVaue ng-binding">产品售价：@Model.sellPrice</div>
+            <div class="oneListVaue ng-binding">订单总价格：@Model.totalPrice</div>
+        </div>
+        <div class="solidLin" style="margin-top: 0px"></div>
+
+        <div class="listCount">
+            <div class="oneListVaue ng-binding">订单状态：@Model.orderStateDesc</div>
+            <div class="oneListVaue ng-binding">要求送货时间：@(Model.requireDeliveryTime == null || Model.requireDeliveryTime == System.DateTime.MinValue || Model.requireDeliveryTime.Year == 1900 ? "" : Model.requireDeliveryTime.ToString("yyyy-MM-dd HH:mm:ss"))</div>
+            <div class="oneListVaue ng-binding">送货地址：@Model.mailAddress</div>
+        </div>
+        <div class="solidLin" style="margin-top: 0px"></div>
+
+        <div style="height: 35px;">
+            <div class="oneListVaue ng-binding">送货人姓名：@Model.deliveryName</div>
+            <div class="oneListVaue ng-binding">送货人电话：@Model.deliveryTell</div>
+            <div class="oneListVaue ng-binding">送货时间：@(Model.deliveryTime == null || Model.deliveryTime == System.DateTime.MinValue || Model.deliveryTime.Year == 1900 ? "" : Model.deliveryTime.ToString("yyyy-MM-dd HH:mm:ss"))</div>
+        </div>
+        <div class="solidLin" style="margin-top: 0px"></div>
+
+        <div style="height: 35px;">
+            <div class="oneListVaue ng-binding">确认收货时间：@(Model.receiptTime == null || Model.receiptTime == System.DateTime.MinValue || Model.receiptTime.Year == 1900 ? "" : Model.receiptTime.ToString("yyyy-MM-dd HH:mm:ss"))</div>
+            <div class="oneListVaue ng-binding">下单时间：@(Model.great_time == null || Model.great_time == System.DateTime.MinValue || Model.great_time.Year == 1900 ? "" : Model.great_time.ToString("yyyy-MM-dd HH:mm:ss"))</div>
+        </div>
+        <div class="solidLin" style="margin-top: 0px"></div>
+    </div>
+
+    
+    <div style=" @(Model.orderState==3|| Model.orderState ==4? "" : "display:none;")">
+        <div style="width: 100%; text-align: left">
+            <h3 style="font-weight: bolder;">设置送货人信息</h3>
+        </div>
+        <form ng-app="myApp" ng-controller="myContro" name="editeForm" id="editeForm" class="ng-pristine ng-valid ng-scope">
+            <div style="height: 100px;">
+                <div style="height:35px;">
+                    <div style="float:left;text-align:right;" class=" ng-binding w150">送货：</div>
+                    <div style="float:left;text-align:left;">
+                        <select id="subscribe" class="w120" style="float:left;" name="subscribe" ng-model="orderModel.sendGoodsUser">
+                            @{
+                                List<pan.kaikj.wxsupermarket.AdoModel.MsendGoodsUser> modelList = ViewData["AllSendGoodUserList"] == null ? null : (List<pan.kaikj.wxsupermarket.AdoModel.MsendGoodsUser>)ViewData["AllSendGoodUserList"];
+                                if (modelList != null && modelList.Count > 0)
+                                {
+                                    foreach (var item in modelList)
+                                    {
+                                        if (!string.IsNullOrEmpty(@item.id))
+                                        {
+                                            <option value="@item.id">@item.userName</option>
+                                        }
+                                    }
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div style="height:35px;">
+                    <div style="float:left;text-align:right;" class=" ng-binding w150">.</div>
+                    <div style="float:left;text-align:left;">
+                        <input type="button" class="subBut butg " value="保存" ng-click="submit()" />
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="../Scripts/angular.min.js"></script>
+<script src="../Scripts/angular-messages.min.js"></script>
+<script src="../Scripts/My97DatePicker/WdatePicker.js"></script>
+<script src="../Scripts/Tools.js"></script>
+
+<script type="text/javascript">
+    var thisPagClass = "pagclass0501";
+    var app = angular.module("myApp", ['ngMessages']);
+    app.controller("myContro", function ($scope) {
+        $scope.orderModel = {
+            deliveryName: "",
+            deliveryTell: ""
+        };
+        $("#deliveryTime").val(getNowFormatDateTime(0));
+        //提交表单接受函数
+        $scope.submit = function () {
+
+            if (!$scope.orderModel.sendGoodsUser) {
+                alert("请填选择送货人信息");
+                return;
+            }
+
+                //// 表单数据真实提交逻辑
+                $.ajax({
+                    cache: true,//保留缓存数据
+                    type: "get",//为post请求
+                    url: "../AdminOrder/UdateOrderDeliveryByIds",//这是我在后台接受数据的文件名
+                    data: "ids=" + $("#orderid").val() + "&sendGoodUserId=" + $scope.orderModel.sendGoodsUser,//将该表单序列化
+                    async: true,//设置成true，这标志着在请求开始后，其他代码依然能够执行。如果把这个选项设置成false，这意味着所有的请求都不再是异步的了，这也会导致浏览器被锁死
+                    error: function (request) {//请求失败之后的操作
+                        alert("操作失败！");
+                    },
+                    success: function (data) {//请求成功之后的操作
+                        if (data == "-1") {
+                            window.location.href = '../Login/Index';
+                        } else {
+                            if (data) {
+                                var dataObj = $.parseJSON(data);
+                                if (dataObj) {
+                                    if (dataObj["errcode"] == "0") {
+                                        history.go(0);
+                                    }
+                                    alert(dataObj["errmsg"]);
+                                }
+                            } else {
+                                alert("操作失败！");
+                            }
+                        }
+                    }
+                });
+        }
+    });
+</script>

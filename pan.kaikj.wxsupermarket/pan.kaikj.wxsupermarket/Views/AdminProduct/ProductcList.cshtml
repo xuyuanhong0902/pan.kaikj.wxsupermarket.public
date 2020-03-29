@@ -1,0 +1,115 @@
+﻿
+<link href="../Content/listPag.css" rel="stylesheet" />
+
+<div class="console-title-border console-title">
+    <div class="pull-left">
+        <h5>产品管理</h5>
+        <h5 style="border-left: none">&gt;</h5>
+        <h5 style="border-left: none">产品列表</h5>
+    </div>
+</div>
+<div class="listOutCount" ng-app="myApp" ng-controller="myContro">
+    <div class="select-body w800 h40">
+        <div class="condition-body w600 h40">
+
+            <div class="condition-oneCount w600 h40">
+                <div class="condition-one w200">
+                    <div class="condition-title w80">产品类别:</div>
+                    <div class="condition-value">
+                        <select id="type" name="type" ng-model="condition.type">
+                            @{
+                                <option value="0">全部</option>
+                                List<pan.kaikj.wxsupermarket.AdoModel.Mproductclass> modelList = ViewData["AllPersonClass"] == null ? null : (List<pan.kaikj.wxsupermarket.AdoModel.Mproductclass>)ViewData["AllPersonClass"];
+                                foreach (var item in modelList)
+                                {
+                                    <option value="@item.classid">@item.classname</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="condition-one w200">
+                    <div class="condition-title w80">产品名称:</div>
+                    <div class="condition-value">
+                        <input type="text" class="w120" ng-model="condition.productname" placeholder="请输入产品名称" />
+                    </div>
+                </div>
+                <div class="condition-one">
+                    <div class="condition-title">匹配标示:</div>
+                    <div class="condition-value">
+                        <select id="shelfstate" name="shelfstate" ng-model="condition.shelfstate">
+                            <option value="0">请选择</option>
+                            <option value="1">已上架</option>
+                            <option value="-1">未上架</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="select-subButCount h40">
+            <div class="subBut lh35" id="searchBut" ng-click="selectFun()">
+                查询
+            </div>
+        </div>
+    </div>
+    <div class="solidLin"></div>
+    <div class="valueList-body w1000">
+        <div class="valueList-headCount w1000">
+            <div class="one w120">产品类别</div>
+            <div class="one w160">产品名称</div>
+            <div class="one w100">产品规格</div>
+            <div class="one w80">产品原价</div>
+            <div class="one w80">产品售价</div>
+            <div class="one w80">库存量</div>
+            <div class="one w70">上架状态</div>
+            <div class="one w80">已售数量</div>
+            <div class="one w80">优先级</div>
+            <div class="one w100">操作</div>
+        </div>
+        <div class="valueList-valueCount w1000" id="valueListCount" style="display: none;">
+            <div ng-repeat="model in modelList" class="ng-scope">
+                <div class="valueList-oneLinValueCount w1000">
+                    <div class="one w120">{{model.className}}</div>
+                    <div class="one w160">{{model.productname}}</div>
+                    <div class="one w100">{{model.productformat}}({{model.productformatunit=="0"?"个":(model.productformatunit=="1"?"袋":(model.productformatunit=="2"?"斤":(model.productformatunit=="3"?"瓶":"升")))}})</div>
+                    <div class="one w80">{{model.origprice}}</div>
+                    <div class="one w80">{{model.sellprice}}</div>
+                    <div class="one w80">{{model.stock}}</div>
+                    <div class="one w70">{{model.shelfstate=="1"?"已上架":"未上架"}}</div>
+                    <div class="one w80">{{model.hassellnum}}</div>
+                    <div class="one w80">{{model.priority}}</div>
+                    <div class="one w100">
+                        <div class="w30 h16" style="float:left">
+                            <a href="unsafe:javascript:void(0);" ng-click="deleteOpert(model.productid)">删除</a>
+                        </div>
+                        <div class="w30 h16" style="float:left">
+                            <a href="unsafe:javascript:void(0);" ng-click="shelfstateOpert(model.productid)">{{model.shelfstate=="1"?"下架":"上架"}}</a>
+                        </div>
+                        <div class="w30 h16" style="float:left">
+                            <a href="../AdminProduct/AddProduct?productid={{model.productid}}">详情</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="solidLin"></div>
+            </div>
+        </div>
+        <div class="solidLin"></div>
+        <div id="pagCount" style="display: none;">
+            <div class="innerCount">
+                <div class="onePageC pageBut" ng-click="SearchFunPageBut('FirstPage')" id="FirstPage" go_value="1">FirstPage</div>
+                <div class="onePageC pageBut" ng-click="SearchFunPageBut('PreviPage')" id="PreviPage" go_value="5">PreviPage</div>
+                <div class="onePageC pageBut" ng-click="SearchFunPageBut('NextPage')" id="NextPage" go_value="6">NextPage</div>
+                <div class="onePageC pageBut" ng-click="SearchFunPageBut('LastPage')" id="LastPage" go_value="-1">LastPage</div>
+                <div class="pagInputC" id="gotopagCount">
+                    go to specific page:<input type="text" class="positInt w50" id="goPagInput" value="1">
+                    <input type="button" value="Go" class="" id="goPagBut" ng-click="SearchFunGoPagBut()">
+                </div>
+            </div>
+            <div class="totalNumCount">符合要求的数据总条数为：<label id="totalNum">0</label></div>
+        </div>
+    </div>
+</div>
+
+<script src="../Scripts/angular.min.js"></script>
+<script src="../Scripts/PagForAngular.js"></script>
+<script src="../Scripts/AdminProduct/ProductList.js"></script>

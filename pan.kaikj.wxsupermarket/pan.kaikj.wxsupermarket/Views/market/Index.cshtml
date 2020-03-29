@@ -1,0 +1,334 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <title>巴啦啦便利店</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link href="~/Content/amazeui.min.css" type="text/css" rel="stylesheet" />
+    <link href="~/Content/style.css" type="text/css" rel="stylesheet" />
+    <script src="~/Scripts/jquery.min.js"></script>
+    <link href="~/Content/commMarkt.css" rel="stylesheet" />
+    <script src="~/Scripts/comm.js"></script>
+    <script src="~/Scripts/amazeui.min.js"></script>
+</head>
+<body>
+    <header data-am-widget="header" class="am-header am-header-default sq-head ">
+        <h1 class="am-header-title">
+            <a href="" class="" style="color: #ffffff;line-height:49px;">巴啦啦便利店</a>
+        </h1>
+    </header>
+    <div class="content-list" id="outer">
+        <div class="list-left" id="tab" style="bottom:100px;height:auto;">
+            <!--<li><a style="position: relative;">新品推荐<i class="num">8</i></a></li>-->
+            <ul>
+                @{ List
+                      <pan.kaikj.wxsupermarket.AdoModel.Mproductclass>
+                          modelList = ViewData["AllClass"] == null ? null : (List<pan.kaikj.wxsupermarket.AdoModel.Mproductclass>
+                              )ViewData["AllClass"];
+                    if (modelList != null && modelList.Count > 0)
+                    {
+                        foreach (var item in modelList)
+                        {
+                            if (@item.supclassid == 0)
+                            {
+                                <li data-typeId="@item.classid"><a>@item.classname</a></li>
+                            }
+                        }
+                    }
+                }
+            </ul>
+        </div>
+        <div class="list-right" id="content">
+            @{
+                if (modelList != null && modelList.Count > 0)
+                {
+                    foreach (var item in modelList)
+                    {
+                        if (@item.supclassid == 0)
+                        {
+                            <ul class='list-pro  @("proListType"+item.classid)' data-hasPro="1" data-pagIndex="1"></ul>
+                        }
+                    }
+                }
+            }
+            @*<ul class="list-pro proListType2" data-hasPro="1" data-pagIndex="4">
+                    <li>
+                        <a href="detail.html"><img src="/images/1.png" class="list-pic" /></a>
+                        <div class="shop-list-mid" data-id="4">
+                            <div class="tit"><a href="detail.html">法国21加力果12个装 进口新鲜水果 嘎啦苹果 包邮</a></div>
+                            <div class="am-gallery-desc">￥<label class="price">66</label></div>
+                        </div>
+                        <div class="list-cart">
+                            <div class="d-stock ">
+                                <a class="decrease">-</a>
+                                <input id="num" readonly="" class="text_box" name="" type="text" value="0">
+                                <a class="increase">+</a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>*@
+        </div>
+    </div>
+    <!--底部-->
+    <div style="height: 100px;"></div>
+    <div class="fix-bot" style="bottom:50px;">
+        <a href="" class="list-js">
+            合计：
+            <i><label id="totalPrice">0</label>元</i><em>(<label id="totalNum">0</label>份)</em>
+        </a>
+        <a href="#" id="submit" class="list-jsk">选好了</a>
+    </div>
+
+    <div class="botCount" id="botCount">
+        <script type="text/javascript">
+            //// 底部事件
+            $(function () {
+                initBotom(1);
+            });
+        </script>
+    </div>
+
+    <script type="text/javascript">
+        var hasSelProId = new Array();
+
+        //购物数量加减
+        $(function () {
+            $(".list-pro").delegate(".increase", "click", function () {
+                //// 数量加1
+                var self = $(this);
+                addShopingCartResult = false;
+                addShopingCart(self.parent().parent().prev().attr("data-id"), 1);
+                if (addShopingCartResult) {
+                    var current_num = parseInt(self.siblings('input').val());
+                    current_num += 1;
+                    if (current_num > 0) {
+                        self.siblings(".decrease").fadeIn();
+                        self.siblings(".text_box").fadeIn();
+                    }
+                    self.siblings('input').val(current_num);
+
+                    //// 购物车数量展示处理
+                    update_item(self, 1);
+                }
+            });
+
+            $(".list-pro").delegate(".decrease", "click", function () {
+                //// 数量减1
+                var self = $(this);
+                addShopingCartResult = false;
+                addShopingCart(self.parent().parent().prev().attr("data-id"), -1);
+                if (addShopingCartResult) {
+                    var current_num = parseInt(self.siblings('input').val());
+                    if (current_num > 0) {
+                        current_num -= 1;
+                        if (current_num < 1) {
+                            self.fadeOut();
+                            self.siblings(".text_box").fadeOut();
+                        }
+                        self.siblings('input').val(current_num);
+
+                        //// 购物车数量展示处理
+                        update_item(self, 0);
+                    }
+                }
+            });
+        })
+
+        //删除提示信息
+        $(function () {
+            $('#doc-modal-list').find('.am-icon-close').add('#doc-confirm-toggle').
+                on('click', function () {
+                    $('#my-confirm').modal({
+                        relatedTarget: this,
+                        onConfirm: function (options) {
+                            var $link = $(this.relatedTarget).prev('a');
+                            var msg = $link.length ? '你要删除的饮品 为 ' + $link.data('id') :
+                                '确定了';
+                            //        alert(msg);
+                        },
+                        onCancel: function () {
+                            alert('不删除');
+                        }
+                    });
+                });
+        });
+        var finished = false;
+        //tab切换
+        $(function () {
+            window.onload = function () {
+                var $li = $('#tab li');
+                var $ul = $('#content ul');
+                $li.click(function () {
+                    var $this = $(this);
+                    getPro($this);
+                });
+
+                //// 获取产品列表数据
+                function getPro($this) {
+                    var $seleType = $this.attr("data-typeId");
+                    $li.removeClass();
+                    $this.addClass('current');
+                    $this.addClass('currentLi');
+                    
+                    $ul.css('display', 'none');
+                    var $selProCount = $(".proListType" + $seleType);
+                    $selProCount.css('display', 'block');
+
+                    //// 查找是否是否还有数据标识
+                    var hasPro = $selProCount.attr("data-hasPro");
+                    if (hasPro != "0") {
+                        ///// 获取当前数据所显示的页码
+                        var pagIndex = parseInt($selProCount.attr("data-pagIndex"));
+                        console.log(pagIndex);
+                        if (!pagIndex) {
+                            pagIndex = 0;
+                        }
+                        $.ajax({
+                            cache: false,//保留缓存数据
+                            type: "get",//为post请求
+                            url: "/market/GetProductcListBySupClassId",//这是我在后台接受数据的文件名
+                            data: "pagIndex=" + pagIndex + "&supClassid=" + $seleType,//将该表单序列化
+                            async: false,//设置成true，这标志着在请求开始后，其他代码依然能够执行。如果把这个选项设置成false，这意味着所有的请求都不再是异步的了，这也会导致浏览器被锁死
+                            error: function (request) {//请求失败之后的操作
+                                alert("操作失败！");
+                            },
+                            success: function (data) {//请求成功之后的操作
+                                if (data) {
+                                    var dataObj = $.parseJSON(data);
+                                    if (dataObj) {
+                                        var dataList = dataObj["dataList"];
+                                        if (dataList) {
+                                            for (var i = 0; i < dataList.length; i++) {
+                                                var phtml = '<li><a href="detail?productId=' + dataList[i]["productid"] + '"><img src="/' + dataList[i]["productimgurl"] + '" class="list-pic" /></a>' +
+                                                    '<div class="shop-list-mid" data-id="' + dataList[i]["productid"] + '">' +
+                                                    '   <div class="tit"><a href="detail?productId=' + dataList[i]["productid"] + '">' + dataList[i]["productname"] + '</a></div>' +
+                                                    '   <div class="am-gallery-desc" >￥<label class="price">' + dataList[i]["sellprice"] + '</label></div > ' +
+                                                    '</div> ' +
+                                                    '<div class="list-cart">' +
+                                                    ' <div class="d-stock ">' +
+                                                    '<a class="decrease">-</a>' +
+                                                    ' <input id="num" readonly="" class="text_box" name="" type="text" value="0">' +
+                                                    '<a class="increase">+</a>' +
+                                                    '</div>' +
+                                                    '</div>' +
+                                                    '</li>';
+                                                $selProCount.append(phtml);
+                                            }
+
+                                            if (parseInt(dataObj["pagSize"]) > dataList.length) {
+                                                //// 数据已获取完毕
+                                                $selProCount.attr("data-hasPro", "0");
+                                            } else {
+                                                $selProCount.attr("data-pagIndex", parseInt($selProCount.attr("data-pagIndex")) + 1);
+                                            }
+
+                                            return;
+                                        }
+                                    }
+                                }
+                                $selProCount.attr("data-hasPro", "0");
+                            }
+                        });
+                    }
+                }
+
+                //// 初始化加载第一个类别数据
+                $li.first().addClass("current").addClass("currentLi");
+                getPro($li.first());
+
+
+                //核心代码
+                var winH = $(window).height(); //页面可视区域高度
+                var scrollHandler = function () {
+                    var pageH = $(document.body).height();
+                    var scrollT = $(window).scrollTop(); //滚动条top
+                    var aa = (pageH - winH - scrollT) / winH;
+
+                    if (!finished && !aa < 0.2) { //0.02是个参数
+                        getPro($(".currentLi"));
+                        ////$(window).unbind('scroll');
+                        ////$("#btn_Page").show();
+                        finished = true;
+                    
+                        setTimeout(function () { finished = false; }, 2000);
+                        //// $("#btn_Page").hide();
+                    }
+                }
+
+                //定义鼠标滚动事件
+                $(window).scroll(scrollHandler);
+            }
+        });
+
+        //// 选好了单击事件
+        $(function () {
+            $('#submit').click(function () {
+                if (hasSelProId.length < 1) {
+                    alert("请选中需要的产品！");
+                    return false;
+                }
+                window.location.href = '/market/takeout';
+            });
+        });
+
+        //// 选择商品总价显示
+        function update_item(self, opertType) {
+            //// 购物车数量展示处理
+            var totalPrice = parseFloat($("#totalPrice").html().trim());
+            var totalNum = parseInt($("#totalNum").html().trim());
+            var thisPrice = parseFloat(self.parent().parent().prev().children().find(".price").html().trim());
+
+            hasSelProId.push(self.parent().parent().prev().attr("data-id"));
+
+            totalPrice = opertType == 1 ? totalPrice + thisPrice : totalPrice - thisPrice;
+            totalNum = opertType == 1 ? totalNum + 1 : totalNum - 1;
+            $("#totalPrice").html(totalPrice.toFixed(2));
+            $("#totalNum").html(totalNum)
+        }
+
+        //// 添加到购物车
+        function addShopingCart(productId, buyNum) {
+            $.ajax({
+                cache: false,//保留缓存数据
+                type: "get",//为post请求
+                url: "/market/AddShopCart",//这是我在后台接受数据的文件名
+                data: {
+                    productId: productId,
+                    buyNum: buyNum
+                },//将该表单序列化
+                async: false,//设置成true，这标志着在请求开始后，其他代码依然能够执行。如果把这个选项设置成false，这意味着所有的请求都不再是异步的了，这也会导致浏览器被锁死
+                error: function (request) {//请求失败之后的操作
+                    alert("操作失败！");
+                    return false;
+                },
+                success: function (data) {//请求成功之后的操作
+                    if (data == "-1") {
+                        alert("请先登录");
+                        window.location.href = '../market/userCenter';
+                        return false;
+                    } else {
+                        if (data) {
+                            var dataObj = $.parseJSON(data);
+                            if (dataObj) {
+                                if (dataObj["errcode"] == "0") {
+                                    addShopingCartResult = true;
+                                    return true;
+                                }
+                                alert(dataObj["errmsg"]);
+                                return false;
+                            }
+                        } else {
+                            alert("操作失败！");
+                            return false;
+                        }
+                    }
+                }
+            });
+        }
+
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,49 @@
+﻿
+<link href="../Content/listPag.css" rel="stylesheet" />
+
+<div class="console-title-border console-title">
+    <div class="pull-left">
+        <h5>微信用户管理</h5>
+        <h5 style="border-left: none">&gt;</h5>
+        <h5 style="border-left: none">微信用户列表</h5>
+    </div>
+</div>
+<div class="listOutCount" ng-app="myApp" ng-controller="myContro">
+    <div style="width: 100%; text-align: left">
+        <h3 style="font-weight: bolder;">微信用户详情</h3>
+    </div>
+    <div style="width: 100%;">
+        <div class="listCount">
+            <div class="oneListVaue ng-binding">用户ID：@Model.wxuserid</div>
+            <div class="oneListVaue ng-binding">用户昵称：@Model.nickname</div>
+            <div class="oneListVaue ng-binding">性别：@Model.sexdes</div>
+
+        </div>
+        <div class="solidLin" style="margin-top: 0px"></div>
+
+        <div style="height: 35px;">
+            <div class="oneListVaue ng-binding">是否订阅：@(Model.subscribe.ToString() == "1" ? "已订阅" : "未订阅")</div>
+            <div class="oneListVaue ng-binding">订阅时间：@(Model.subscribe_time == null ? "" : Model.subscribe_time)</div>
+            <div class="oneListVaue ng-binding">订阅渠道：@Model.subscribe_scene_des</div>
+        </div>
+        <div class="solidLin" style="margin-top: 0px"></div>
+
+        <div style="height: 35px;">
+            <div class="oneListVaue ng-binding">openid：@Model.openid</div>
+            <div class="oneListVaue ng-binding">地址：@Model.country/@Model.province/@Model.city</div>
+        </div>
+        <div class="solidLin" style="margin-top: 0px"></div>
+
+        <div style="height: 150px;margin-top:10px;">
+            <div class="oneListVaue w100">头像：</div>
+            <div class="oneListVaue" style="width:132px;height:132px;">
+                <img style="width:132px;height:132px;" src="@(Model.headimgurl+"132")" />
+            </div>
+        </div>
+        <div class="solidLin" style="margin-top: 0px"></div>
+    </div>
+</div>
+
+<script src="../Scripts/angular.min.js"></script>
+<script src="../Scripts/PagForAngular.js"></script>
+<script src="../Scripts/User/List.js"></script>

@@ -1,0 +1,95 @@
+﻿<div style="width:100%;height:100%;position:fixed;">
+    <style type="text/css">
+        .lin {
+            height: 1px;
+            margin-top: 10px;
+            width: 100%;
+            border-bottom: 1px solid #000000;
+        }
+
+        .oneGaiKuang {
+            width: 400px;
+            height: 25px;
+            line-height: 25px;
+            font-size: 14px;
+            font-family: 微软雅黑;
+        }
+    </style>
+    <div style="width:300px;height:40px;line-height:40px;">
+        <label style="color:#0026ff;">@ViewData["platformName"] 欢迎 </label>   @Session["adminusername"]
+    </div>
+    <div class="lin"></div>
+    <div style="width:100%;height:auto;clear:both;">
+        @{
+            pan.kaikj.wxsupermarket.AdoModel.Mstatic modelStatic = ViewData["Static"] == null ? new pan.kaikj.wxsupermarket.AdoModel.Mstatic() : (pan.kaikj.wxsupermarket.AdoModel.Mstatic )ViewData["Static"];
+        }
+
+
+        <div style="width:300px;height:150px;float:left;">
+            <h4 style="color:#3d9be4">今日经营概况</h4>
+            <div class="oneGaiKuang">
+                <label>成交订单数：</label><label style="color:red;">@modelStatic.totaySuccessTotalCount</label><label> 单</label>
+            </div>
+            <div class="oneGaiKuang">
+                <label>成交金额：</label><label style="color:red;">@modelStatic.totaySuccessTotalPrice.ToString("0.00")</label><label> 元</label>
+            </div>
+            <div class="oneGaiKuang">
+                <label>GMV订单数：</label><label style="color:red;">@modelStatic.totayTotalCount</label><label> 单</label>
+            </div>
+            <div class="oneGaiKuang">
+                <label>GMV订单额：</label><label style="color:red;">@modelStatic.totayTotalPrice.ToString("0.00")</label><label> 元</label>
+            </div>
+        </div>
+
+        <div style="width:300px;height:150px;float:left;">
+            <h4 style="color:#3d9be4">昨日经营概况</h4>
+            <div class="oneGaiKuang">
+                <label>成交订单数：</label><label style="color:red;">@modelStatic.yesterdaySuccessTotalCount</label><label> 单</label>
+            </div>
+            <div class="oneGaiKuang">
+                <label>成交金额：</label><label style="color:red;">@modelStatic.yesterdaySuccessTotalPrice.ToString("0.00")</label><label> 元</label>
+            </div>
+            <div class="oneGaiKuang">
+                <label>GMV订单数：</label><label style="color:red;">@modelStatic.yesterdayTotalCount</label><label> 单</label>
+            </div>
+            <div class="oneGaiKuang">
+                <label>GMV订单额：</label><label style="color:red;">@modelStatic.yesterdayTotalPrice.ToString("0.00")</label><label> 元</label>
+            </div>
+        </div>
+
+        <div style="width:300px;height:150px;float:left;">
+            <h4 style="color:#3d9be4">总经营概况</h4>
+            <div class="oneGaiKuang">
+                <label>成交订单数：</label><label style="color:red;">@modelStatic.totalCount</label><label> 单</label>
+            </div>
+            <div class="oneGaiKuang">
+                <label>成交金额：</label><label style="color:red;">@modelStatic.totalPrice.ToString("0.00")</label><label> 元</label>
+            </div>
+            <div class="oneGaiKuang">
+                <label>GMV订单数：</label><label style="color:red;">@modelStatic.successTotatlCount</label><label> 单</label>
+            </div>
+            <div class="oneGaiKuang">
+                <label>GMV订单额：</label><label style="color:red;">@modelStatic.successTotalPrice.ToString("0.00")</label><label> 元</label>
+            </div>
+        </div>
+    </div>
+    <div style="width:300px;height:150px;">
+        <h4 style="color:#3d9be4">店铺动态</h4>
+        <div class="oneGaiKuang">
+            <label>出售中的商品：</label><label style="color:red;">@modelStatic.selGoodsCount</label><label> 个</label>
+        </div>
+        <div class="oneGaiKuang">
+            <label>未上架的商品：</label><label style="color:red;">@modelStatic.noSelGoodsCount</label><label> 个</label>
+        </div>
+        <div class="oneGaiKuang">
+            <label>待送货的订单数：</label><label style="color:red;">@modelStatic.daiSendGoodsCount</label><label> 单</label>
+        </div>
+        <div class="oneGaiKuang">
+            <label>送货中的订单数：</label><label style="color:red;">@modelStatic.sendGoodsCount</label><label> 单</label>
+        </div>
+    </div>
+
+</div>
+<script type="text/javascript">
+    var thisPagClass = "pagclass0101";
+</script>

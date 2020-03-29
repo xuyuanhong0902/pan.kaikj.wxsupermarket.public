@@ -1,0 +1,84 @@
+﻿
+<link href="../Content/listPag.css" rel="stylesheet" />
+
+<div class="console-title-border console-title">
+    <div class="pull-left">
+        <h5>平台用户管理</h5>
+        <h5 style="border-left: none">&gt;</h5>
+        <h5 style="border-left: none">平台用户列表</h5>
+    </div>
+</div>
+<div class="listOutCount" ng-app="myApp" ng-controller="myContro">
+    <div class="select-body w800 h40">
+        <div class="condition-body w450 h40">
+            <div class="condition-oneCount w450 h40">
+                <div class="condition-one w180">
+                    <div class="condition-title w50">账号:</div>
+                    <div class="condition-value">
+                        <input type="text" class="w120" ng-model="condition.acount" placeholder="请输入账号信息" />
+                    </div>
+                </div>
+                <div class="condition-one w180">
+                    <div class="condition-title w50">姓名:</div>
+                    <div class="condition-value">
+                        <input type="text" class="w120" ng-model="condition.name" placeholder="请输入名字信息" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="select-subButCount h40">
+            <div class="subBut lh35" id="searchBut" ng-click="selectFun()">
+                查询
+            </div>
+        </div>
+    </div>
+    <div class="solidLin"></div>
+    <div class="valueList-body w800">
+        <div class="valueList-headCount w800">
+            <div class="one w200">用户ID</div>
+            <div class="one w130">登录账号</div>
+            <div class="one w150">姓名</div>
+            <div class="one">性别</div>
+            <div class="one w130">添加时间</div>
+            <div class="one">操作</div>
+        </div>
+        <div class="valueList-valueCount w800" id="valueListCount" style="display: none;">
+            <div ng-repeat="model in modelList" class="ng-scope">
+                <div class="valueList-oneLinValueCount w800">
+                    <div class="one w200">{{model.adminuserid}}</div>
+                    <div class="one w130">{{model.account}}</div>
+                    <div class="one w150">{{model.name}}</div>
+                    <div class="one">{{model.sex=="1"?"男":(model.sex=="2"?"女":"未知")}}</div>
+                    <div class="one w130">{{model.greatTime.substring(0,10)}}</div>
+                    <div class="one w80">
+                        <div class="w70 h16">
+                            <a href="unsafe:javascript:void(0);" ng-click="deleteUser(model.adminuserid)">删除</a>
+                        </div>
+                        <div class="w70 h16">
+                            <a href="unsafe:javascript:void(0);" ng-click="resetPass(model.adminuserid)">重置密码</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="solidLin"></div>
+            </div>
+        </div>
+        <div class="solidLin"></div>
+        <div id="pagCount" style="display: none;">
+            <div class="innerCount">
+                <div class="onePageC pageBut" ng-click="SearchFunPageBut('FirstPage')" id="FirstPage" go_value="1">FirstPage</div>
+                <div class="onePageC pageBut" ng-click="SearchFunPageBut('PreviPage')" id="PreviPage" go_value="5">PreviPage</div>
+                <div class="onePageC pageBut" ng-click="SearchFunPageBut('NextPage')" id="NextPage" go_value="6">NextPage</div>
+                <div class="onePageC pageBut" ng-click="SearchFunPageBut('LastPage')" id="LastPage" go_value="-1">LastPage</div>
+                <div class="pagInputC" id="gotopagCount">
+                    go to specific page:<input type="text" class="positInt w50" id="goPagInput" value="1">
+                    <input type="button" value="Go" class="" id="goPagBut" ng-click="SearchFunGoPagBut()">
+                </div>
+            </div>
+            <div class="totalNumCount">符合要求的数据总条数为：<label id="totalNum">0</label></div>
+        </div>
+    </div>
+</div>
+
+<script src="../Scripts/angular.min.js"></script>
+<script src="../Scripts/PagForAngular.js"></script>
+<script src="../Scripts/AdminIndex/UserList.js"></script>

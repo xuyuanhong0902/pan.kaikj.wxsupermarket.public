@@ -1,0 +1,392 @@
+﻿<link href="../Content/formPag.css" rel="stylesheet" />
+<div class="console-title-border console-title">
+    <div class="pull-left">
+        <h5>产品管理</h5>
+        <h5 style="border-left: none">&gt;</h5>
+        <h5 style="border-left: none">新增产品类别</h5>
+    </div>
+</div>
+<div class="valueCount-body listOutCount">
+    <form ng-app="myApp" ng-controller="myContro" name="addForm" id="addForm" class="ng-pristine ng-valid ng-scope" method="post" enctype="multipart/form-data">
+        @{
+
+            pan.kaikj.wxsupermarket.AdoModel.Mproduct mproduct = ViewData["ProductModel"] == null ? null : (pan.kaikj.wxsupermarket.AdoModel.Mproduct)ViewData["ProductModel"];
+
+            if (mproduct != null)
+            {
+                <input id="productid" name="productid" style="display:none;" value="@mproduct.productid">
+                <script type="text/javascript">
+                  var Vsupclassid =@mproduct.supclassid;
+                  var Vclassid =@mproduct.classid;
+                  var Vproductname =@mproduct.productname;
+                  var Vproductformat =@mproduct.productformat;
+                  var Vproductformatunit =@mproduct.productformatunit;
+                  var Vshelfstate =@mproduct.shelfstate;
+                  var Vpriority =@mproduct.priority;
+                  var Vorigprice =@mproduct.origprice;
+                  var Vsellprice =@mproduct.sellprice;
+                  var Vstock =@mproduct.stock;
+                </script>
+            }
+            else
+            {
+                <script type="text/javascript">
+                    var Vsupclassid = "0";
+                    var Vclassid = "0";
+                    var Vproductname = "";
+                    var Vproductformat = "";
+                    var Vproductformatunit = "0";
+                    var Vshelfstate = "-1";
+                    var Vpriority = 10;
+                    var Vorigprice = "";
+                    var Vsellprice = "";
+                    var Vstock = "";
+                </script>
+            }
+
+            if (mproduct != null)
+            {
+                <div class="oneListCount-body">
+                    <div class="title">产品类别：</div>
+                    <div class="value">
+                        <div style="float: left;">
+                            @mproduct.supclassName / @mproduct.className
+                        </div>
+                    </div>
+                </div>
+
+                <div class="oneListCount-body">
+                    <div class="title">产品名称：</div>
+                    <div class="value">
+                        @mproduct.productname
+                    </div>
+                </div>
+
+                <div class="oneListCount-body">
+                    <div class="title">产品规格：</div>
+                    <div class="value">
+                        @(mproduct.productformat + (mproduct.productformatunit == "0" ? "个" : mproduct.productformatunit == "1" ? "袋" : mproduct.productformatunit == "2" ? "斤" : mproduct.productformatunit == "3" ? "瓶" : "升"))
+                    </div>
+                </div>
+
+                <div class="oneListCount-body">
+                    <div class="title">产品原价：</div>
+                    <div class="value">
+                        <div style="float: left;">
+                            <input ng-model="model.origprice" name="origprice" type="number" id="origprice" class="w250" required="required">
+                        </div>
+                        <div class="warning alert">*</div>
+                        <div class="warning alert" ng-messages="addForm.origprice.$error">
+                            <span class="warning"
+                                  ng-message="required">该项必填</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="oneListCount-body">
+                    <div class="title">产品售价：</div>
+                    <div class="value">
+                        <div style="float: left;">
+                            <input ng-model="model.sellprice" name="sellprice" type="number" id="sellprice" class="w250" required="required">
+                        </div>
+                        <div class="warning alert">*</div>
+                        <div class="warning alert" ng-messages="addForm.sellprice.$error">
+                            <span class="warning"
+                                  ng-message="required">该项必填</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="oneListCount-body">
+                    <div class="title">库存量：</div>
+                    <div class="value">
+                        <div style="float: left;">
+                            <input ng-model="model.stock" name="stock" type="number" id="stock" class="w250" required="required">
+                        </div>
+                        <div class="warning alert">*</div>
+                        <div class="warning alert" ng-messages="addForm.stock.$error">
+                            <span class="warning"
+                                  ng-message="required">该项必填</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="oneListCount-body">
+                    <div class="title">上架状态：</div>
+                    <div class="value">
+                        @(mproduct.shelfstate == -1 ? "未上架" : "已上架")
+                    </div>
+                </div>
+
+                <div class="oneListCount-body">
+                    <div class="title">优先级：</div>
+                    <div class="value">
+                        <div style="float: left;">
+                            <input ng-model="model.priority" name="priority" type="number" id="priority" class="w250" required="required">
+                        </div>
+                        <div class="warning alert">*</div>
+                        <div class="warning alert" ng-messages="addForm.priority.$error">
+                            <span class="warning"
+                                  ng-message="required">该项必填</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="oneListCount-body" style="height:150px;">
+                    <div class="title">图片：</div>
+                    <div class="value" style="width:132px;height:132px;">
+                        <img style="width:132px;height:132px;" src="../@mproduct.productimgurl" />
+                    </div>
+                </div>
+
+                <div class="oneListCount-body" style="height:180px;">
+                    <div class="title">详情：</div>
+                    <div class="value" style="height:180px;">
+                        <div style="float: left;height:180px;">
+                            @(mproduct.productdetails)
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="oneListCount-body">
+                    <div class="title">上级产品类别：</div>
+                    <div class="value">
+                        <div style="float: left;">
+                            <select id="supclassid" name="supclassid" ng-model="model.supclassid" ng-click="supclassidChange">
+                                @{
+                                    <option value="0">请选择</option>
+                                    List<pan.kaikj.wxsupermarket.AdoModel.Mproductclass> modelList = ViewData["AllClass"] == null ? null : (List<pan.kaikj.wxsupermarket.AdoModel.Mproductclass>)ViewData["AllClass"];
+                                    if (modelList != null && modelList.Count > 0)
+                                    {
+                                        foreach (var item in modelList)
+                                        {
+                                            if (@item.supclassid == 0)
+                                            {
+                                                <option value="@item.classid">@item.classname</option>
+                                            }
+                                        }
+                                    }
+                                }
+                            </select>
+
+                            <select id="classid" name="classid" ng-model="model.classid">
+                                @{
+                                    <option value="0">请选择</option>
+                                    List<pan.kaikj.wxsupermarket.AdoModel.Mproductclass> modelList2 = ViewData["AllClass"] == null ? null : (List<pan.kaikj.wxsupermarket.AdoModel.Mproductclass>)ViewData["AllClass"];
+                                    if (modelList != null && modelList.Count > 0)
+                                    {
+                                        foreach (var item in modelList2)
+                                        {
+                                            if (@item.supclassid != 0)
+                                            {
+                                                <option class='classid @("classid" + item.supclassid)' value="@item.classid">@item.classname</option>
+                                            }
+                                        }
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="oneListCount-body">
+                    <div class="title">产品名称：</div>
+                    <div class="value">
+                        <div style="float: left;">
+                            <input ng-model="model.productname" name="productname" type="text" id="productname" class="w250" required="required">
+                        </div>
+                        <div class="warning alert">*</div>
+                        <div class="warning alert" ng-messages="addForm.productname.$error">
+                            <span class="warning"
+                                  ng-message="required">该项必填</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="oneListCount-body">
+                    <div class="title">产品规格：</div>
+                    <div class="value">
+                        <div style="float: left;">
+                            <input ng-model="model.productformat" name="productformat" type="text" id="productformat" class="w100" required="required">
+                        </div>
+                        <select id="productformatunit" name="productformatunit" ng-model="model.productformatunit">
+                            <option value="0">个</option>
+                            <option value="1">袋</option>
+                            <option value="2">斤</option>
+                            <option value="3">瓶</option>
+                            <option value="4">升</option>
+                        </select>
+                        <div class="warning alert">*</div>
+                    </div>
+                </div>
+
+                <div class="oneListCount-body">
+                    <div class="title">产品原价：</div>
+                    <div class="value">
+                        <div style="float: left;">
+                            <input ng-model="model.origprice" name="origprice" type="number" id="origprice" class="w250" required="required">
+                        </div>
+                        <div class="warning alert">*</div>
+                        <div class="warning alert" ng-messages="addForm.origprice.$error">
+                            <span class="warning"
+                                  ng-message="required">该项必填</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="oneListCount-body">
+                    <div class="title">产品售价：</div>
+                    <div class="value">
+                        <div style="float: left;">
+                            <input ng-model="model.sellprice" name="sellprice" type="number" id="sellprice" class="w250" required="required">
+                        </div>
+                        <div class="warning alert">*</div>
+                        <div class="warning alert" ng-messages="addForm.sellprice.$error">
+                            <span class="warning"
+                                  ng-message="required">该项必填</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="oneListCount-body">
+                    <div class="title">库存量：</div>
+                    <div class="value">
+                        <div style="float: left;">
+                            <input ng-model="model.stock" name="stock" type="number" id="stock" class="w250" required="required">
+                        </div>
+                        <div class="warning alert">*</div>
+                        <div class="warning alert" ng-messages="addForm.stock.$error">
+                            <span class="warning"
+                                  ng-message="required">该项必填</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="oneListCount-body">
+                    <div class="title">上架状态：</div>
+                    <div class="value">
+                        <select id="shelfstate" name="shelfstate" ng-model="model.shelfstate">
+                            <option value="1">上架</option>
+                            <option value="-1">下架</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="oneListCount-body">
+                    <div class="title">优先级：</div>
+                    <div class="value">
+                        <div style="float: left;">
+                            <input ng-model="model.priority" name="priority" type="number" id="priority" class="w250" required="required">
+                        </div>
+                        <div class="warning alert">*</div>
+                        <div class="warning alert" ng-messages="addForm.priority.$error">
+                            <span class="warning"
+                                  ng-message="required">该项必填</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="oneListCount-body">
+                    <div class="title">图片：</div>
+                    <div class="value">
+                        <div style="float: left;">
+                            <input type="file" id="productimgurl" name="productimgurl">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="oneListCount-body" style="height:180px;">
+                    <div class="title">详情：</div>
+                    <div class="value" style="height:180px;">
+                        <div style="float: left;height:180px;">
+                            <textarea id="productdetails" cols="50" rows="10" name="productdetails" ng-model="model.productdetails"></textarea>
+                        </div>
+                    </div>
+                </div>
+            }
+
+
+
+            <div>
+                <input type="button" id="submit" class="submitBut" value="保存" ng-click="submit()" ng-disabled="addForm.$invalid">
+                <label style="color: #f00;" id="message" class="alert"></label>
+            </div>
+        }
+    </form>
+</div>
+<script src="../Scripts/jquery-form.js"></script>
+<script src="../Scripts/angular.min.js"></script>
+<script src="../Scripts/angular-messages.min.js"></script>
+<script type="text/javascript">
+    var thisPagClass = "pagclass0402";
+
+    $(".classid").hide();
+    $(".classid" + $("#supclassid").children('option:selected').val()).show();
+
+    $('#supclassid').change(function () {
+        var p1 = $(this).children('option:selected').val();//这就是selected的值
+        $(".classid").hide();
+        $(".classid" + p1).show();
+        $("#classid").val("0");
+    });
+
+    var app = angular.module("myApp", ['ngMessages']);
+    app.controller("myContro", function ($scope) {
+        $scope.model = {
+            supclassid: Vsupclassid,
+            classid: Vclassid,
+            productname: Vproductname,
+            productformat: Vproductformat,
+            productformatunit: Vproductformatunit,
+            shelfstate: Vshelfstate,
+            priority: Vpriority,
+            origprice: Vorigprice,
+            sellprice: Vsellprice,
+            stock: Vstock
+        };
+
+        $scope.supclassidChange = function () {
+            $(".classid").hide();
+            $(".classid" + $("#supclassid").val()).show();
+        }
+
+        //提交表单接受函数
+        $scope.submit = function () {
+            $scope.model.supclassid = $("#supclassid").val();
+            $scope.model.classid = $("#classid").val();
+            $scope.model.productdetails = $("#productdetails").val();
+
+            if ($scope.addForm.$valid) {
+                $("#addForm").ajaxSubmit({
+                    url: "../AdminProduct/AddProductMeth",
+                    type: "post",
+                    error: function (request) {//请求失败之后的操作
+                        alert("操作失败！");
+                    },
+                    success: function (data) {//请求成功之后的操作
+                        if (data == "-1") {
+                            window.location.href = '../Login/Index';
+                        } else {
+                            if (data) {
+                                var dataObj = $.parseJSON(data);
+                                if (dataObj) {
+                                    if (dataObj["errcode"] == "0") {
+                                        //// 操作成功：重置表单
+
+                                        document.getElementById("addForm").reset()
+                                    }
+
+                                    alert(dataObj["errmsg"]);
+                                }
+                            } else {
+                                alert("操作失败！");
+                            }
+                        }
+                    }
+                });
+            }
+        }
+    });
+</script>

@@ -1,0 +1,131 @@
+﻿<link href="../Content/formPag.css" rel="stylesheet" />
+<div class="console-title-border console-title">
+    <div class="pull-left">
+        <h5>平台用户管理</h5>
+        <h5 style="border-left: none">&gt;</h5>
+        <h5 style="border-left: none">新增平台用户</h5>
+    </div>
+</div>
+<div class="valueCount-body listOutCount">
+    <form ng-app="myApp" ng-controller="myContro" name="addForm" id="addForm" class="ng-pristine ng-valid ng-scope">
+        <div class="oneListCount-body ">
+            <div class="title">账号：</div>
+            <div class="value">
+                <div style="float: left;">
+                    <input ng-model="adminUser.account" name="account" type="text" id="account" class="w250"
+                           placeholder="账号必须由数字字母组成，长度在6-20"
+                           required="required" ng-minlength="6" ng-maxlength="20"
+                           ng-pattern="/^[0-9a-zA-Z]+$/">
+                </div>
+                <div class="warning alert">*</div>
+                <div class="warning alert" ng-messages="addForm.account.$error">
+                    <span class="warning"
+                          ng-message="required">该项必填</span>
+                    <span class="warning"
+                          ng-message="minlength">该项最少长度为6</span>
+                    <span class="warning"
+                          ng-message="maxlength">该项最大长度为20</span>
+                    <span class="warning"
+                          ng-message="pattern">该项格式不符合要求（只能由数字和字母组成）</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="oneListCount-body">
+            <div class="title">姓名：</div>
+            <div class="value">
+                <div style="float: left;">
+                    <input ng-model="adminUser.name" name="name" type="text" id="name" class="w250" required="required">
+                </div>
+                <div class="warning alert">*</div>
+                <div class="warning alert" ng-messages="addForm.name.$error">
+                    <span class="warning"
+                          ng-message="required">该项必填</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="oneListCount-body">
+            <div class="title">性别：</div>
+            <div class="value">
+                <div style="float: left;">
+                    <select id="sex" name="sex" ng-model="adminUser.sex">
+                        <option value="1">男</option>
+                        <option value="2">女</option>
+                        <option value="0">未知</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="oneListCount-body ">
+            <div class="title">密码：</div>
+            <div class="value">
+                <div style="float: left;">
+                    <input ng-model="adminUser.password" name="password" type="text" id="password" class="w100" readonly>
+                </div>
+                <div class="alert">
+                    *
+                </div>
+            </div>
+        </div>
+        <div>
+            <input type="button" id="submit" class="submitBut" value="保存" ng-click="submit()" ng-disabled="addForm.$invalid">
+            <label style="color: #f00;" id="message" class="alert"></label>
+        </div>
+    </form>
+</div>
+
+<script src="../Scripts/angular.min.js"></script>
+<script src="../Scripts/angular-messages.min.js"></script>
+<script type="text/javascript">
+    var thisPagClass = "pagclass0202";
+
+    var passWord ='@ViewData["passWord"]'
+    var app = angular.module("myApp", ['ngMessages']);
+    app.controller("myContro", function ($scope) {
+        $scope.adminUser = {
+            account: "",
+            name: "",
+            sex: "0",
+            password: passWord
+        };
+
+        //提交表单接受函数
+        $scope.submit = function () {
+            if ($scope.addForm.$valid) {
+                var paramData = "account=" + $scope.adminUser.account + "&name=" + $scope.adminUser.name + "&password=" + $scope.adminUser.password + "&sex=" + $scope.adminUser.sex ;
+                //// 表单数据真实提交逻辑
+                $.ajax({
+                    cache: true,//保留缓存数据
+                    type: "get",//为post请求
+                    url: "../AdminIndex/AddUserMeth",//这是我在后台接受数据的文件名
+                    data: paramData,//将该表单序列化
+                    async: true,//设置成true，这标志着在请求开始后，其他代码依然能够执行。如果把这个选项设置成false，这意味着所有的请求都不再是异步的了，这也会导致浏览器被锁死
+                    error: function (request) {//请求失败之后的操作
+                        alert("操作失败！");
+                    },
+                    success: function (data) {//请求成功之后的操作
+                        if (data == "-1") {
+                            window.location.href = '../Login/Index';
+                        } else {
+                            if (data) {
+                                var dataObj = $.parseJSON(data);
+                                if (dataObj) {
+                                    if (dataObj["errcode"] == "0") {
+                                        //// 操作成功：重置表单
+                                        document.getElementById("addForm").reset()
+                                    }
+
+                                    alert(dataObj["errmsg"]);
+                                }
+                            } else {
+                                alert("操作失败！");
+                            }
+                        }
+                    }
+                });
+            }
+        }
+    });
+</script>

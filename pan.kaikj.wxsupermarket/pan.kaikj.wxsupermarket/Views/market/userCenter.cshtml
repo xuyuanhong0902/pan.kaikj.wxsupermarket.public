@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <title>巴啦啦便利店</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link href="~/Content/amazeui.min.css" type="text/css" rel="stylesheet" />
+    <link href="~/Content/style.css" type="text/css" rel="stylesheet" />
+    <script src="~/Scripts/jquery.min.js"></script>
+    <link href="~/Content/commMarkt.css" rel="stylesheet" />
+    <script src="~/Scripts/comm.js"></script>
+    <script src="~/Scripts/amazeui.min.js"></script>
+</head>
+<body>
+    <header style="width:70%;margin-top:60px;left:15%;right:15%;" data-am-widget="header" class="am-header am-header-default sq-head ">
+        <h1 class="am-header-title">
+            <a href="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx3586f8afd86b3a65&redirect_uri=@ViewData["PalteWebSite"]/market/Index&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect" class="" style="color: #ffffff;line-height:49px;">微信登录</a>
+        </h1>
+    </header>
+
+    <div class="botCount" id="botCount">
+        <script type="text/javascript">
+            //// 底部事件
+            $(function () {
+                initBotom(1);
+            });
+        </script>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,39 @@
+﻿
+<link href="../Content/listPag.css" rel="stylesheet" />
+
+<div class="console-title-border console-title">
+    <div class="pull-left">
+        <h5>产品管理</h5>
+        <h5 style="border-left: none">&gt;</h5>
+        <h5 style="border-left: none">产品类别列表</h5>
+    </div>
+</div>
+<div class="listOutCount" ng-app="myApp" ng-controller="myContro">
+    <div class="valueList-body w600">
+        <div class="valueList-headCount w600">
+            <div class="one w400">商品类别名称</div>
+            <div class="one w80">优先级</div>
+            <div class="one">操作</div>
+        </div>
+        <div class="valueList-valueCount w600" id="valueListCount">
+            <div ng-repeat="model in modelList" class="ng-scope">
+                <div class="valueList-oneLinValueCount w600">
+                    <div class="one w400">{{model.supclassid=="0"?"":"---|"}}{{model.classname}}</div>
+                    <div class="one w80">{{model.priority}}</div>
+                    <div class="one w80">
+                        <div class="w70 h16">
+                            <a href="unsafe:javascript:void(0);" ng-click="deleteProductClass(model.classid,model.supclassid)">删除</a>
+                        </div>
+                        <div class="w70 h16">
+                            <a href="../AdminProduct/EditProductclass?classid={{model.classid}}" ng-click="editProductClass(model.classid)">编辑</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="solidLin"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="../Scripts/angular.min.js"></script>
+<script src="../Scripts/AdminProduct/ProductclassList.js"></script>

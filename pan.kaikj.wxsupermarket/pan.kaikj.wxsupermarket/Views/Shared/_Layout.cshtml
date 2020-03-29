@@ -1,0 +1,285 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["platformName"]</title>
+</head>
+<link href="../Content/comm.css" rel="stylesheet" />
+<script src="../Scripts/jquery-3.3.1.min.js"></script>
+<script src="../Scripts/Tools.js"></script>
+<script src="../Scripts/LeftNav.js"></script>
+<body>
+    <!--顶部信息 -->
+    <div class="ianka-layout-topbar">
+        <div class="ianka-header">
+            <div class="topbar-logo">
+                <a href="#">@ViewData["platformName"]欢迎您</a>
+            </div>
+            <div class="topbar-operate-right">
+                <div class="topbar-operate-item " style="width:600px;">
+                    <div class="topbar-operate-user " style="width:250px;color:#ffffff;float:left;">
+                        待送货订单数：<label id="daiSendOrder" style="color:#ff0000;"></label>
+                    </div>
+                    <div class="topbar-operate-user" style="float:right;">
+                        欢迎：@Session["adminusername"]  <a href="../Login/Index">退出</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <audio controls="controls" id="newOrderMusic">
+            <source src="~/images/NewOrder.wav"/>
+        </audio>
+    </div>
+
+    <!--左边导航栏-->
+    <div class="ianka-sidebar">
+        <div class="sidebar-outCount">
+            <div class="sidebar-Nav pagclass0101" data-navname="op1">
+                <a target="_blank" href="../AdminIndex/Index"><span class="oneListSpanL1"></span></a>
+                <a target="_blank" href="../AdminIndex/Index"><span class="navImg2 oneListSpanL2">&nbsp;&nbsp;</span></a>
+                <a target="_parent" href="../AdminIndex/Index" class="oneListSpanL3"><span>系统首页</span></a>
+            </div>
+        </div>
+        <div class="sidebar-outCount">
+            <div class="sidebar-Nav " data-navname="op2">
+                <span class="leftC"></span>
+                <span class="navImg">▶</span>
+                <span>
+                    平台用户管理
+                </span>
+            </div>
+            <ul class="sidebar-trans inner-Nav-op2">
+                <li class="nav-item pagclass0201" data-identifier="dash">
+                    <a href="../AdminIndex/UserList" target="_parent" class="navRightC">
+                        <span class="nav-title" style="text-align: left;">平台用户列表</span>
+                    </a>
+                    <a class="navLeftC" style="" target="_blank" href="../AdminIndex/UserList"></a>
+                </li>
+                <li class="nav-item pagclass0202" data-identifier="dash">
+                    <a href="../AdminIndex/addUser" target="_parent" class="navRightC">
+                        <span class="nav-title" style="text-align: left;">新增平台用户</span>
+                    </a>
+                    <a class="navLeftC" style="" target="_blank" href="../AdminIndex/addUser"></a>
+                </li>
+            </ul>
+        </div>
+        <div class="sidebar-outCount">
+            <div class="sidebar-Nav pagclass0301" data-navname="op3">
+                <a target="_blank" href="../User/List"><span class="oneListSpanL1"></span></a>
+                <a target="_blank" href="../User/List"><span class="navImg2 oneListSpanL2">&nbsp;&nbsp;</span></a>
+                <a target="_parent" href="../User/List" class="oneListSpanL3"><span>微信用户列表</span></a>
+            </div>
+        </div>
+        <div class="sidebar-outCount">
+            <div class="sidebar-Nav " data-navname="op7">
+                <span class="leftC"></span>
+                <span class="navImg">▶</span>
+                <span>
+                    产品类别管理
+                </span>
+            </div>
+            <ul class="sidebar-trans inner-Nav-op7">
+                <li class="nav-item pagclass0701" data-identifier="dash">
+                    <a href="../AdminProduct/ProductclassList" target="_parent" class="navRightC">
+                        <span class="nav-title" style="text-align: left;">产品类别列表面</span>
+                    </a>
+                    <a class="navLeftC" style="" target="_blank" href="../AdminProduct/ProductclassList"></a>
+                </li>
+                <li class="nav-item pagclass0702" data-identifier="dash">
+                    <a href="../AdminProduct/AddProductclass" target="_parent" class="navRightC">
+                        <span class="nav-title" style="text-align: left;">新增产品类别</span>
+                    </a>
+                    <a class="navLeftC" style="" target="_blank" href="../AdminProduct/AddProductclass"></a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="sidebar-outCount">
+            <div class="sidebar-Nav " data-navname="op4">
+                <span class="leftC"></span>
+                <span class="navImg">▶</span>
+                <span>
+                    产品管理
+                </span>
+            </div>
+            <ul class="sidebar-trans inner-Nav-op4">
+
+                <li class="nav-item pagclass0401" data-identifier="dash">
+                    <a href="../AdminProduct/ProductcList" target="_parent" class="navRightC">
+                        <span class="nav-title" style="text-align: left;">产品列表</span>
+                    </a>
+                    <a class="navLeftC" style="" target="_blank" href="../AdminProduct/ProductcList"></a>
+                </li>
+                <li class="nav-item pagclass0402" data-identifier="dash">
+                    <a href="../AdminProduct/AddProduct" target="_parent" class="navRightC">
+                        <span class="nav-title" style="text-align: left;">新增产品</span>
+                    </a>
+                    <a class="navLeftC" style="" target="_blank" href="../AdminProduct/AddProduct"></a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="sidebar-outCount">
+            <div class="sidebar-Nav " data-navname="op5">
+                <span class="leftC"></span>
+                <span class="navImg">▶</span>
+                <span>
+                    订单管理
+                </span>
+            </div>
+            <ul class="sidebar-trans inner-Nav-op5">
+                <li class="nav-item pagclass0501" data-identifier="dash">
+                    <a href="../AdminOrder/List" target="_parent" class="navRightC">
+                        <span class="nav-title" style="text-align: left;">订单列表</span>
+                    </a>
+                    <a class="navLeftC" style="" target="_blank" href="../AdminOrder/List"></a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="sidebar-outCount">
+            <div class="sidebar-Nav " data-navname="op6">
+                <span class="leftC"></span>
+                <span class="navImg">▶</span>
+                <span>
+                    送货员管理
+                </span>
+            </div>
+            <ul class="sidebar-trans inner-Nav-op6">
+                <li class="nav-item pagclass0601" data-identifier="dash">
+                    <a href="../SndGoodsUser/List" target="_parent" class="navRightC">
+                        <span class="nav-title" style="text-align: left;"> 送货员列表</span>
+                    </a>
+                    <a class="navLeftC" style="" target="_blank" href="../SndGoodsUser/List"></a>
+                </li>
+                <li class="nav-item pagclass0602" data-identifier="dash">
+                    <a href="../SndGoodsUser/Add" target="_parent" class="navRightC">
+                        <span class="nav-title" style="text-align: left;"> 新增送货员</span>
+                    </a>
+                    <a class="navLeftC" style="" target="_blank" href="../SndGoodsUser/Add"></a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="sidebar-outCount">
+            <div class="sidebar-Nav " data-navname="op8">
+                <span class="leftC"></span>
+                <span class="navImg">▶</span>
+                <span>
+                    系统设置
+                </span>
+            </div>
+            <ul class="sidebar-trans inner-Nav-op8">
+                <li class="nav-item pagclass0801" data-identifier="dash">
+                    <a href="../systemSet/wxmenuList" target="_parent" class="navRightC">
+                        <span class="nav-title" style="text-align: left;">微信菜单管理</span>
+                    </a>
+                    <a class="navLeftC" style="" target="_blank" href="../systemSet/wxmenuList"></a>
+                </li>
+                <li class="nav-item pagclass0802" data-identifier="dash">
+                    <a href="../systemSet/wxmenuAdd" target="_parent" class="navRightC">
+                        <span class="nav-title" style="text-align: left;"> 新增微信菜单</span>
+                    </a>
+                    <a class="navLeftC" style="" target="_blank" href="../systemSet/wxmenuAdd"></a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="sidebar-outCount">
+            <div class="sidebar-Nav " data-navname="op9">
+                <span class="leftC"></span>
+                <span class="navImg">▶</span>
+                <span>
+                    文章管理
+                </span>
+            </div>
+            <ul class="sidebar-trans inner-Nav-op9">
+                <li class="nav-item pagclass0901" data-identifier="dash">
+                    <a href="../news/newsList" target="_parent" class="navRightC">
+                        <span class="nav-title" style="text-align: left;">文章列表</span>
+                    </a>
+                    <a class="navLeftC" style="" target="_blank" href="../news/newsList"></a>
+                </li>
+                <li class="nav-item pagclass0902" data-identifier="dash">
+                    <a href="../news/newsAdd" target="_parent" class="navRightC">
+                        <span class="nav-title" style="text-align: left;"> 新增文章</span>
+                    </a>
+                    <a class="navLeftC" style="" target="_blank" href="../news/newsAdd"></a>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+
+    @*记载内容信息*@
+    <div class="viewFramework-body" style="margin-bottom: 60px;">
+        @RenderBody()
+    </div>
+    @*底部信息*@
+    <div class="footer">
+        <div class="inCount">
+            <div class="value">
+                沪ICP备15027489号-1<br>
+                2004-<label id="copyrightEndDate">2018</label>
+                支付宝 版权所有
+            </div>
+            <div class="verisign">
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<script type="text/javascript">
+
+    var alertNumOrderTime = setInterval(alertNumOrder, 120000);
+    
+    function alertNumOrder() {
+        $.ajax({
+            cache: false,//保留缓存数据
+            type: "get",//为post请求
+            url: "/AdminOrder/GetTotalNewOrder",//这是我在后台接受数据的文件名
+            async: true,//设置成true，这标志着在请求开始后，其他代码依然能够执行。如果把这个选项设置成false，这意味着所有的请求都不再是异步的了，这也会导致浏览器被锁死
+            error: function (request) {//请求失败之后的操作
+                return false;
+            },
+            success: function (data) {//请求成功之后的操作
+                if (data != "-1" && data != "0") {
+                    newOrderMusic.play(); 
+                } 
+            }
+        });
+    }
+    
+
+    //// 每5分钟取一次还未送货的订单数据
+     var SaticSendGoodesTotaCountTime =setInterval(SaticSendGoodesTotaCount, 300000);
+    $(function () {
+        SaticSendGoodesTotaCount();
+        alertNumOrder();
+    })
+    function SaticSendGoodesTotaCount() {
+        //// 订单组ID
+        $.ajax({
+            cache: false,//保留缓存数据
+            type: "get",//为post请求
+            url: "/AdminOrder/SaticSendGoodesTotaCount",//这是我在后台接受数据的文件名
+            async: true,//设置成true，这标志着在请求开始后，其他代码依然能够执行。如果把这个选项设置成false，这意味着所有的请求都不再是异步的了，这也会导致浏览器被锁死
+            error: function (request) {//请求失败之后的操作
+                return false;
+            },
+            success: function (data) {//请求成功之后的操作
+                if (data == "-1") {
+
+                } else {
+                    $("#daiSendOrder").text(data);
+                }
+            }
+        });
+    }
+    
+</script>
+

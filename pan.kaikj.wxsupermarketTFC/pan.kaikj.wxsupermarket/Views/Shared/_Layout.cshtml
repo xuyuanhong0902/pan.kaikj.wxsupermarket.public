@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - 商城</title>
+</head>
+<link href="../Content/comm.css" rel="stylesheet" />
+<script src="../Scripts/jquery-3.3.1.min.js"></script>
+<script src="../Scripts/Tools.js"></script>
+<script src="../Scripts/LeftNav.js"></script>
+<body>
+    <!--顶部信息 -->
+    <div class="ianka-layout-topbar">
+        <div class="ianka-header">
+            <div class="topbar-logo">
+                <a href="#">@ViewData["platformName"]欢迎您</a>
+            </div>
+            <div class="topbar-operate-right">
+                <div class="topbar-operate-item ">
+                    <div class="topbar-operate-user">
+                        欢迎：@Session["adminusername"]  <a href="../Login/Index">退出</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--左边导航栏-->
+    <div class="ianka-sidebar">
+        <div class="sidebar-outCount">
+            <div class="sidebar-Nav pagclass0101" data-navname="op1">
+                <a target="_blank" href="../AdminIndex/Index"><span class="oneListSpanL1"></span></a>
+                <a target="_blank" href="../AdminIndex/Index"><span class="navImg2 oneListSpanL2">&nbsp;&nbsp;</span></a>
+                <a target="_parent" href="../AdminIndex/Index" class="oneListSpanL3"><span>系统首页</span></a>
+            </div>
+        </div>
+        <div class="sidebar-outCount">
+            <div class="sidebar-Nav pagclass0201" data-navname="op2">
+                <a target="_blank" href="../AdminOrder/List"><span class="oneListSpanL1"></span></a>
+                <a target="_blank" href="../AdminOrder/List"><span class="navImg2 oneListSpanL2">&nbsp;&nbsp;</span></a>
+                <a target="_parent" href="../AdminOrder/List" class="oneListSpanL3"><span>团购费信息管理</span></a>
+            </div>
+        </div>
+    </div>
+
+        @*加载内容信息*@
+        <div class="viewFramework-body" style="margin-bottom: 60px;">
+            @RenderBody()
+        </div>
+        @*底部信息*@
+        <div class="footer">
+            <div class="inCount">
+                <div class="value">
+                    蜀ICP备16000902<br>
+                    2004-<label id="copyrightEndDate">2018</label>
+                    盘开科技 版权所有
+                </div>
+                <div class="verisign">
+
+                </div>
+            </div>
+        </div>
+</body>
+</html>
+

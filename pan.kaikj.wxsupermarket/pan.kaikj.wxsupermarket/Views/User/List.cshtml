@@ -1,0 +1,86 @@
+﻿
+<link href="../Content/listPag.css" rel="stylesheet" />
+<div class="console-title-border console-title">
+    <div class="pull-left">
+        <h5>微信用户管理</h5>
+        <h5 style="border-left: none">&gt;</h5>
+        <h5 style="border-left: none">微信用户列表</h5>
+    </div>
+</div>
+<div class="listOutCount" ng-app="myApp" ng-controller="myContro">
+    <div class="select-body w800 h40">
+        <div class="condition-body w450 h40">
+            <div class="condition-oneCount w450 h40">
+                <div class="condition-one w200">
+                    <div class="condition-title w80">用户昵称:</div>
+                    <div class="condition-value">
+                        <input type="text" class="w120" ng-model="condition.nickname" placeholder="请输入用户昵称" />
+                    </div>
+                </div>
+                <div class="condition-one w200">
+                    <div class="condition-title w80">是否订阅:</div>
+                    <div class="condition-value">
+                        <select id="subscribe" name="subscribe" ng-model="condition.subscribe">
+                            <option value="">All</option>
+                            <option value="1">已订阅</option>
+                            <option value="0">未订阅</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="select-subButCount h40">
+            <div class="subBut lh35" id="searchBut" ng-click="selectFun()">
+                查询
+            </div>
+        </div>
+    </div>
+    <div class="solidLin"></div>
+    <div class="valueList-body w850">
+        <div class="valueList-headCount w850">
+            <div class="one w190">openid</div>
+            <div class="one w150">用户昵称</div>
+            <div class="one w60">性别</div>
+            <div class="one w70">是否订阅</div>
+            <div class="one w140">用户关注时间</div>
+            <div class="one w120">用户关注的渠道</div>
+            <div class="one">操作</div>
+        </div>
+        <div class="valueList-valueCount w850" id="valueListCount" style="display: none;">
+            <div ng-repeat="model in modelList" class="ng-scope">
+                <div class="valueList-oneLinValueCount w850">
+                    <div class="one w190">{{model.openid}}</div>
+                    <div class="one w150">{{model.nickname}}</div>
+                    <div class="one w60">{{model.sexdes}}</div>
+                    <div class="one w70">{{model.subscribe=="1"?"已订阅":"未订阅"}}</div>
+                    <div class="one w140">{{model.subscribe_time}}</div>
+                    <div class="one w120">{{model.subscribe_scene_des}}</div>
+                    <div class="one w80">
+                        <div class="w70 h16">
+                            <a target="_blank" ng-href='../User/Userdetail?id={{model.openid}}'>查看详情</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="solidLin"></div>
+            </div>
+        </div>
+        <div class="solidLin"></div>
+        <div id="pagCount" style="display: none;">
+            <div class="innerCount">
+                <div class="onePageC pageBut" ng-click="SearchFunPageBut('FirstPage')" id="FirstPage" go_value="1">FirstPage</div>
+                <div class="onePageC pageBut" ng-click="SearchFunPageBut('PreviPage')" id="PreviPage" go_value="5">PreviPage</div>
+                <div class="onePageC pageBut" ng-click="SearchFunPageBut('NextPage')" id="NextPage" go_value="6">NextPage</div>
+                <div class="onePageC pageBut" ng-click="SearchFunPageBut('LastPage')" id="LastPage" go_value="-1">LastPage</div>
+                <div class="pagInputC" id="gotopagCount">
+                    go to specific page:<input type="text" class="positInt w50" id="goPagInput" value="1">
+                    <input type="button" value="Go" class="" id="goPagBut" ng-click="SearchFunGoPagBut()">
+                </div>
+            </div>
+            <div class="totalNumCount">符合要求的数据总条数为：<label id="totalNum">0</label></div>
+        </div>
+    </div>
+</div>
+
+<script src="../Scripts/angular.min.js"></script>
+<script src="../Scripts/PagForAngular.js"></script>
+<script src="../Scripts/User/List.js"></script>

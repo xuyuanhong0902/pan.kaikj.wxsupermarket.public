@@ -1,0 +1,11 @@
+c:\users\administrator\source\repos\pan.kaikj.wxsupermarket\pan.kaikj.wxsupermarket.AdoModel\bin\Debug\pan.kaikj.wxsupermarket.AdoModel.dll
+c:\users\administrator\source\repos\pan.kaikj.wxsupermarket\pan.kaikj.wxsupermarket.AdoModel\bin\Debug\pan.kaikj.wxsupermarket.AdoModel.pdb
+c:\users\administrator\source\repos\pan.kaikj.wxsupermarket\pan.kaikj.wxsupermarket.AdoModel\obj\Debug\pan.kaikj.wxsupermarket.AdoModel.csproj.CoreCompileInputs.cache
+c:\users\administrator\source\repos\pan.kaikj.wxsupermarket\pan.kaikj.wxsupermarket.AdoModel\obj\Debug\pan.kaikj.wxsupermarket.AdoModel.dll
+c:\users\administrator\source\repos\pan.kaikj.wxsupermarket\pan.kaikj.wxsupermarket.AdoModel\obj\Debug\pan.kaikj.wxsupermarket.AdoModel.pdb
+E:\微信超市\pan.kaikj.wxsupermarketTFC\pan.kaikj.wxsupermarket.AdoModel\bin\Debug\pan.kaikj.wxsupermarket.AdoModel.dll
+E:\微信超市\pan.kaikj.wxsupermarketTFC\pan.kaikj.wxsupermarket.AdoModel\bin\Debug\pan.kaikj.wxsupermarket.AdoModel.pdb
+E:\微信超市\pan.kaikj.wxsupermarketTFC\pan.kaikj.wxsupermarket.AdoModel\obj\Debug\pan.kaikj.wxsupermarket.AdoModel.csproj.CoreCompileInputs.cache
+E:\微信超市\pan.kaikj.wxsupermarketTFC\pan.kaikj.wxsupermarket.AdoModel\obj\Debug\pan.kaikj.wxsupermarket.AdoModel.dll
+E:\微信超市\pan.kaikj.wxsupermarketTFC\pan.kaikj.wxsupermarket.AdoModel\obj\Debug\pan.kaikj.wxsupermarket.AdoModel.pdb
+E:\微信超市\pan.kaikj.wxsupermarketTFC\pan.kaikj.wxsupermarket.AdoModel\obj\Debug\pan.kaikj.wxsupermarket.AdoModel.csprojAssemblyReference.cache

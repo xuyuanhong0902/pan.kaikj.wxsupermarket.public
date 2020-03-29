@@ -1,0 +1,165 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <title>茶部落</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link href="/Content/amazeui.min.css" type="text/css" rel="stylesheet" />
+    <link href="/Content/style.css" rel="stylesheet" />
+    <script src="/Scripts/jquery.min.js" type="text/javascript"></script>
+    <script src="/Scripts/amazeui.min.js" type="text/javascript"></script>
+    <link href="~/Content/commMarkt.css" rel="stylesheet" />
+    <script src="~/Scripts/comm.js"></script>
+</head>
+<body>
+    <header data-am-widget="header" class="am-header am-header-default sq-head " style="">
+        <div class="am-header-left am-header-nav">
+            <a href="javascript:history.back()" class="" style="border: 0;">
+                <i class="am-icon-chevron-left"></i>
+            </a>
+        </div>
+        <h1 class="am-header-title" style="line-height: 49px;">
+            <a href="" class="" style="color: #ffffff;">订单详情</a>
+        </h1>
+    </header>
+    <div style="height: 10px;"></div>
+    @{ List
+  <pan.kaikj.wxsupermarket.AdoModel.Morder>
+  modelList = ViewData["OrderDetile"] == null ? null :
+  (List<pan.kaikj.wxsupermarket.AdoModel.Morder>)ViewData["OrderDetile"];
+    }
+    <ul class="address-list" style="margin-top:55px;">
+        <li class="curr" style="border:none;    margin-bottom: 10px;padding:0px;">
+            <h2>订单详情</h2>
+            <hr />
+            @{ if (modelList != null && modelList.Count > 0)
+                {
+                    <p class="order-add1">订单号：@modelList[0].orderid</p>
+                    <p class="order-add1">下单时间：@modelList[0].great_time.ToString("yyyy-MM-dd HH:mm:ss")</p>
+                    <p class="order-add1">订单状态：@modelList[0].orderStateDesc</p>
+
+                    <p class="order-add1">产品名称：@modelList[0].productname</p>
+                    <p class="order-add1">购买数量：@modelList[0].buyNum</p>
+                    <p class="order-add1">订单单价：￥@modelList[0].sellPrice.ToString("F2")</p>
+                    <p class="order-add1">总金额：￥@modelList[0].totalPrice.ToString("F2")</p>
+
+                    <p class="order-add1">要求配送时间：@modelList[0].requireDeliveryTime.ToString("yyyy-MM-dd HH:mm:ss")</p>
+                    <p class="order-add1">收货地址：@modelList[0].mailAddress</p>
+                    <p class="order-add1">配送人：@modelList[0].deliveryName - @modelList[0].deliveryTell</p>
+                    <hr />
+                }
+            }
+
+        </li>
+      
+        @*@{ if (modelList != null && modelList.Count == 1)
+            {
+                <input type="hidden" id="orderId" value="@modelList[0].orderid" />
+                if (modelList[0].orderState == 7)
+                {
+                    <li class="curr" style="border:none;    margin-bottom: 10px;padding:0px;">
+                        <div class="pricebox">
+                            <button class="paybtn" type="button" id="confirm" onclick="confirm('@modelList[0].orderGroupId')"> 确认收货</button>
+                        </div>
+                    </li>
+                }
+
+                if (modelList[0].orderState == 4)
+                {
+                    <li class="curr" style="border:none;    margin-bottom: 10px;padding:0px;">
+                        <div class="pricebox">
+                            <button class="paybtn" type="button" id="confirm" onclick="cancel('@modelList[0].orderGroupId')"> 取消订单</button>
+                        </div>
+                    </li>
+                }
+
+            }}*@
+    </ul>
+
+    <div class="botCount" id="botCount">
+        <script type="text/javascript">
+            //// 底部事件
+            $(function () {
+                initBotom(3);
+            });
+        </script>
+    </div>
+</body>
+</html>
+<script type="text/javascript">
+        //// 确认收货
+    function confirm(orderId) {
+            //// 订单组ID
+            $.ajax({
+                cache: false,//保留缓存数据
+                type: "get",//为post请求
+                url: "/market/ConfirmGoodes",//这是我在后台接受数据的文件名
+                data: {
+                    groupid: orderId
+                },//将该表单序列化
+                async: true,//设置成true，这标志着在请求开始后，其他代码依然能够执行。如果把这个选项设置成false，这意味着所有的请求都不再是异步的了，这也会导致浏览器被锁死
+                error: function (request) {//请求失败之后的操作
+                    alert("操作失败！");
+                    return false;
+                },
+                success: function (data) {//请求成功之后的操作
+                    if (data == "-1") {
+                        alert("请先登录");
+                        window.location.href = '../market/userCenter';
+                        return false;
+                    } else {
+                        if (data) {
+                            var dataObj = $.parseJSON(data);
+                            if (dataObj) {
+                                alert(dataObj["errmsg"]);
+                                if (dataObj["errcode"] == "0") {
+                                    location.reload();
+                                }
+                            }
+                        } else {
+                            alert("操作失败！");
+                            return false;
+                        }
+                    }
+                }
+            });
+        }
+
+        function cancel(id) {
+            $.ajax({
+                cache: false,//保留缓存数据
+                type: "get",//为post请求
+                url: "/market/CancleOrder",//这是我在后台接受数据的文件名
+                data: {
+                    groupid: id
+                },//将该表单序列化
+                async: true,//设置成true，这标志着在请求开始后，其他代码依然能够执行。如果把这个选项设置成false，这意味着所有的请求都不再是异步的了，这也会导致浏览器被锁死
+                error: function (request) {//请求失败之后的操作
+                    alert("操作失败！");
+                    return false;
+                },
+                success: function (data) {//请求成功之后的操作
+                    if (data == "-1") {
+                        alert("请先登录");
+                        window.location.href = '../market/userCenter';
+                        return false;
+                    } else {
+                        if (data) {
+                            var dataObj = $.parseJSON(data);
+                            if (dataObj) {
+                                alert(dataObj["errmsg"]);
+                                if (dataObj["errcode"] == "0") {
+                                    location.reload();
+                                }
+                            }
+                        } else {
+                            alert("操作失败！");
+                            return false;
+                        }
+                    }
+                }
+            });
+        }
+</script>

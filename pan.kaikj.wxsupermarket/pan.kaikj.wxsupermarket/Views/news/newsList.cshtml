@@ -1,0 +1,110 @@
+﻿
+<link href="../Content/listPag.css" rel="stylesheet" />
+<div class="console-title-border console-title">
+    <div class="pull-left">
+        <h5>文章管理</h5>
+        <h5 style="border-left: none">&gt;</h5>
+        <h5 style="border-left: none">文章列表</h5>
+    </div>
+</div>
+<div class="listOutCount">
+    <div class="solidLin"></div>
+    <div class="valueList-body w650">
+        <div class="valueList-headCount w650">
+            <div class="one w400">标题</div>
+            <div class="one w150">添加时间</div>
+            <div class="one">操作</div>
+        </div>
+        <div class="valueList-valueCount w900" id="valueListCount" style="">
+            <div class="ng-scope">
+                @{
+
+                    List<pan.kaikj.wxsupermarket.AdoModel.Mnews> modelList = ViewData["AllNews"] == null ? null : (List<pan.kaikj.wxsupermarket.AdoModel.Mnews>)ViewData["AllNews"];
+                    if (modelList != null && modelList.Count > 0)
+                    {
+                        foreach (var item in modelList)
+                        {
+                            <div class="valueList-oneLinValueCount w900">
+                                <div class="one w400">@item.title</div>
+                                <div class="one w150">@item.great_time.ToString("yyyy-MM-dd HH:mm:ss")</div>
+                                <div class="one w80">
+                                    <div class="w80 h16">
+                                        <a href="unsafe:javascript:void(0);" onclick="deleteOpert('@item.id')">删除</a>
+                                        <a target="_blank" href="/news/newsAdd?id=@item.id">编辑</a>
+                                        <a target="_blank" href="/market/viewNew?id=@item.id">浏览</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="solidLin"></div>
+                        }
+                    }
+                }
+
+            </div>
+        </div>
+        <div class="solidLin"></div>
+    </div>
+</div>
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+    var thisPagClass = "pagclass0901";
+
+    //// 删除事件
+    function deleteOpert(id) {
+        $.ajax({
+            cache: true,//保留缓存数据
+            type: "get",//为post请求
+            url: "../news/DelectNewsMeth",//这是我在后台接受数据的文件名
+            data: "id=" + id,//将该表单序列化
+            async: true,//设置成true，这标志着在请求开始后，其他代码依然能够执行。如果把这个选项设置成false，这意味着所有的请求都不再是异步的了，这也会导致浏览器被锁死
+            error: function (request) {//请求失败之后的操作
+                alert("操作失败！");
+            },
+            success: function (data) {//请求成功之后的操作
+                if (data == "-1") {
+                    window.location.href = '../Login/Index';
+                } else {
+                    if (data) {
+                        var dataObj = $.parseJSON(data);
+                        if (dataObj) {
+                            if (dataObj["errcode"] == "0") {
+                                //// 操作成功：重新绑定数据
+                                history.go(0);
+                            }
+
+                            alert(dataObj["errmsg"]);
+                        }
+                    } else {
+                        alert("操作失败！");
+                    }
+                }
+            }
+        });
+    }
+
+    function submitFun() {
+        $.ajax({
+            cache: true,//保留缓存数据
+            type: "get",//为post请求
+            url: "../systemSet/FabuMenuToWX",//这是我在后台接受数据的文件名
+            async: true,//设置成true，这标志着在请求开始后，其他代码依然能够执行。如果把这个选项设置成false，这意味着所有的请求都不再是异步的了，这也会导致浏览器被锁死
+            error: function (request) {//请求失败之后的操作
+                alert("操作失败！");
+            },
+            success: function (data) {//请求成功之后的操作
+                if (data == "-1") {
+                    window.location.href = '../Login/Index';
+                } else {
+                    if (data) {
+                        var dataObj = $.parseJSON(data);
+                        if (dataObj) {
+                            alert(dataObj["errmsg"]);
+                        }
+                    } else {
+                        alert("操作失败！");
+                    }
+                }
+            }
+        });
+    }
+</script>

@@ -1,0 +1,210 @@
+.select-body
+{
+	width: 1060px;
+	height: 80px;
+	margin-top: 20px;
+}
+
+	.select-body .condition-body
+	{
+		width: 1000px;
+		height: 80px;
+		float: left;
+	}
+
+		.select-body .condition-body .condition-oneCount
+		{
+			width: 1000px;
+			height: 40px;
+		}
+
+		.select-body .condition-body .condition-one
+		{
+			width: 200px;
+			height: 40px;
+			float: left;
+		}
+
+		.select-body .condition-body .condition-title
+		{
+			width: 80px;
+			height: 40px;
+			float: left;
+			text-align: right;
+			font-size: 14px;
+		}
+
+		.select-body .condition-body .condition-value
+		{
+			width: 120px;
+			height: 40px;
+			float: left;
+			text-align: left;
+		}
+
+			.select-body .condition-body .condition-value input
+			{
+				width: 100px;
+			}
+
+	.select-body .select-subButCount
+	{
+		width: 50px;
+		height: 80px;
+		margin-left: 10px;
+		float: left;
+	}
+
+		.select-body .select-subButCount .subBut
+		{
+			width: 50px;
+			height: 60px;
+			background-color: #b6ff00;
+			cursor: pointer;
+			line-height: 60px;
+			text-align: center;
+			font-size: 16px;
+			font-weight: bolder;
+		}
+
+.oneListCounts
+{
+	margin-top: 20px;
+	min-height: 100px;
+	display: inline-block;
+}
+
+.tbaleTitle
+{
+	background-color: #42485b;
+	padding-left: 10px;
+}
+
+	.tbaleTitle h3
+	{
+		height: 30px;
+		line-height: 30px;
+		padding: 0px;
+		margin: 0px;
+		color: #ffffff;
+	}
+
+.valueList-body
+{
+	width: 1200px;
+	border-top: 1px solid #DDD;
+	margin-top: 10px;
+}
+
+	.valueList-body .valueList-headCount
+	{
+		height: 50px;
+		width: 1200px;
+		line-height: 50px;
+		font-weight: bold;
+		border-bottom: 1px solid #DDD;
+		font-size: 14px;
+		background-color: #ecf7fb;
+	}
+
+		.valueList-body .valueList-headCount .one
+		{
+			height: 50px;
+			width: 80px;
+			text-align: left;
+			float: left;
+			margin-right: 5px;
+		}
+
+	.valueList-body .valueList-valueCount
+	{
+		min-height: 100px;
+		display: inline-block;
+		width: 1200px;
+		border-collapse: collapse;
+		min-height: 30px;
+	}
+
+		.valueList-body .valueList-valueCount .valueList-oneLinValueCount
+		{
+			min-height: 30px; 
+			line-height: 30px;
+			width: 1200px;
+			display: inline-block;
+		}
+
+			.valueList-body .valueList-valueCount .valueList-oneLinValueCount .one
+			{
+				min-height: 30px;
+				width: 80px;
+				text-align: left;
+				float: left;
+				font-size: 12px;
+				display: block;
+				word-break: break-all;
+				word-wrap: break-word;
+				margin-right: 5px;
+				line-height: 20px;
+				padding-top: 14px;
+			}
+
+.body-bottomCount
+{
+	height: 40px !important;
+}
+
+	.body-bottomCount .innerCount
+	{
+		height: 40px !important;
+	}
+
+		.body-bottomCount .innerCount .oneCount2
+		{
+			height: 40px !important;
+			width: 200px !important;
+		}
+
+		.body-bottomCount .innerCount .oneCount3
+		{
+			height: 40px !important;
+			width: 300px !important;
+		}
+
+		.body-bottomCount .innerCount .but
+		{
+			height: 30px;
+			line-height: 30px;
+			float: left;
+			width: 60px;
+			margin-left: 0px;
+			margin-top: 0px;
+			margin-left: 10px;
+		}
+
+#resultMark
+{
+	height: 40px;
+	float: left;
+	color: red;
+	font-size: 12px;
+	line-height: 40px;
+	width: 300px;
+}
+
+.alert
+{
+	margin-top: 20px;
+	padding-left: 20px;
+	color: #df00ff;
+	font-size: 12px;
+	float: left;
+}
+
+#messageR
+{
+	color: red;
+	height: 30px;
+	line-height: 30px;
+	width: 320px;
+	text-align: right;
+}

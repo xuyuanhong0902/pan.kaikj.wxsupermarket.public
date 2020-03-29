@@ -1,0 +1,129 @@
+﻿
+<link href="../Content/listPag.css" rel="stylesheet" />
+<link href="../Scripts/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" />
+<div class="console-title-border console-title">
+    <div class="pull-left">
+        <h5>订单管理</h5>
+        <h5 style="border-left: none">&gt;</h5>
+        <h5 style="border-left: none">订单列表</h5>
+    </div>
+</div>
+<div class="listOutCount" ng-app="myApp" ng-controller="myContro">
+    <div class="select-body w1000 h40">
+        <div class="condition-body w1000 h40">
+            <div class="condition-oneCount w1000 h40">
+                <div class="condition-one w200">
+                    <div class="condition-title w80">用户名称:</div>
+                    <div class="condition-value">
+                        <input type="text" class="w120" ng-model="condition.userName" placeholder="请输入用户名称" />
+                    </div>
+                </div>
+                <div class="condition-one w150">
+                    <div class="condition-title w80">楼号:</div>
+                    <div class="condition-value w60">
+                        <select id="buildNum" name="buildNum" ng-model="condition.buildNum">
+                            <option value="0">All</option>
+                            <option value="1">1栋</option>
+                            <option value="2">2栋</option>
+                            <option value="3">3栋</option>
+                            <option value="5">5栋</option>
+                            <option value="6">6栋</option>
+                            <option value="7">7栋</option>
+                            <option value="8">8栋</option>
+                            <option value="9">9栋</option>
+                            <option value="10">10栋</option>
+                            <option value="11">11栋</option>
+                            <option value="12">12栋</option>
+                            <option value="13">13栋</option>
+                            <option value="15">15栋</option>
+                            <option value="16">16栋</option>
+                            <option value="17">公寓</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="condition-one w200">
+                    <div class="condition-title w80">缴费类型:</div>
+                    <div class="condition-value w60">
+                        <select class="form-control" selected="" name="amountType" id="amountType" ng-model="condition.amountType">
+                            <option value="0">All</option>
+                            <option value="1">团购费</option>
+                            <option value="2">会员费</option>
+                            <option value="3">服务费</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="select-subButCount h40 w150">
+                    <div class="subBut lh35" id="searchBut" ng-click="selectFun()">
+                        查询
+                    </div>
+
+                </div>
+                <div class="select-subButCount h40 w200">
+                    <div class="subBut lh35 w100" id="searchBut" ng-click="exportExcel()">
+                        导出数据
+                    </div>
+                </div>
+            </div>
+            </div>
+    </div>
+    <div class="solidLin"></div>
+    <div class="valueList-body w1130">
+        <div class="valueList-headCount w1130">
+            <div class="one w90">用户名称</div>
+            <div class="one w100">电话号码</div>
+            <div class="one w80">楼号-房号</div>
+            <div class="one w150">第三方公司名称</div>
+            <div class="one w60">缴费类型</div>
+            <div class="one w100">缴费金额</div>
+            <div class="one w80">购买日期</div>
+            <div class="one w70">居住地</div>
+            <div class="one w180">保存那些证据</div>
+            <div class="one w80">添加日期</div>
+            <div class="one">操作</div>
+        </div>
+        <div class="valueList-valueCount w1130" id="valueListCount" style="display: none;">
+            <div ng-repeat="model in modelList" class="ng-scope">
+                <div class="valueList-oneLinValueCount w1130" style={{model.samDataNum!="1"?"color:red":""}}>
+                    <div class="one w90">{{model.userName}}</div>
+                    <div class="one w100">{{model.Id=="-1"?"":model.telNum}}</div>
+                    <div class="one w80">{{model.Id=="-1"?"":((model.buildNum=="17"?"公寓":(model.buildNum+"栋"))) }}-{{model.Id=="-1"?"":model.roomNum}} </div>
+                    <div class="one w150">{{model.Id=="-1"?"":(model.thirdPartyCompanyName=="undefined"?"":model.thirdPartyCompanyName)}}</div>
+                    <div class="one w60">{{model.Id=="-1"?"":(model.amountType=="1"?"团购费":(model.amountType=="2"?"会员费":"服务费"))}}</div>
+                    <div class="one w100">{{model.payAmount|number:2}}</div>
+                    <div class="one w80">{{model.Id=="-1"?"":model.payDate}}</div>
+                    <div class="one w70">{{model.Id=="-1"?"":model.domicile}}</div>
+                    <div class="one w180">{{model.Id=="-1"?"":model.evidences}}</div>
+                    <div class="one w80">{{model.Id=="-1"?"":model.great_time}}</div>
+                    <div class="one w80">
+                        <div class="w70 h16">
+                            <a href="unsafe:javascript:void(0);" ng-click="Delete(model.Id)">{{model.Id=="-1"?"":"删除"}}</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="solidLin"></div>
+            </div>
+        </div>
+        <div class="solidLin"></div>
+        <div id="pagCount" style="display: none;">
+            <div class="innerCount">
+                <div class="onePageC pageBut" ng-click="SearchFunPageBut('FirstPage')" id="FirstPage" go_value="1">FirstPage</div>
+                <div class="onePageC pageBut" ng-click="SearchFunPageBut('PreviPage')" id="PreviPage" go_value="5">PreviPage</div>
+                <div class="onePageC pageBut" ng-click="SearchFunPageBut('NextPage')" id="NextPage" go_value="6">NextPage</div>
+                <div class="onePageC pageBut" ng-click="SearchFunPageBut('LastPage')" id="LastPage" go_value="-1">LastPage</div>
+                <div class="pagInputC" id="gotopagCount">
+                    go to specific page:<input type="text" class="positInt w50" id="goPagInput" value="1">
+                    <input type="button" value="Go" class="" id="goPagBut" ng-click="SearchFunGoPagBut()">
+                </div>
+            </div>
+            <div class="totalNumCount">符合要求的数据总条数为：<label id="totalNum">0</label></div>
+        </div>
+    </div>
+</div>
+
+<script src="../Scripts/angular.min.js"></script>
+<script src="../Scripts/PagForAngular.js"></script>
+<script src="../Scripts/My97DatePicker/WdatePicker.js"></script>
+<script src="../Scripts/AdminOrder/List.js"></script>
+
+<script type="text/javascript">
+</script>

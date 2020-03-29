@@ -1,0 +1,115 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <title>茶部落</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <script src="../Scripts/jquery.min.js" type="text/javascript"></script>
+    <script src="../Scripts/amazeui.min.js" type="text/javascript"></script>
+    <link href="~/Content/amazeui.min.css" type="text/css" rel="stylesheet" />
+    <link href="~/Content/style.css" type="text/css" rel="stylesheet" />
+    <link href="~/Content/commMarkt.css" rel="stylesheet" />
+    <script src="~/Scripts/comm.js"></script>
+    <script>
+        $(function () {
+            $(".share").click(function () {
+                $(".yd_img").toggle();
+            })
+        })
+    </script>
+</head>
+<body>
+    <header data-am-widget="header" class="am-header am-header-default sq-head " style="position:absolute;height:auto;">
+        <div class="am-header-right am-header-nav">
+            <a href="/market/takeout">
+                <i class="">
+                    <img style="height:35px;" src="/images/shopCart.png" />
+                </i>
+            </a>
+        </div>
+    </header>
+    @{ pan.kaikj.wxsupermarket.AdoModel.Mproduct model =
+                 ViewData["ProductDetailInfo"] == null ?
+                 new pan.kaikj.wxsupermarket.AdoModel.Mproduct() :
+            (pan.kaikj.wxsupermarket.AdoModel.Mproduct)ViewData["ProductDetailInfo"];
+    }
+    <div class="am-header-left am-header-nav return">
+        <a href="javascript:history.back()" class="" style="border: 0;">
+            <i class="am-icon-chevron-left"></i>
+        </a>
+    </div>
+    @*<div class="share">
+            <i class="am-icon-share-alt"></i>
+        </div>*@
+    <div class="banner"><img src="/@(model.productimgurl)"></div>
+    <div class="detail">
+        <span>@(model.productname)</span>
+        <p>￥@(model.sellprice)</p>
+        <a href="#" id="addToShopCart" class="shopcart" onclick="addShopingCart('@(model.productid)','1')">加入购物车</a>
+    </div>
+    <div class="detail">
+        <span>
+            规格：@(model.productformat +
+                     (model.productformatunit == "0" ? "个" :
+                     model.productformatunit == "1" ? "袋" :
+                     model.productformatunit == "2" ? "斤" :
+                     model.productformatunit == "3" ? "瓶" : "升"))
+        </span>
+    </div>
+    <div class="detail">
+        <span>产品详情：</span>
+        <div style="margin-top:20px;" id="productDetailInfo">
+            @(model.productdetails)
+        </div>
+    </div>
+    <div class="botCount" id="botCount">
+        <script type="text/javascript">
+            //// 底部事件
+            $(function () {
+                initBotom(1);
+            });
+        </script>
+    </div>
+</body>
+</html>
+
+<script type="text/javascript">
+    $(function () {
+    });
+
+    //// 添加到购物车
+    function addShopingCart(productId, buyNum) {
+        $.ajax({
+            cache: false,//保留缓存数据
+            type: "get",//为post请求
+            url: "/market/AddShopCart",//这是我在后台接受数据的文件名
+            data: {
+                productId: productId,
+                buyNum: buyNum
+            },//将该表单序列化
+            async: true,//设置成true，这标志着在请求开始后，其他代码依然能够执行。如果把这个选项设置成false，这意味着所有的请求都不再是异步的了，这也会导致浏览器被锁死
+            error: function (request) {//请求失败之后的操作
+                alert("操作失败！");
+            },
+            success: function (data) {//请求成功之后的操作 
+                if (data == "-1") {
+                    alert("请先登录");
+                    window.location.href = '../market/userCenter';
+                } else {
+                    if (data) {
+                        var dataObj = $.parseJSON(data);
+                        if (dataObj) {
+                            if (dataObj["errcode"] == "0") {
+                            }
+                            alert(dataObj["errmsg"]);
+                        }
+                    } else {
+                        alert("操作失败！");
+                    }
+                }
+            }
+        });
+    }
+</script>

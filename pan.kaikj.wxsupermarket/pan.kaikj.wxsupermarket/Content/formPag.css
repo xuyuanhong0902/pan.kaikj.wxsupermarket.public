@@ -1,0 +1,129 @@
+.pull-left
+{
+	float: left !important;
+}
+
+.valueCount-body
+{
+	margin-top: 20px;
+	margin-bottom: 60px;
+}
+
+	.valueCount-body .oneListCount-body
+	{
+		height: 40px;
+		line-height: 40px;
+		border-bottom: 1px solid #DDD;
+	}
+
+		.valueCount-body .oneListCount-body .title
+		{
+			width: 200px;
+			height: 40px;
+			font-weight: 500;
+			float: left;
+			text-align: right;
+		}
+
+		.valueCount-body .oneListCount-body .value
+		{
+			height: 40px;
+			float: left;
+		}
+
+		.valueCount-body .oneListCount-body .alert
+		{
+			float: left;
+			color: #f00;
+			height: 20px;
+			line-height: 20px;
+			margin-top: 15px;
+			margin-left: 5px;
+		}
+
+	.valueCount-body .submitBut
+	{
+		cursor: pointer;
+		border: none;
+		margin-top: 20px;
+		height: 45px;
+		line-height: 45px;
+		width: 100px;
+		margin-left: 220px;
+		font-size: 20px;
+		text-align: center;
+		background-color: #00C1DE;
+		border-color: #00C1DE;
+		border: 1px solid #09C;
+		color: #ffffff;
+		cursor: pointer;
+	}
+
+	.valueCount-body .evenLine
+	{
+		background: #f7f7f7 !important;
+	}
+
+.doResultCount
+{
+	margin-left: 20px;
+	margin-top: 30px;
+	display: none;
+	height: auto;
+}
+
+.doResultValue
+{
+	font-size: 16px;
+	font-weight: 500;
+	color: #ff0000;
+	float: left;
+	height: auto;
+	width: 70%;
+}
+
+
+.answerCount
+{
+	width: 100%;
+	border-bottom: 2px solid #39a2bb;
+	border-top: 2px solid #39a2bb;
+	margin-top: 5px;
+	min-height: 150px;
+	display: inline-block;
+}
+
+	.answerCount .oneCount
+	{
+		width: 100%;
+		min-height: 50px;
+		display: inline-block;
+		border-bottom: 1px solid #DDD;
+	}
+
+		.answerCount .oneCount .leftC
+		{
+			float: left;
+			width: 100px;
+			font-weight: 600;
+			color: #39a2bb;
+			text-align: right;
+			line-height: 50px;
+			margin-right: 10px;
+		}
+
+		.answerCount .oneCount .rightC
+		{
+			float: left;
+			width: auto;
+			border-left: 1px solid #DDD;
+			padding-left: 10px;
+		}
+
+			.answerCount .oneCount .rightC .douwnload
+			{
+				width: 200px;
+				height: 40px;
+				line-height: 40px;
+				margin-right: 20px;
+			}

@@ -1,0 +1,95 @@
+﻿<style type="text/css">
+    .loginOutCount {
+        width: 100%;
+        height: 100%;
+        background-color: #1c5371;
+        text-align: center;
+        position: absolute;
+        overflow-x:hidden;
+    }
+
+    .loginCount {
+        width: 400px;
+        height: 240px;
+        background-color: aquamarine;
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        right: 0px;
+        bottom: 0px;
+        margin: auto;
+    }
+
+        .loginCount .oneCount {
+            height: 40px;
+            width: 400px;
+            line-height: 40px;
+        }
+
+            .loginCount .oneCount .left {
+                width: 100px;
+                height: 40px;
+                text-align: right;
+                float: left;
+                line-height: 40px;
+            }
+
+            .loginCount .oneCount .right {
+                width: 280px;
+                height: 40px;
+                float: right;
+                line-height: 40px;
+            }
+
+                .loginCount .oneCount .right .input {
+                    width: 180px;
+                    float: left;
+                    margin-top: 15px;
+                }
+
+    #loginBt {
+        float: left;
+        background-color: #0094ff;
+    }
+</style>
+
+<div class="loginOutCount" ng-app="loginApp" ng-controller="loginContro">
+    <div class="loginCount">
+        <div class="oneCount">
+            <h1 style="color:#ffffff;">@ViewData["platformName"]</h1>
+        </div>
+            <form name="loginForm">
+                <div class="oneCount">
+                    <div class="left">账号:</div>
+                    <div class="right">
+                        <input type="text" class="input" id="acount" name="acount" ng-model="user.acount" placeholder="请输入账号"
+                               required="required" ng-minlength="4" ng-maxlength="20" ng-pattern="/^[0-9a-zA-Z]+$/" />
+                    </div>
+                </div>
+                <div class="oneCount">
+                    <div class="left">密码:</div>
+                    <div class="right">
+                        <input type="password" class="input" id="acount" name="pass" ng-model="user.pass" placeholder="请输入密码"
+                               required="required" ng-minlength="4" ng-maxlength="20" />
+                    </div>
+                </div>
+                <div class="oneCount">
+                    <div class="left">验证码:</div>
+                    <div class="right">
+                        <input type="text" class="input" style="width:80px;" id="verifiCode" name="verifiCode" ng-model="user.verifiCode"
+                               required="required" ng-minlength="5" ng-maxlength="5" ng-pattern="/^[0-9a-zA-Z]+$/" />
+                        <img style="width:100px;height:40px;float:left;" src="{{user.verifiCodePath}}" ng-click="changVerifiCode()" id="verifiCodeImg" />
+                    </div>
+                </div>
+                <div class="oneCount" style="margin-top:10px;">
+                    <div class="left"></div>
+                    <div class="right">
+                        <input type="button" id="loginBt" ng-click="subLogin()" value="登录" ng-disabled="loginForm.$invalid" />
+                        <label id="errLab" style="color:red;">{{user.err}}</label>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+<script src="../Scripts/angular.min.js"></script>
+<script src="../Scripts/AdminIndex/Adminlogin.js"></script>

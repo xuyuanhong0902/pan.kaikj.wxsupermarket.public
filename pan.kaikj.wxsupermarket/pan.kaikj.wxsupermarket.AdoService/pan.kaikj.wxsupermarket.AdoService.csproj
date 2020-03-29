@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{BFE9CEFE-3259-4EB9-A1E0-B225AA80DA71}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>pan.kaikj.wxsupermarket.AdoService</RootNamespace>
+    <AssemblyName>pan.kaikj.wxsupermarket.AdoService</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="NewsService.cs" />
+    <Compile Include="SndGoodsUserService.cs" />
+    <Compile Include="AdminuserService.cs" />
+    <Compile Include="MailAddressService.cs" />
+    <Compile Include="OrderService.cs" />
+    <Compile Include="ProductclassService.cs" />
+    <Compile Include="ProductService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ShoppingCartService.cs" />
+    <Compile Include="WxmenuService.cs" />
+    <Compile Include="WXuserService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\pan.kaikj.wxsupermarket.AdoDal\pan.kaikj.wxsupermarket.AdoDal.csproj">
+      <Project>{4d1138f5-6d7b-4655-ac12-c26eb7797f45}</Project>
+      <Name>pan.kaikj.wxsupermarket.AdoDal</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\pan.kaikj.wxsupermarket.AdoFactory\pan.kaikj.wxsupermarket.AdoFactory.csproj">
+      <Project>{92c4340f-e4f7-474d-a1b2-7106def69f6a}</Project>
+      <Name>pan.kaikj.wxsupermarket.AdoFactory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\pan.kaikj.wxsupermarket.AdoIdal\pan.kaikj.wxsupermarket.AdoIdal.csproj">
+      <Project>{16c89501-184f-4e31-8bec-b9ba14ac9609}</Project>
+      <Name>pan.kaikj.wxsupermarket.AdoIdal</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\pan.kaikj.wxsupermarket.AdoModel\pan.kaikj.wxsupermarket.AdoModel.csproj">
+      <Project>{b824f23f-dd64-4685-96a0-b8367df05cdd}</Project>
+      <Name>pan.kaikj.wxsupermarket.AdoModel</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
