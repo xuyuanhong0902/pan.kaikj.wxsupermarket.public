@@ -50,40 +50,40 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         public bool AddSndGoodsUser(MsendGoodsUser model)
         {
             //// sql语句
-            string sql = "INSERT INTO sendGoodsUser ([id],[userName],[phone],[sex],[isDelete],[isEffective],[great_time],[modify_time]) " +
-                         "VALUES(@id, @userName, @phone, @sex, @isDelete, @isEffective, @great_time, @modify_time)";
+            string sql = "INSERT INTO sendGoodsUser (id,userName,sex,phone,isDelete,isEffective,great_time,modify_time) " +
+                         "VALUES(?id, ?userName,?sex, ?phone,  ?isDelete, ?isEffective, ?great_time, ?modify_time)";
 
             List<MySqlParameter> parameterList = new List<MySqlParameter>();
-            MySqlParameter parameter = new MySqlParameter("@id", MySqlDbType.VarChar, 25);
+            MySqlParameter parameter = new MySqlParameter("?id", MySqlDbType.VarChar, 25);
             parameter.Value = model.id;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@userName", MySqlDbType.VarChar, 50);
+            parameter = new MySqlParameter("?userName", MySqlDbType.VarChar, 50);
             parameter.Value = model.userName;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@phone", MySqlDbType.VarChar, 50);
+            parameter = new MySqlParameter("?phone", MySqlDbType.VarChar, 50);
             parameter.Value = model.phone;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@sex", MySqlDbType.Int16, 1);
+            parameter = new MySqlParameter("?sex", MySqlDbType.Int16, 1);
             parameter.Value = model.sex;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@isDelete", MySqlDbType.Int16, 1);
+            parameter = new MySqlParameter("?isDelete", MySqlDbType.Int16, 1);
             parameter.Value = model.isDelete;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@isEffective", MySqlDbType.Int16, 1);
+            parameter = new MySqlParameter("?isEffective", MySqlDbType.Int16, 1);
             parameter.Value = model.isEffective;
             parameterList.Add(parameter);
 
             DateTime dateTime = System.DateTime.Now;
-            parameter = new MySqlParameter("@great_time", SqlDbType.DateTime);
+            parameter = new MySqlParameter("?great_time", MySqlDbType.DateTime);
             parameter.Value = dateTime;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@modify_time", SqlDbType.DateTime);
+            parameter = new MySqlParameter("?modify_time", MySqlDbType.DateTime);
             parameter.Value = dateTime;
             parameterList.Add(parameter);
 
@@ -99,10 +99,10 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         public bool DeleteSndGoodsUser(string id)
         {
             //// sql语句
-            string sql = "delete from sendGoodsUser where id=@id";
+            string sql = "delete from sendGoodsUser where id=?id";
 
             List<MySqlParameter> parameterList = new List<MySqlParameter>();
-            MySqlParameter parameter = new MySqlParameter("@id", MySqlDbType.VarChar, 25);
+            MySqlParameter parameter = new MySqlParameter("?id", MySqlDbType.VarChar, 25);
             parameter.Value = id;
             parameterList.Add(parameter);
 
@@ -118,22 +118,22 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         public bool ChangSndGoodsUserInfor(MsendGoodsUser model)
         {
             //// sql语句
-            string sql = "update sendGoodsUser set userName = @userName,phone=@phone,sex=@sex where id = @id";
+            string sql = "update sendGoodsUser set userName = ?userName,phone=?phone,sex=?sex where id = ?id";
 
             List<MySqlParameter> parameterList = new List<MySqlParameter>();
-            MySqlParameter parameter = new MySqlParameter("@userName", MySqlDbType.VarChar, 50);
+            MySqlParameter parameter = new MySqlParameter("?userName", MySqlDbType.VarChar, 50);
             parameter.Value = model.userName;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@phone", MySqlDbType.VarChar, 50);
+            parameter = new MySqlParameter("?phone", MySqlDbType.VarChar, 50);
             parameter.Value = model.phone;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@sex", MySqlDbType.Int16, 1);
+            parameter = new MySqlParameter("?sex", MySqlDbType.Int16, 1);
             parameter.Value = model.sex;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@id", MySqlDbType.VarChar, 25);
+            parameter = new MySqlParameter("?id", MySqlDbType.VarChar, 25);
             parameter.Value = model.id;
             parameterList.Add(parameter);
 
@@ -150,20 +150,20 @@ namespace pan.kaikj.wxsupermarket.AdoDal
             string sql = " SELECT count(id) as totalCount  FROM sendGoodsUser WHERE 1=1 ";
             if (!string.IsNullOrEmpty(phone))
             {
-                sql = sql + " and phone like @phone";
+                sql = sql + " and phone like CONCAT('%',?phone,'%')";
             }
 
             if (!string.IsNullOrEmpty(userName))
             {
-                sql = sql + " and userName like @userName";
+                sql = sql + " and userName like CONCAT('%',?userName,'%')";
             }
 
             List<MySqlParameter> parameterList = new List<MySqlParameter>();
-            MySqlParameter parameter = new MySqlParameter("@phone", MySqlDbType.VarChar, 50);
+            MySqlParameter parameter = new MySqlParameter("?phone", MySqlDbType.VarChar, 50);
             parameter.Value = "%" + phone + "%";
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@userName", MySqlDbType.Int16, 50);
+            parameter = new MySqlParameter("?userName", MySqlDbType.Int16, 50);
             parameter.Value = "%" + userName + "%";
             parameterList.Add(parameter);
 
@@ -189,24 +189,31 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         /// <returns></returns>
         public List<MsendGoodsUser> GetSendGoodsUserPagList(int pagIndex, int pagCount, string phone, string userName)
         {
-            string sql = "  SELECT  TOP " + pagCount * pagIndex + " [id],[userName],[phone],[sex],[isDelete],[isEffective],[great_time],[modify_time] " +
-                " FROM( SELECT ROW_NUMBER() OVER(ORDER BY great_time DESC) AS ROWID,* FROM sendGoodsUser) AS TEMP1  WHERE ROWID> " + pagCount * (pagIndex - 1);
+            // 查询条件
+            StringBuilder sqlWhere = new StringBuilder(" 1=1 ");
+
             if (!string.IsNullOrEmpty(phone))
             {
-                sql = sql + " and phone like @phone";
+                sqlWhere.Append(" and phone like CONCAT('%',?phone,'%')");
             }
 
             if (!string.IsNullOrEmpty(userName))
             {
-                sql = sql + " and userName like @userName";
+                sqlWhere.Append(" and userName like CONCAT('%',?userName,'%')");
             }
 
+            string sql = "  SELECT id,userName,sex,phone,isDelete,isEffective,great_time,modify_time " +
+               $" FROM sendGoodsUser WHERE {sqlWhere.ToString()} ORDER BY great_time desc limit {((pagIndex - 1) * pagCount)}, {pagCount}; ";
+
+            //string sql = "  SELECT  TOP " + pagCount * pagIndex + " [id],[userName],[phone],[sex],[isDelete],[isEffective],[great_time],[modify_time] " +
+            //    " FROM( SELECT ROW_NUMBER() OVER(ORDER BY great_time DESC) AS ROWID,* FROM sendGoodsUser) AS TEMP1  WHERE ROWID> " + pagCount * (pagIndex - 1);
+
             List<MySqlParameter> parameterList = new List<MySqlParameter>();
-            MySqlParameter parameter = new MySqlParameter("@phone", MySqlDbType.VarChar, 50);
+            MySqlParameter parameter = new MySqlParameter("?phone", MySqlDbType.VarChar, 50);
             parameter.Value = "%" + phone + "%";
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@userName", MySqlDbType.Int16, 50);
+            parameter = new MySqlParameter("?userName", MySqlDbType.Int16, 50);
             parameter.Value = "%" + userName + "%";
             parameterList.Add(parameter);
 
@@ -241,10 +248,10 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         /// <returns></returns>
         public MsendGoodsUser GetSendGoodsUserModelById(string id)
         {
-            string sql = "  SELECT    [id],[userName],[phone],[sex],[isDelete],[isEffective],[great_time],[modify_time]  FROM sendGoodsUser where id=@id";
+            string sql = "  SELECT  id,userName,sex,phone,isDelete,isEffective,great_time,modify_time FROM sendGoodsUser where id=?id";
           
             List<MySqlParameter> parameterList = new List<MySqlParameter>();
-            MySqlParameter parameter = new MySqlParameter("@id", MySqlDbType.VarChar, 25);
+            MySqlParameter parameter = new MySqlParameter("?id", MySqlDbType.VarChar, 25);
             parameter.Value = id;
             parameterList.Add(parameter);
             MsendGoodsUser model =null;

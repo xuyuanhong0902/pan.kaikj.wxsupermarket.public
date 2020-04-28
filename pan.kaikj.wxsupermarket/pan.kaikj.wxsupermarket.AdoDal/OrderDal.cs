@@ -50,7 +50,7 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         {
 
             //// sql语句
-            string sql = "INSERT INTO [order] (orderid,orderGroupId,userId,userName,productId,productname,productformat,buyNum,origPrice,sellPrice,totalPrice,payType,payTypeDesc,requireDeliveryTime,orderState,orderStateDesc,mailAddress,isDelete,isEffective,great_time,modify_time) VALUES";
+            string sql = "INSERT INTO orders(orderid,orderGroupId,userId,userName,productId,productname,productformat,buyNum,origPrice,sellPrice,totalPrice,payType,payTypeDesc,requireDeliveryTime,orderState,orderStateDesc,mailAddress,isDelete,isEffective,great_time,modify_time) VALUES";
             string deleteShoppingCart = " ;delete from shoppingCart where shoppingCartId in(";
             bool hasShoppingCart = false;
 
@@ -58,98 +58,98 @@ namespace pan.kaikj.wxsupermarket.AdoDal
             MySqlParameter parameter = null;
             for (int i = 0; i < model.Count; i++)
             {
-                sql = string.Format("{0} (@orderid{1},@orderGroupId{1},@userId{1},@userName{1},@productId{1},@productname{1},@productformat{1},@buyNum{1},@origPrice{1},@sellPrice{1},@totalPrice{1},@payType{1},@payTypeDesc{1},@requireDeliveryTime{1},@orderState{1},@orderStateDesc{1},@mailAddress{1},@isDelete{1},@isEffective{1},@great_time{1},@modify_time{1}),", sql, i);
+                sql = string.Format("{0} (?orderid{1},?orderGroupId{1},?userId{1},?userName{1},?productId{1},?productname{1},?productformat{1},?buyNum{1},?origPrice{1},?sellPrice{1},?totalPrice{1},?payType{1},?payTypeDesc{1},?requireDeliveryTime{1},?orderState{1},?orderStateDesc{1},?mailAddress{1},?isDelete{1},?isEffective{1},?great_time{1},?modify_time{1}),", sql, i);
 
-                parameter = new MySqlParameter("@orderid" + i, MySqlDbType.VarChar, 25);
+                parameter = new MySqlParameter("?orderid" + i, MySqlDbType.VarChar, 25);
                 parameter.Value = model[i].orderid;
                 parameterList.Add(parameter);
 
-                parameter = new MySqlParameter("@orderGroupId" + i, MySqlDbType.VarChar, 25);
+                parameter = new MySqlParameter("?orderGroupId" + i, MySqlDbType.VarChar, 25);
                 parameter.Value = model[i].orderGroupId;
                 parameterList.Add(parameter);
 
-                parameter = new MySqlParameter("@userId" + i, MySqlDbType.VarChar, 25);
+                parameter = new MySqlParameter("?userId" + i, MySqlDbType.VarChar, 25);
                 parameter.Value = model[i].userId;
                 parameterList.Add(parameter);
 
-                parameter = new MySqlParameter("@userName" + i, MySqlDbType.VarChar, 50);
+                parameter = new MySqlParameter("?userName" + i, MySqlDbType.VarChar, 50);
                 parameter.Value = model[i].userName;
                 parameterList.Add(parameter);
 
-                parameter = new MySqlParameter("@productId" + i, MySqlDbType.VarChar, 25);
+                parameter = new MySqlParameter("?productId" + i, MySqlDbType.VarChar, 25);
                 parameter.Value = model[i].productId;
                 parameterList.Add(parameter);
 
-                parameter = new MySqlParameter("@productname" + i, MySqlDbType.VarChar, 100);
+                parameter = new MySqlParameter("?productname" + i, MySqlDbType.VarChar, 100);
                 parameter.Value = model[i].productname;
                 parameterList.Add(parameter);
 
-                parameter = new MySqlParameter("@productformat" + i, MySqlDbType.VarChar, 50);
+                parameter = new MySqlParameter("?productformat" + i, MySqlDbType.VarChar, 50);
                 parameter.Value = model[i].productformat;
                 parameterList.Add(parameter);
 
-                parameter = new MySqlParameter("@buyNum" + i, SqlDbType.Int);
+                parameter = new MySqlParameter("?buyNum" + i, MySqlDbType.Int32);
                 parameter.Value = model[i].buyNum;
                 parameterList.Add(parameter);
 
-                parameter = new MySqlParameter("@origPrice" + i, SqlDbType.Decimal);
+                parameter = new MySqlParameter("?origPrice" + i, MySqlDbType.Decimal);
                 parameter.Value = model[i].origPrice;
                 parameterList.Add(parameter);
 
-                parameter = new MySqlParameter("@sellPrice" + i, SqlDbType.Decimal);
+                parameter = new MySqlParameter("?sellPrice" + i, MySqlDbType.Decimal);
                 parameter.Value = model[i].sellPrice;
                 parameterList.Add(parameter);
 
-                parameter = new MySqlParameter("@totalPrice" + i, SqlDbType.Decimal);
+                parameter = new MySqlParameter("?totalPrice" + i, MySqlDbType.Decimal);
                 parameter.Value = model[i].totalPrice;
                 parameterList.Add(parameter);
 
-                parameter = new MySqlParameter("@payType" + i, SqlDbType.Int);
+                parameter = new MySqlParameter("?payType" + i, MySqlDbType.Int32);
                 parameter.Value = model[i].payType;
                 parameterList.Add(parameter);
 
-                parameter = new MySqlParameter("@payTypeDesc" + i, MySqlDbType.VarChar, 20);
+                parameter = new MySqlParameter("?payTypeDesc" + i, MySqlDbType.VarChar, 20);
                 parameter.Value = model[i].payTypeDesc;
                 parameterList.Add(parameter);
 
-                parameter = new MySqlParameter("@requireDeliveryTime" + i, SqlDbType.DateTime);
+                parameter = new MySqlParameter("?requireDeliveryTime" + i, MySqlDbType.DateTime);
                 parameter.Value = model[i].requireDeliveryTime;
                 parameterList.Add(parameter);
 
-                parameter = new MySqlParameter("@orderState" + i, SqlDbType.Int);
+                parameter = new MySqlParameter("?orderState" + i, MySqlDbType.Int32);
                 parameter.Value = model[i].orderState;
                 parameterList.Add(parameter);
 
-                parameter = new MySqlParameter("@orderStateDesc" + i, MySqlDbType.VarChar, 20);
+                parameter = new MySqlParameter("?orderStateDesc" + i, MySqlDbType.VarChar, 20);
                 parameter.Value = model[i].orderStateDesc;
                 parameterList.Add(parameter);
 
-                parameter = new MySqlParameter("@mailAddress" + i, MySqlDbType.VarChar, 100);
+                parameter = new MySqlParameter("?mailAddress" + i, MySqlDbType.VarChar, 100);
                 parameter.Value = model[i].mailAddress;
                 parameterList.Add(parameter);
 
-                parameter = new MySqlParameter("@isDelete" + i, MySqlDbType.Int16, 1);
+                parameter = new MySqlParameter("?isDelete" + i, MySqlDbType.Int16, 1);
                 parameter.Value = model[i].isDelete;
                 parameterList.Add(parameter);
 
-                parameter = new MySqlParameter("@isEffective" + i, MySqlDbType.Int16, 1);
+                parameter = new MySqlParameter("?isEffective" + i, MySqlDbType.Int16, 1);
                 parameter.Value = model[i].isEffective;
                 parameterList.Add(parameter);
 
                 DateTime dateTime = System.DateTime.Now;
-                parameter = new MySqlParameter("@great_time" + i, SqlDbType.DateTime);
+                parameter = new MySqlParameter("?great_time" + i, MySqlDbType.DateTime);
                 parameter.Value = dateTime;
                 parameterList.Add(parameter);
 
-                parameter = new MySqlParameter("@modify_time" + i, SqlDbType.DateTime);
+                parameter = new MySqlParameter("?modify_time" + i, MySqlDbType.DateTime);
                 parameter.Value = dateTime;
                 parameterList.Add(parameter);
 
                 //// 构建删除对应购物车信息
                 if (!string.IsNullOrEmpty(model[i].shoppingCartId))
                 {
-                    deleteShoppingCart = deleteShoppingCart + " @shoppingCartId" + i + ",";
-                    parameter = new MySqlParameter("@shoppingCartId" + i, MySqlDbType.VarChar, 25);
+                    deleteShoppingCart = deleteShoppingCart + " ?shoppingCartId" + i + ",";
+                    parameter = new MySqlParameter("?shoppingCartId" + i, MySqlDbType.VarChar, 25);
                     parameter.Value = model[i].shoppingCartId;
                     parameterList.Add(parameter);
                     hasShoppingCart = true;
@@ -173,30 +173,30 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         {
 
             string orderStateDesc = this.GetOrserStateDesc(orderState);
-            string sql = "update [order] set orderState=@orderState,orderStateDesc=@orderStateDesc,modify_time=@modify_time ";
+            string sql = "update orders set orderState=?orderState,orderStateDesc=?orderStateDesc,modify_time=?modify_time ";
 
             //// 如果更新为7（确认收货，交易结束 那么需要更新确认收货时间）
             if (orderState == 8)
             {
-                sql = sql + " , receiptTime=@modify_time ";
+                sql = sql + " , receiptTime=?modify_time ";
             }
 
-            sql = sql + " where orderid = @orderid;";
+            sql = sql + " where orderid = ?orderid;";
 
             List<MySqlParameter> parameterList = new List<MySqlParameter>();
-            MySqlParameter parameter = new MySqlParameter("@orderid", MySqlDbType.VarChar, 25);
+            MySqlParameter parameter = new MySqlParameter("?orderid", MySqlDbType.VarChar, 25);
             parameter.Value = orderid;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@orderState", SqlDbType.Int);
+            parameter = new MySqlParameter("?orderState", MySqlDbType.Int32);
             parameter.Value = orderState;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@orderStateDesc", MySqlDbType.VarChar, 20);
+            parameter = new MySqlParameter("?orderStateDesc", MySqlDbType.VarChar, 20);
             parameter.Value = orderStateDesc;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@modify_time", SqlDbType.DateTime);
+            parameter = new MySqlParameter("?modify_time", MySqlDbType.DateTime);
             parameter.Value = System.DateTime.Now;
             parameterList.Add(parameter);
 
@@ -214,30 +214,30 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         {
 
             string orderStateDesc = this.GetOrserStateDesc(orderState);
-            string sql = "update [order] set orderState=@orderState,orderStateDesc=@orderStateDesc,modify_time=@modify_time ";
+            string sql = "update orders set orderState=?orderState,orderStateDesc=?orderStateDesc,modify_time=?modify_time ";
 
             //// 如果更新为7（确认收货，交易结束 那么需要更新确认收货时间）
             if (orderState == 8)
             {
-                sql = sql + " , receiptTime=@modify_time ";
+                sql = sql + " , receiptTime=?modify_time ";
             }
 
-            sql = sql + " where orderGroupId = @orderGroupId;";
+            sql = sql + " where orderGroupId = ?orderGroupId;";
 
             List<MySqlParameter> parameterList = new List<MySqlParameter>();
-            MySqlParameter parameter = new MySqlParameter("@orderGroupId", MySqlDbType.VarChar, 25);
+            MySqlParameter parameter = new MySqlParameter("?orderGroupId", MySqlDbType.VarChar, 25);
             parameter.Value = orderGroupId;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@orderState", SqlDbType.Int);
+            parameter = new MySqlParameter("?orderState", MySqlDbType.Int32);
             parameter.Value = orderState;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@orderStateDesc", MySqlDbType.VarChar, 20);
+            parameter = new MySqlParameter("?orderStateDesc", MySqlDbType.VarChar, 20);
             parameter.Value = orderStateDesc;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@modify_time", SqlDbType.DateTime);
+            parameter = new MySqlParameter("?modify_time", MySqlDbType.DateTime);
             parameter.Value = System.DateTime.Now;
             parameterList.Add(parameter);
 
@@ -255,30 +255,30 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         {
 
             string orderStateDesc = this.GetOrserStateDesc(orderState);
-            string sql = "update [order] set orderState=@orderState,orderStateDesc=@orderStateDesc,modify_time=@modify_time ";
+            string sql = "update orders set orderState=?orderState,orderStateDesc=?orderStateDesc,modify_time=?modify_time ";
 
             //// 如果更新为7（确认收货，交易结束 那么需要更新确认收货时间）
             if (orderState == 8)
             {
-                sql = sql + " , receiptTime=@modify_time ";
+                sql = sql + " , receiptTime=?modify_time ";
             }
 
             sql = sql + " where orderid in  (" + orderidS + ");";
 
             List<MySqlParameter> parameterList = new List<MySqlParameter>();
-            MySqlParameter parameter = new MySqlParameter("@orderid", MySqlDbType.VarChar);
+            MySqlParameter parameter = new MySqlParameter("?orderid", MySqlDbType.VarChar);
             parameter.Value = orderidS;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@orderState", SqlDbType.Int);
+            parameter = new MySqlParameter("?orderState", MySqlDbType.Int32);
             parameter.Value = orderState;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@orderStateDesc", MySqlDbType.VarChar, 20);
+            parameter = new MySqlParameter("?orderStateDesc", MySqlDbType.VarChar, 20);
             parameter.Value = orderStateDesc;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@modify_time", SqlDbType.DateTime);
+            parameter = new MySqlParameter("?modify_time", MySqlDbType.DateTime);
             parameter.Value = System.DateTime.Now;
             parameterList.Add(parameter);
 
@@ -296,22 +296,22 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         public bool UpdateOrderStateToDelivery(string orderid, string deliveryName, string deliveryTell)
         {
 
-            string sql = "update [order] set orderState=7,orderStateDesc='送货中',deliveryName=@deliveryName,deliveryTell=@deliveryTell,deliveryTime=@deliveryTime,modify_time=@deliveryTime where  orderid in  (" + orderid + ");";
+            string sql = "update orders set orderState=7,orderStateDesc='送货中',deliveryName=?deliveryName,deliveryTell=?deliveryTell,deliveryTime=?deliveryTime,modify_time=?deliveryTime where  orderid in  (" + orderid + ");";
 
             List<MySqlParameter> parameterList = new List<MySqlParameter>();
-            MySqlParameter parameter = new MySqlParameter("@orderid", MySqlDbType.VarChar, 25);
+            MySqlParameter parameter = new MySqlParameter("?orderid", MySqlDbType.VarChar, 25);
             parameter.Value = orderid;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@deliveryName", MySqlDbType.VarChar, 20);
+            parameter = new MySqlParameter("?deliveryName", MySqlDbType.VarChar, 20);
             parameter.Value = deliveryName;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@deliveryTell", MySqlDbType.VarChar, 20);
+            parameter = new MySqlParameter("?deliveryTell", MySqlDbType.VarChar, 20);
             parameter.Value = deliveryTell;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@deliveryTime", SqlDbType.DateTime);
+            parameter = new MySqlParameter("?deliveryTime", MySqlDbType.DateTime);
             parameter.Value = System.DateTime.Now;
             parameterList.Add(parameter);
 
@@ -330,22 +330,22 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         public bool UpdateOrderStateToDeliveryByGroupid(string orderGroupId, string deliveryName, string deliveryTell)
         {
 
-            string sql = "update [order] set orderState=7,orderStateDesc='送货中',deliveryName=@deliveryName,deliveryTell=@deliveryTell,deliveryTime=@deliveryTime,modify_time=@deliveryTime where orderGroupId=@orderGroupId ;";
+            string sql = "update orders set orderState=7,orderStateDesc='送货中',deliveryName=?deliveryName,deliveryTell=?deliveryTell,deliveryTime=?deliveryTime,modify_time=?deliveryTime where orderGroupId=?orderGroupId ;";
 
             List<MySqlParameter> parameterList = new List<MySqlParameter>();
-            MySqlParameter parameter = new MySqlParameter("@orderGroupId", MySqlDbType.VarChar, 25);
+            MySqlParameter parameter = new MySqlParameter("?orderGroupId", MySqlDbType.VarChar, 25);
             parameter.Value = orderGroupId;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@deliveryName", MySqlDbType.VarChar, 20);
+            parameter = new MySqlParameter("?deliveryName", MySqlDbType.VarChar, 20);
             parameter.Value = deliveryName;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@deliveryTell", MySqlDbType.VarChar, 20);
+            parameter = new MySqlParameter("?deliveryTell", MySqlDbType.VarChar, 20);
             parameter.Value = deliveryTell;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@deliveryTime", SqlDbType.DateTime);
+            parameter = new MySqlParameter("?deliveryTime", MySqlDbType.DateTime);
             parameter.Value = System.DateTime.Now;
             parameterList.Add(parameter);
 
@@ -366,78 +366,78 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         public int GetOrderInfoPagCount(string userId, string userName, int orderState, string productname,
             string startTime, string endTime, string orderGroupId, string orderid)
         {
-            string sql = " SELECT count(orderid) as totalCount  FROM [order] WHERE 1=1 ";
+            string sql = " SELECT count(orderid) as totalCount  FROM orders WHERE 1=1 ";
 
             if (!string.IsNullOrEmpty(userId))
             {
-                sql = sql + " and userId = @userId";
+                sql = sql + " and userId = ?userId";
             }
 
             if (orderState > 0)
             {
-                sql = sql + " and orderState = @orderState";
+                sql = sql + " and orderState = ?orderState";
             }
 
             if (!string.IsNullOrEmpty(userName))
             {
-                sql = sql + " and userName like @userName";
+                sql = sql + " and userName like CONCAT('%',?userName,'%')";
             }
 
             if (!string.IsNullOrEmpty(orderGroupId))
             {
-                sql = sql + " and orderGroupId = @orderGroupId";
+                sql = sql + " and orderGroupId = ?orderGroupId";
             }
 
             if (!string.IsNullOrEmpty(orderid))
             {
-                sql = sql + " and orderid = @orderid";
+                sql = sql + " and orderid = ?orderid";
             }
 
             if (!string.IsNullOrEmpty(productname))
             {
-                sql = sql + " and productname like @productname";
+                sql = sql + " and productname like CONCAT('%',?productname,'%')";
             }
 
             if (!string.IsNullOrEmpty(startTime))
             {
-                sql = sql + " and great_time >=@startTime";
+                sql = sql + " and great_time >=?startTime";
             }
 
             if (!string.IsNullOrEmpty(endTime))
             {
-                sql = sql + " and great_time <@endTime";
+                sql = sql + " and great_time <?endTime";
             }
 
             List<MySqlParameter> parameterList = new List<MySqlParameter>();
-            MySqlParameter parameter = new MySqlParameter("@userId", MySqlDbType.VarChar);
+            MySqlParameter parameter = new MySqlParameter("?userId", MySqlDbType.VarChar);
             parameter.Value = userId;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@orderState", SqlDbType.Int);
+            parameter = new MySqlParameter("?orderState", MySqlDbType.Int32);
             parameter.Value = orderState;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@productname", MySqlDbType.VarChar, 100);
+            parameter = new MySqlParameter("?productname", MySqlDbType.VarChar, 100);
             parameter.Value = "%" + productname + "%";
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@userName", MySqlDbType.VarChar, 50);
+            parameter = new MySqlParameter("?userName", MySqlDbType.VarChar, 50);
             parameter.Value = "%" + userName + "%";
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@startTime", SqlDbType.VarChar);
+            parameter = new MySqlParameter("?startTime", MySqlDbType.VarChar);
             parameter.Value = startTime;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@endTime", SqlDbType.VarChar);
+            parameter = new MySqlParameter("?endTime", MySqlDbType.VarChar);
             parameter.Value = endTime;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@orderid", MySqlDbType.VarChar, 25);
+            parameter = new MySqlParameter("?orderid", MySqlDbType.VarChar, 25);
             parameter.Value = orderid;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@orderGroupId", MySqlDbType.VarChar, 25);
+            parameter = new MySqlParameter("?orderGroupId", MySqlDbType.VarChar, 25);
             parameter.Value = orderGroupId;
             parameterList.Add(parameter);
 
@@ -469,79 +469,84 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         public List<Morder> GetOrderInfoPagList(int pagIndex, int pagCount, string userId, string userName, int orderState,
             string productname, string startTime, string endTime, string orderGroupId, string orderid)
         {
-            string sql = " SELECT  TOP " + pagCount * pagIndex + " orderid,orderGroupId,userId,userName,productId,productname,productformat,buyNum,origPrice,sellPrice,totalPrice,payType,payTypeDesc,requireDeliveryTime,orderState,orderStateDesc,mailAddress,deliveryName,deliveryTell,deliveryTime,receiptTime,isDelete,isEffective,great_time,modify_time   " +
-                   " FROM( SELECT ROW_NUMBER() OVER(ORDER BY great_time DESC) AS ROWID,* FROM [order]) AS TEMP1  WHERE ROWID> " + pagCount * (pagIndex - 1);
-
+            // 查询条件
+            StringBuilder sqlWhere = new StringBuilder(" 1=1 ");
             if (!string.IsNullOrEmpty(userId))
             {
-                sql = sql + " and userId = @userId";
+                sqlWhere.Append(" and userId = ?userId");
             }
 
             if (orderState > 0)
             {
-                sql = sql + " and orderState = @orderState";
+                sqlWhere.Append(" and orderState = ?orderState");
             }
 
             if (!string.IsNullOrEmpty(userName))
             {
-                sql = sql + " and userName like @userName";
+                sqlWhere.Append(" and userName like CONCAT('%',?userName,'%')");
             }
 
             if (!string.IsNullOrEmpty(orderGroupId))
             {
-                sql = sql + " and orderGroupId = @orderGroupId";
+                sqlWhere.Append(" and orderGroupId = ?orderGroupId");
             }
 
             if (!string.IsNullOrEmpty(orderid))
             {
-                sql = sql + " and orderid = @orderid";
+                sqlWhere.Append(" and orderid = ?orderid");
             }
 
             if (!string.IsNullOrEmpty(productname))
             {
-                sql = sql + " and productname like @productname";
+                sqlWhere.Append(" and productname like CONCAT('%',?productname,'%')");
             }
 
             if (!string.IsNullOrEmpty(startTime))
             {
-                sql = sql + " and great_time >=@startTime";
+                sqlWhere.Append(" and great_time >=?startTime");
             }
 
             if (!string.IsNullOrEmpty(endTime))
             {
-                sql = sql + " and great_time <@endTime";
+                sqlWhere.Append(" and great_time <?endTime");
             }
 
+            //string sql = " SELECT  TOP " + pagCount * pagIndex + " orderid,orderGroupId,userId,userName,productId,productname,productformat,buyNum,origPrice,sellPrice,totalPrice,payType,payTypeDesc,requireDeliveryTime,orderState,orderStateDesc,mailAddress,deliveryName,deliveryTell,deliveryTime,receiptTime,isDelete,isEffective,great_time,modify_time   " +
+            //       " FROM( SELECT ROW_NUMBER() OVER(ORDER BY great_time DESC) AS ROWID,* FROM [order]) AS TEMP1  WHERE ROWID> " + pagCount * (pagIndex - 1);
+
+            string sql = "  SELECT  orderid,orderGroupId,userId,userName,productId,productname,productformat,buyNum,origPrice,sellPrice,totalPrice,payType,payTypeDesc,requireDeliveryTime,orderState,orderStateDesc,mailAddress,deliveryName,deliveryTell,deliveryTime,receiptTime,isDelete,isEffective,great_time,modify_time " +
+                $" FROM orders WHERE {sqlWhere.ToString()} ORDER BY great_time DESC limit {((pagIndex - 1) * pagCount)}, {pagCount}; ";
+
             List<MySqlParameter> parameterList = new List<MySqlParameter>();
-            MySqlParameter parameter = new MySqlParameter("@userId", MySqlDbType.VarChar);
+            MySqlParameter parameter = new MySqlParameter("?userId", MySqlDbType.VarChar);
             parameter.Value = userId;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@orderState", SqlDbType.Int);
+            parameter = new MySqlParameter("?orderState", MySqlDbType.Int32);
             parameter.Value = orderState;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@productname", MySqlDbType.VarChar, 100);
+            parameter = new MySqlParameter("?productname", MySqlDbType.VarChar, 100);
             parameter.Value = "%" + productname + "%";
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@userName", MySqlDbType.VarChar, 50);
+            parameter = new MySqlParameter("?userName", MySqlDbType.VarChar, 50);
             parameter.Value = "%" + userName + "%";
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@startTime", SqlDbType.VarChar);
+            parameter = new MySqlParameter("?startTime", MySqlDbType.VarChar);
             parameter.Value = startTime;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@endTime", SqlDbType.VarChar);
+            parameter = new MySqlParameter("?endTime", MySqlDbType.VarChar);
             parameter.Value = endTime;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@orderid", MySqlDbType.VarChar, 25);
+            parameter = new MySqlParameter("?orderid", MySqlDbType.VarChar, 25);
             parameter.Value = orderid;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@orderGroupId", MySqlDbType.VarChar, 25);
+            parameter = new MySqlParameter("?orderGroupId", MySqlDbType.VarChar, 25);
             parameter.Value = orderGroupId;
             parameterList.Add(parameter);
 
@@ -596,9 +601,9 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         /// <returns></returns>
         public Morder GetOrderInfoById(string orderid)
         {
-            string sql = " SELECT orderid,orderGroupId,userId,userName,productId,productname,productformat,buyNum,origPrice,sellPrice,totalPrice,payType,payTypeDesc,requireDeliveryTime,orderState,orderStateDesc,mailAddress,deliveryName,deliveryTell,deliveryTime,receiptTime,isDelete,isEffective,great_time,modify_time  FROM [order] where orderid=@orderid";
+            string sql = " SELECT orderid,orderGroupId,userId,userName,productId,productname,productformat,buyNum,origPrice,sellPrice,totalPrice,payType,payTypeDesc,requireDeliveryTime,orderState,orderStateDesc,mailAddress,deliveryName,deliveryTell,deliveryTime,receiptTime,isDelete,isEffective,great_time,modify_time  FROM orders where orderid=?orderid";
             MySqlParameter[] parameterList = new MySqlParameter[1];
-            parameterList[0] = new MySqlParameter("@orderid", MySqlDbType.VarChar, 25);
+            parameterList[0] = new MySqlParameter("?orderid", MySqlDbType.VarChar, 25);
             parameterList[0].Value = orderid;
 
             using (MySqlDataReader sqlDataReader = PKMySqlHelper.ExecuteReader(sql, parameterList))
@@ -681,9 +686,9 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         /// <returns></returns>
         public List<Morder> GetOrderInfoByGroupId(string orderGroupId)
         {
-            string sql = " SELECT orderid,orderGroupId,userId,userName,productId,productname,productformat,buyNum,origPrice,sellPrice,totalPrice,payType,payTypeDesc,requireDeliveryTime,orderState,orderStateDesc,mailAddress,deliveryName,deliveryTell,deliveryTime,receiptTime,isDelete,isEffective,great_time,modify_time  FROM [order] where orderGroupId=@orderGroupId";
+            string sql = " SELECT orderid,orderGroupId,userId,userName,productId,productname,productformat,buyNum,origPrice,sellPrice,totalPrice,payType,payTypeDesc,requireDeliveryTime,orderState,orderStateDesc,mailAddress,deliveryName,deliveryTell,deliveryTime,receiptTime,isDelete,isEffective,great_time,modify_time  FROM orders where orderGroupId=?orderGroupId";
             MySqlParameter[] parameterList = new MySqlParameter[1];
-            parameterList[0] = new MySqlParameter("@orderGroupId", MySqlDbType.VarChar, 25);
+            parameterList[0] = new MySqlParameter("?orderGroupId", MySqlDbType.VarChar, 25);
             parameterList[0].Value = orderGroupId;
 
             using (MySqlDataReader sqlDataReader = PKMySqlHelper.ExecuteReader(sql, parameterList))
@@ -735,20 +740,20 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         public Mstatic Static()
         {
             Mstatic model = new Mstatic();
-            string sql = string.Format(@"select COUNT(1) as totalCount,SUM(totalPrice) as totalPrice from [order] where 1=1;
-                                        select COUNT(1) as successTotalCount,SUM(totalPrice) as successTotalPrice from[order]
+            string sql = string.Format(@"select COUNT(1) as totalCount,SUM(totalPrice) as totalPrice from orders where 1=1;
+                                        select COUNT(1) as successTotalCount,SUM(totalPrice) as successTotalPrice from orders
                                         where orderState not in(1, 2, 5, 6);
-                                                    select COUNT(1) as totayTotalCount,SUM(totalPrice) as totayTotalPrice from[order]where 1 = 1
+                                                    select COUNT(1) as totayTotalCount,SUM(totalPrice) as totayTotalPrice from orders where 1 = 1
                                         and great_time between '{0}' and '{1}';
-                                                    select COUNT(1) as totaySuccessTotalCount,SUM(totalPrice) as totaySuccessTotalPrice from[order]
+                                                    select COUNT(1) as totaySuccessTotalCount,SUM(totalPrice) as totaySuccessTotalPrice from orders
                                         where orderState not in(1, 2, 5, 6) and great_time between '{0}' and '{1}';
-                                                    select COUNT(1) as yesterdayTotalCount,SUM(totalPrice) as yesterdayTotalPrice from[order]where 1 = 1
+                                                    select COUNT(1) as yesterdayTotalCount,SUM(totalPrice) as yesterdayTotalPrice from orders where 1 = 1
                                         and great_time between '{2}' and '{0}';
-                                                    select COUNT(1) as yesterdaySuccessTotalCount,SUM(totalPrice) as yesterdaySuccessTotalPrice from[order]
+                                                    select COUNT(1) as yesterdaySuccessTotalCount,SUM(totalPrice) as yesterdaySuccessTotalPrice from orders
                                         where orderState not in(1, 2, 5, 6) and great_time between '{2}' and '{0}';
                                         select COUNT(1) as count,shelfstate from product group by shelfstate;
-                                        select COUNT(1) as daiSendGoodsCount from[order] where orderState = 4;
-                                        select COUNT(1) as sendGoodsCount from[order] where orderState = 7;
+                                        select COUNT(1) as daiSendGoodsCount from orders where orderState = 4;
+                                        select COUNT(1) as sendGoodsCount from orders where orderState = 7;
                                         ", System.DateTime.Now.ToString("yyyy-MM-dd"),
                                         System.DateTime.Now.AddDays(1).ToString("yyyy-MM-dd"),
                                         System.DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd"));
@@ -854,12 +859,12 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         /// <returns></returns>
         public MstaticSendOrder SaticSendGoodesCount()
         {
-            string sql = string.Format(@"select COUNT(1) as sendGoodsCount from[order] where orderState = 4;
-                                         select COUNT(1) as delayedSendGoodsCount from[order] where
+            string sql = string.Format(@"select COUNT(1) as sendGoodsCount from orders where orderState = 4;
+                                         select COUNT(1) as delayedSendGoodsCount from orders where
                                              requireDeliveryTime < '{0}' and orderState = 4;
-                                         select COUNT(1) as halfhourSendGoodsCount from[order] where
+                                         select COUNT(1) as halfhourSendGoodsCount from orders where
                                                  requireDeliveryTime between '{0}' and '{1}' and orderState = 4;
-                                         select COUNT(1) as todaySendGoodsCount from[order] where
+                                         select COUNT(1) as todaySendGoodsCount from orders where
                                              requireDeliveryTime <= '{0}' and orderState = 4;",
                                              System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
                                              System.DateTime.Now.AddHours(0.5).ToString("yyyy-MM-dd HH:mm:ss"),
@@ -909,7 +914,7 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         /// <returns></returns>
         public int SaticSendGoodesTotaCount()
         {
-            string sql = "select COUNT(1) as sendGoodsCount from[order] where orderState = 4";
+            string sql = "select COUNT(1) as sendGoodsCount from orders where orderState = 4";
 
             DataSet resultTable = PKMySqlHelper.ExecuteDataSet(sql, null);
 

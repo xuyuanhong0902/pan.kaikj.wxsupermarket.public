@@ -53,66 +53,66 @@ namespace pan.kaikj.wxsupermarket.AdoDal
             string sql = "";
             if (model.isDefault=="1")
             {
-                sql = "update mailAddress set isDefault=0 where userId=@userId;";
+                sql = "update mailAddress set isDefault=0 where userId=?userId;";
             }
              sql += "INSERT INTO mailAddress (addressId,userId,userName,province,city,area,detailedAddress,contactName,contactTell,isDefault,isDelete,isEffective,great_time,modify_time) " +
-                         "VALUES(@addressId,@userId,@userName,@province,@city,@area,@detailedAddress,@contactName,@contactTell,@isDefault,@isDelete,@isEffective,@great_time,@modify_time)";
+                         "VALUES(?addressId,?userId,?userName,?province,?city,?area,?detailedAddress,?contactName,?contactTell,?isDefault,?isDelete,?isEffective,?great_time,?modify_time)";
 
             List<MySqlParameter> parameterList = new List<MySqlParameter>();
-            MySqlParameter parameter = new MySqlParameter("@addressId", MySqlDbType.VarChar, 25);
+            MySqlParameter parameter = new MySqlParameter("?addressId", MySqlDbType.VarChar, 25);
             parameter.Value = model.addressId;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@userId", MySqlDbType.VarChar, 25);
+            parameter = new MySqlParameter("?userId", MySqlDbType.VarChar, 25);
             parameter.Value = model.userId;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@userName", MySqlDbType.VarChar, 50);
+            parameter = new MySqlParameter("?userName", MySqlDbType.VarChar, 50);
             parameter.Value = model.userName;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@province", MySqlDbType.VarChar, 30);
+            parameter = new MySqlParameter("?province", MySqlDbType.VarChar, 30);
             parameter.Value = string.IsNullOrEmpty(model.province)?"": model.province;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@city", MySqlDbType.VarChar, 30);
+            parameter = new MySqlParameter("?city", MySqlDbType.VarChar, 30);
             parameter.Value = string.IsNullOrEmpty(model.city) ? "" : model.city;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@area", MySqlDbType.VarChar, 30);
+            parameter = new MySqlParameter("?area", MySqlDbType.VarChar, 30);
             parameter.Value = string.IsNullOrEmpty(model.area) ? "" : model.area;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@detailedAddress", MySqlDbType.VarChar, 200);
+            parameter = new MySqlParameter("?detailedAddress", MySqlDbType.VarChar, 200);
             parameter.Value = model.detailedAddress;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@contactName", MySqlDbType.VarChar, 30);
+            parameter = new MySqlParameter("?contactName", MySqlDbType.VarChar, 30);
             parameter.Value = model.contactName;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@contactTell", MySqlDbType.VarChar, 20);
+            parameter = new MySqlParameter("?contactTell", MySqlDbType.VarChar, 20);
             parameter.Value = model.contactTell;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@isDefault", MySqlDbType.Int16, 1);
+            parameter = new MySqlParameter("?isDefault", MySqlDbType.Int16, 1);
             parameter.Value = model.isDefault;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@isDelete", MySqlDbType.Int16, 1);
+            parameter = new MySqlParameter("?isDelete", MySqlDbType.Int16, 1);
             parameter.Value = 0;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@isEffective", MySqlDbType.Int16, 1);
+            parameter = new MySqlParameter("?isEffective", MySqlDbType.Int16, 1);
             parameter.Value = 1;
             parameterList.Add(parameter);
 
             DateTime dateTime = System.DateTime.Now;
-            parameter = new MySqlParameter("@great_time", SqlDbType.DateTime);
+            parameter = new MySqlParameter("?great_time", MySqlDbType.DateTime);
             parameter.Value = dateTime;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@modify_time", SqlDbType.DateTime);
+            parameter = new MySqlParameter("?modify_time", MySqlDbType.DateTime);
             parameter.Value = dateTime;
             parameterList.Add(parameter);
 
@@ -131,14 +131,14 @@ namespace pan.kaikj.wxsupermarket.AdoDal
 
             //// 首先清空默认地址，然后在将需要设置的默认地址数据设置为默认地址
 
-            string sql = "update mailAddress set isDefault=0 where userId=@userId;update mailAddress set isDefault=1 where userId=@userId and addressId=@addressId; ";
+            string sql = "update mailAddress set isDefault=0 where userId=?userId;update mailAddress set isDefault=1 where userId=?userId and addressId=?addressId; ";
 
             List<MySqlParameter> parameterList = new List<MySqlParameter>();
-            MySqlParameter parameter = new MySqlParameter("@userId", MySqlDbType.VarChar, 25);
+            MySqlParameter parameter = new MySqlParameter("?userId", MySqlDbType.VarChar, 25);
             parameter.Value = userId;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@addressId", MySqlDbType.VarChar, 25);
+            parameter = new MySqlParameter("?addressId", MySqlDbType.VarChar, 25);
             parameter.Value = addressId;
             parameterList.Add(parameter);
 
@@ -154,14 +154,14 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         /// <returns></returns>
         public bool DeleteMailAddress(string userId, string addressId)
         {
-            string sql = "delete mailAddress set where userId=@userId and addressId=@addressId; ";
+            string sql = "delete mailAddress set where userId=?userId and addressId=?addressId; ";
 
             List<MySqlParameter> parameterList = new List<MySqlParameter>();
-            MySqlParameter parameter = new MySqlParameter("@userId", MySqlDbType.VarChar, 25);
+            MySqlParameter parameter = new MySqlParameter("?userId", MySqlDbType.VarChar, 25);
             parameter.Value = userId;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@addressId", MySqlDbType.VarChar, 25);
+            parameter = new MySqlParameter("?addressId", MySqlDbType.VarChar, 25);
             parameter.Value = addressId;
             parameterList.Add(parameter);
 
@@ -176,10 +176,10 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         /// <returns></returns>
         public List<MmailAddress> GetMmailAddressesByUserId(string userId)
         {
-            string sql = "select addressId,userId,userName,province,city,area,detailedAddress,contactName,contactTell,isDefault,isDelete,isEffective,great_time,modify_time from mailAddress where userId=@userId;";
+            string sql = "select addressId,userId,userName,province,city,area,detailedAddress,contactName,contactTell,isDefault,isDelete,isEffective,great_time,modify_time from mailAddress where userId=?userId;";
 
             List<MySqlParameter> parameterList = new List<MySqlParameter>();
-            MySqlParameter parameter = new MySqlParameter("@userId", MySqlDbType.VarChar, 25);
+            MySqlParameter parameter = new MySqlParameter("?userId", MySqlDbType.VarChar, 25);
             parameter.Value = userId;
             parameterList.Add(parameter);
 

@@ -52,7 +52,7 @@ namespace pan.kaikj.wxsupermarket.AdoDal
 
             //// sql语句
             string sql = "INSERT INTO wxuser]([wxuserid],[subscribe],[openid],[nickname],[sex],[sexdes],[city],[country],[province],[language],[headimgurl],[subscribe_time],[remark],[tagid_list],[subscribe_scene],[subscribe_scene_des],[isDelete],[isEffective],[great_time],[modify_time]) " +
-                         "VALUES (@wxuserid,@subscribe,@openid,@nickname,@sex,@sexdes,@city,@country,@province,@language,@headimgurl,@subscribe_time,@remark,@tagid_list,@subscribe_scene,@subscribe_scene_des,@isDelete,@isEffective,@great_time,@modify_time)";
+                         "VALUES (?wxuserid,?subscribe,?openid,?nickname,?sex,?sexdes,?city,?country,?province,?language,?headimgurl,?subscribe_time,?remark,?tagid_list,?subscribe_scene,?subscribe_scene_des,?isDelete,?isEffective,?great_time,?modify_time)";
 
             List<MySqlParameter> parameterList = GetMySqlParameterListByModel(model);
 
@@ -71,10 +71,10 @@ namespace pan.kaikj.wxsupermarket.AdoDal
             MWXUserInfo model = null;
 
             //// 语句
-            string sql = "SELECT TOP 1 [wxuserid],[subscribe],[openid],[nickname],[sex],[sexdes],[city],[country],[province],[language],[headimgurl],[subscribe_time],[remark],[tagid_list],[subscribe_scene],[subscribe_scene_des],[great_time],[modify_time]  FROM wxuser] where openid=@openid";
+            string sql = "SELECT  [wxuserid],[subscribe],[openid],[nickname],[sex],[sexdes],[city],[country],[province],[language],[headimgurl],[subscribe_time],[remark],[tagid_list],[subscribe_scene],[subscribe_scene_des],[great_time],[modify_time]  FROM wxuser] where openid=?openid";
 
             MySqlParameter[] parameterList = new MySqlParameter[1];
-            MySqlParameter parameter = new MySqlParameter("@openid", MySqlDbType.VarChar, 50);
+            MySqlParameter parameter = new MySqlParameter("?openid", MySqlDbType.VarChar, 50);
             parameter.Value = openid;
             parameterList[0] = parameter;
 
@@ -117,16 +117,16 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         /// <returns></returns>
         public bool UpdateWXUserInfo(MWXUserInfo model)
         {
-            string sql = "update wxuser] set subscribe='@subscribe',nickname='@nickname',sex='@sex',sexdes='@sexdes',city='@city',country='@country',province='@province',language='@language',headimgurl='@headimgurl',tagid_list='@tagid_list',subscribe_scene='@subscribe_scene',subscribe_scene_des='@subscribe_scene_des',qr_scene_str='@qr_scene_str',qr_scene='@qr_scene' where 1=1 ";
+            string sql = "update wxuser] set subscribe='?subscribe',nickname='?nickname',sex='?sex',sexdes='?sexdes',city='?city',country='?country',province='?province',language='?language',headimgurl='?headimgurl',tagid_list='?tagid_list',subscribe_scene='?subscribe_scene',subscribe_scene_des='?subscribe_scene_des',qr_scene_str='?qr_scene_str',qr_scene='?qr_scene' where 1=1 ";
 
             if (!string.IsNullOrEmpty(model.wxuserid))
             {
-                sql = sql + " and wxuserid=@wxuserid";
+                sql = sql + " and wxuserid=?wxuserid";
             }
 
             if (!string.IsNullOrEmpty(model.openid))
             {
-                sql = sql + " and openid=@openid";
+                sql = sql + " and openid=?openid";
             }
 
             List<MySqlParameter> parameterList = GetMySqlParameterListByModel(model);
@@ -142,25 +142,34 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         /// <returns></returns>
         public List<MWXUserInfo> GetWXUserInfoPagList(int pagIndex, int pagCount, string nickname, string subscribe)
         {
-            string sql = "  SELECT  TOP " + pagCount * pagIndex + " [wxuserid],[subscribe],[openid],[nickname],[sex],[sexdes],[city],[country],[province],[language],[headimgurl],[subscribe_time],[remark],[tagid_list],[subscribe_scene],[subscribe_scene_des],[qr_scene],[qr_scene_str],[great_time],[modify_time] " +
-                " FROM( SELECT ROW_NUMBER() OVER(ORDER BY great_time DESC) AS ROWID,* FROM wxuser]) AS TEMP1  WHERE ROWID> " + pagCount * (pagIndex - 1);
+
+            // 查询条件
+            StringBuilder sqlWhere = new StringBuilder(" 1=1 ");
 
             if (!string.IsNullOrEmpty(nickname))
             {
-                sql = sql + " and nickname like @nickname ";
+                sqlWhere.Append(" and nickname like CONCAT('%',?nickname,'%') ");
             }
 
             if (!string.IsNullOrEmpty(subscribe))
             {
-                sql = sql + " and subscribe= @subscribe ";
+                sqlWhere.Append(" and subscribe= ?subscribe ");
             }
 
+            string sql = "  SELECT  [wxuserid],[subscribe],[openid],[nickname],[sex],[sexdes],[city],[country],[province],[language],[headimgurl],[subscribe_time],[remark],[tagid_list],[subscribe_scene],[subscribe_scene_des],[qr_scene],[qr_scene_str],[great_time],[modify_time] " +
+               $" FROM wxuser WHERE {sqlWhere.ToString()} ORDER BY wxuserid desc limit {((pagIndex - 1) * pagCount)}, {pagCount}; ";
+
+
+            //string sql = "  SELECT  TOP " + pagCount * pagIndex + " [wxuserid],[subscribe],[openid],[nickname],[sex],[sexdes],[city],[country],[province],[language],[headimgurl],[subscribe_time],[remark],[tagid_list],[subscribe_scene],[subscribe_scene_des],[qr_scene],[qr_scene_str],[great_time],[modify_time] " +
+            //    " FROM( SELECT ROW_NUMBER() OVER(ORDER BY great_time DESC) AS ROWID,* FROM wxuser]) AS TEMP1  WHERE ROWID> " + pagCount * (pagIndex - 1);
+
+
             List<MySqlParameter> parameterList = new List<MySqlParameter>();
-            MySqlParameter parameter = new MySqlParameter("@nickname", MySqlDbType.Int16, 1);
+            MySqlParameter parameter = new MySqlParameter("?nickname", MySqlDbType.Int16, 1);
             parameter.Value = nickname;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@subscribe", MySqlDbType.Int16, 50);
+            parameter = new MySqlParameter("?subscribe", MySqlDbType.Int16, 50);
             parameter.Value = subscribe;
             parameterList.Add(parameter);
 
@@ -212,20 +221,20 @@ namespace pan.kaikj.wxsupermarket.AdoDal
             string sql = " SELECT count(wxuserid) as totalCount  FROM wxuser] WHERE 1=1 ";
             if (!string.IsNullOrEmpty(nickname))
             {
-                sql = sql + " and nickname like @nickname ";
+                sql = sql + " and nickname like CONCAT('%',?nickname,'%') ";
             }
 
             if (!string.IsNullOrEmpty(subscribe))
             {
-                sql = sql + " and subscribe= @subscribe ";
+                sql = sql + " and subscribe= ?subscribe ";
             }
 
             List<MySqlParameter> parameterList = new List<MySqlParameter>();
-            MySqlParameter parameter = new MySqlParameter("@nickname", MySqlDbType.Int16, 1);
+            MySqlParameter parameter = new MySqlParameter("?nickname", MySqlDbType.Int16, 1);
             parameter.Value = nickname;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@subscribe", MySqlDbType.Int16, 50);
+            parameter = new MySqlParameter("?subscribe", MySqlDbType.Int16, 50);
             parameter.Value = subscribe;
             parameterList.Add(parameter);
 
@@ -281,84 +290,84 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         private List<MySqlParameter> GetMySqlParameterListByModel(MWXUserInfo model)
         {
             List<MySqlParameter> parameterList = new List<MySqlParameter>();
-            MySqlParameter parameter = new MySqlParameter("@wxuserid", MySqlDbType.VarChar, 25);
+            MySqlParameter parameter = new MySqlParameter("?wxuserid", MySqlDbType.VarChar, 25);
             parameter.Value = model.wxuserid;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@subscribe", MySqlDbType.Int16, 1);
+            parameter = new MySqlParameter("?subscribe", MySqlDbType.Int16, 1);
             parameter.Value = model.subscribe;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@openid", MySqlDbType.VarChar, 50);
+            parameter = new MySqlParameter("?openid", MySqlDbType.VarChar, 50);
             parameter.Value = model.openid;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@nickname", MySqlDbType.VarChar, 50);
+            parameter = new MySqlParameter("?nickname", MySqlDbType.VarChar, 50);
             parameter.Value = model.nickname;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@sex", MySqlDbType.VarChar, 1);
+            parameter = new MySqlParameter("?sex", MySqlDbType.VarChar, 1);
             parameter.Value = model.sex;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@sexdes", MySqlDbType.VarChar, 10);
+            parameter = new MySqlParameter("?sexdes", MySqlDbType.VarChar, 10);
             parameter.Value = model.sex == "1" ? "男" : (model.sex == "2" ? "女" : "未知");
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@city", MySqlDbType.VarChar, 30);
+            parameter = new MySqlParameter("?city", MySqlDbType.VarChar, 30);
             parameter.Value = model.city;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@country", MySqlDbType.VarChar, 30);
+            parameter = new MySqlParameter("?country", MySqlDbType.VarChar, 30);
             parameter.Value = model.country;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@province", MySqlDbType.VarChar, 30);
+            parameter = new MySqlParameter("?province", MySqlDbType.VarChar, 30);
             parameter.Value = model.province;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@language", MySqlDbType.VarChar, 20);
+            parameter = new MySqlParameter("?language", MySqlDbType.VarChar, 20);
             parameter.Value = model.language;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@headimgurl", MySqlDbType.VarChar, 200);
+            parameter = new MySqlParameter("?headimgurl", MySqlDbType.VarChar, 200);
             parameter.Value = model.headimgurl;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@subscribe_time", SqlDbType.DateTime);
+            parameter = new MySqlParameter("?subscribe_time", MySqlDbType.DateTime);
             parameter.Value = model.subscribe_time;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@remark", MySqlDbType.VarChar, 200);
+            parameter = new MySqlParameter("?remark", MySqlDbType.VarChar, 200);
             parameter.Value = model.remark;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@tagid_list", MySqlDbType.VarChar, 200);
+            parameter = new MySqlParameter("?tagid_list", MySqlDbType.VarChar, 200);
             parameter.Value = model.tagid_list;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@subscribe_scene", MySqlDbType.VarChar, 50);
+            parameter = new MySqlParameter("?subscribe_scene", MySqlDbType.VarChar, 50);
             parameter.Value = model.subscribe_scene;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@subscribe_scene_des", MySqlDbType.VarChar, 50);
+            parameter = new MySqlParameter("?subscribe_scene_des", MySqlDbType.VarChar, 50);
             parameter.Value = this.GetSubscribeScenDes(model.subscribe_scene);
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@isDelete", MySqlDbType.Int16, 1);
+            parameter = new MySqlParameter("?isDelete", MySqlDbType.Int16, 1);
             parameter.Value = model.isDelete;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@isEffective", MySqlDbType.Int16, 1);
+            parameter = new MySqlParameter("?isEffective", MySqlDbType.Int16, 1);
             parameter.Value = model.isEffective;
             parameterList.Add(parameter);
 
             DateTime dateTime = System.DateTime.Now;
-            parameter = new MySqlParameter("@great_time", SqlDbType.DateTime);
+            parameter = new MySqlParameter("?great_time", MySqlDbType.DateTime);
             parameter.Value = dateTime;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@modify_time", SqlDbType.DateTime);
+            parameter = new MySqlParameter("?modify_time", MySqlDbType.DateTime);
             parameter.Value = dateTime;
             parameterList.Add(parameter);
 

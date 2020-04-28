@@ -79,10 +79,10 @@ namespace pan.kaikj.wxsupermarket.Controllers
         /// <returns></returns>
         public string GetProductcListBySupClassId(string pagIndex, string supClassid)
         {
-            if (!this.CheckIsLogin())
-            {
-                return "-1";
-            }
+            //if (!this.CheckIsLogin())
+            //{
+            //    return "-1";
+            //}
 
             int pagIndexI = 0;
             Int32.TryParse(pagIndex, out pagIndexI);
@@ -181,13 +181,9 @@ namespace pan.kaikj.wxsupermarket.Controllers
         /// 分页获取订单数据信息
         /// </summary>
         /// <param name="pagIndex"></param>
-        /// <param name="userId"></param>
-        /// <param name="orderState"></param>
-        /// <param name="productname"></param>
-        /// <param name="startTime"></param>
-        /// <param name="endTime"></param>
+        /// <param name="orderstats">订单状态 0:全部 4：待送货 7：派送中 8：完成</param>
         /// <returns></returns>
-        public string GetOrderInfoPagList(string pagIndex)
+        public string GetOrderInfoPagList(string pagIndex,int orderState)
         {
             if (!this.CheckIsLogin())
             {
@@ -198,7 +194,7 @@ namespace pan.kaikj.wxsupermarket.Controllers
             int.TryParse(pagIndex, out pageIndexI);
             LogOpert.AddWeiXinMessage("获取订单列表1：" + Session["loginuserId"]);
 
-            return new OrderBus().GetOrderInfoPagList(pageIndexI, Session["loginuserId"] + string.Empty, string.Empty, -1, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty);
+            return new OrderBus().GetOrderInfoPagList(pageIndexI, Session["loginuserId"] + string.Empty, string.Empty, orderState > 0 ? orderState : -1, string.Empty, string.Empty, string.Empty, string.Empty, string.Empty);
         }
 
         /// <summary>

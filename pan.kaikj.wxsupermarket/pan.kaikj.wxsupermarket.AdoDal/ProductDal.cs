@@ -53,79 +53,79 @@ namespace pan.kaikj.wxsupermarket.AdoDal
             //// sql语句  
 
         string sql = "INSERT INTO product(productid,classid,supclassid,className,supclassName,productname,productformat,productformatunit,origprice,sellprice,stock,shelfstate,hassellnum,productdetails,productimgurl,priority,isDelete,isEffective,great_time,modify_time) " +
-                         "VALUES (@productid,@classid,@supclassid,(select classname from productclass where classid=@classid),(select classname from productclass where classid=@supclassid),@productname,@productformat,@productformatunit,@origprice,@sellprice,@stock,@shelfstate,@hassellnum,@productdetails,@productimgurl,@priority,@isDelete,@isEffective,@great_time,@modify_time)";
+                         "VALUES (?productid,?classid,?supclassid,(select classname from productclass where classid=?classid),(select classname from productclass where classid=?supclassid),?productname,?productformat,?productformatunit,?origprice,?sellprice,?stock,?shelfstate,?hassellnum,?productdetails,?productimgurl,?priority,?isDelete,?isEffective,?great_time,?modify_time)";
 
             List<MySqlParameter> parameterList = new List<MySqlParameter>();
-            MySqlParameter parameter = new MySqlParameter("@productid", MySqlDbType.VarChar, 25);
+            MySqlParameter parameter = new MySqlParameter("?productid", MySqlDbType.VarChar, 25);
             parameter.Value = model.productid;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@classid", SqlDbType.Int);
+            parameter = new MySqlParameter("?classid", MySqlDbType.Int32);
             parameter.Value = model.classid;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@supclassid", SqlDbType.Int);
+            parameter = new MySqlParameter("?supclassid", MySqlDbType.Int32);
             parameter.Value = model.supclassid;
             parameterList.Add(parameter);
  
-            parameter = new MySqlParameter("@productname", MySqlDbType.VarChar, 100);
+            parameter = new MySqlParameter("?productname", MySqlDbType.VarChar, 100);
             parameter.Value = model.productname;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@productformat", MySqlDbType.VarChar, 20);
+            parameter = new MySqlParameter("?productformat", MySqlDbType.VarChar, 20);
             parameter.Value = model.productformat;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@productformatunit", MySqlDbType.VarChar, 50);
+            parameter = new MySqlParameter("?productformatunit", MySqlDbType.VarChar, 50);
             parameter.Value = model.productformatunit;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@origprice", SqlDbType.Decimal);
+            parameter = new MySqlParameter("?origprice", MySqlDbType.Decimal);
             parameter.Value = model.origprice;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@sellprice", SqlDbType.Decimal);
+            parameter = new MySqlParameter("?sellprice", MySqlDbType.Decimal);
             parameter.Value = model.sellprice;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@stock", SqlDbType.Int);
+            parameter = new MySqlParameter("?stock", MySqlDbType.Int32);
             parameter.Value = model.stock;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@shelfstate", SqlDbType.Int);
+            parameter = new MySqlParameter("?shelfstate", MySqlDbType.Int32);
             parameter.Value = model.shelfstate;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@hassellnum", SqlDbType.Int);
+            parameter = new MySqlParameter("?hassellnum", MySqlDbType.Int32);
             parameter.Value =0;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@productdetails", SqlDbType.Text);
+            parameter = new MySqlParameter("?productdetails", MySqlDbType.Text);
             parameter.Value = model.productdetails;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@productimgurl", MySqlDbType.VarChar, 100);
+            parameter = new MySqlParameter("?productimgurl", MySqlDbType.VarChar, 100);
             parameter.Value = model.productimgurl;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@priority", SqlDbType.Int);
+            parameter = new MySqlParameter("?priority", MySqlDbType.Int32);
             parameter.Value = model.priority;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@isDelete", SqlDbType.Int);
+            parameter = new MySqlParameter("?isDelete", MySqlDbType.Int32);
             parameter.Value = 0;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@isEffective", SqlDbType.Int);
+            parameter = new MySqlParameter("?isEffective", MySqlDbType.Int32);
             parameter.Value = 1;
             parameterList.Add(parameter);
 
             DateTime dateTime = System.DateTime.Now;
-            parameter = new MySqlParameter("@great_time", SqlDbType.DateTime);
+            parameter = new MySqlParameter("?great_time", MySqlDbType.DateTime);
             parameter.Value = dateTime;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@modify_time", SqlDbType.DateTime);
+            parameter = new MySqlParameter("?modify_time", MySqlDbType.DateTime);
             parameter.Value = dateTime;
             parameterList.Add(parameter);
 
@@ -140,10 +140,10 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         /// <returns></returns>
         public bool DeleteProduct(string productid)
         {
-            string sql = "update  product set isDelete=1 where productid=@productid;";
+            string sql = "update  product set isDelete=1 where productid=?productid;";
 
             List<MySqlParameter> parameterList = new List<MySqlParameter>();
-            MySqlParameter parameter = new MySqlParameter("@productid", MySqlDbType.VarChar, 25);
+            MySqlParameter parameter = new MySqlParameter("?productid", MySqlDbType.VarChar, 25);
             parameter.Value = productid;
             parameterList.Add(parameter);
 
@@ -162,19 +162,19 @@ namespace pan.kaikj.wxsupermarket.AdoDal
             string sql = string.Empty;
             if (shelfstate==9999)
             {
-                sql = "update  product set shelfstate=-shelfstate where productid=@productid;";
+                sql = "update  product set shelfstate=-shelfstate where productid=?productid;";
             }
             else
             {
-                 sql = "update  product set shelfstate=@shelfstate where productid=@productid;";
+                 sql = "update  product set shelfstate=?shelfstate where productid=?productid;";
             }
 
             List<MySqlParameter> parameterList = new List<MySqlParameter>();
-            MySqlParameter parameter = new MySqlParameter("@shelfstate", SqlDbType.Int);
+            MySqlParameter parameter = new MySqlParameter("?shelfstate", MySqlDbType.Int32);
             parameter.Value = shelfstate;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@productid", MySqlDbType.VarChar, 25);
+            parameter = new MySqlParameter("?productid", MySqlDbType.VarChar, 25);
             parameter.Value = productid;
             parameterList.Add(parameter);
 
@@ -195,45 +195,45 @@ namespace pan.kaikj.wxsupermarket.AdoDal
 
             if (origprice>0)
             {
-                sql = sql + "  origprice = @origprice,";
+                sql = sql + "  origprice = ?origprice,";
             }
 
             if (sellprice > 0)
             {
-                sql = sql + "  sellprice = @sellprice,";
+                sql = sql + "  sellprice = ?sellprice,";
             }
 
             if (stock >= 0)
             {
-                sql = sql + "  stock = @stock,";
+                sql = sql + "  stock = ?stock,";
             }
 
             if (priority > 0)
             {
-                sql = sql + "  priority = @priority,";
+                sql = sql + "  priority = ?priority,";
             }
 
-            sql = sql.TrimEnd(',') + " where productid=@productid;";
+            sql = sql.TrimEnd(',') + " where productid=?productid;";
 
 
             List<MySqlParameter> parameterList = new List<MySqlParameter>();
-            MySqlParameter parameter = new MySqlParameter("@productid", MySqlDbType.VarChar, 25);
+            MySqlParameter parameter = new MySqlParameter("?productid", MySqlDbType.VarChar, 25);
             parameter.Value = productid;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@origprice", SqlDbType.Decimal);
+            parameter = new MySqlParameter("?origprice", MySqlDbType.Decimal);
             parameter.Value = origprice;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@sellprice", SqlDbType.Decimal);
+            parameter = new MySqlParameter("?sellprice", MySqlDbType.Decimal);
             parameter.Value = sellprice;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@stock", SqlDbType.Int);
+            parameter = new MySqlParameter("?stock", MySqlDbType.Int32);
             parameter.Value = stock;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@priority", SqlDbType.Decimal);
+            parameter = new MySqlParameter("?priority", MySqlDbType.Decimal);
             parameter.Value = priority;
             parameterList.Add(parameter);
 
@@ -248,10 +248,10 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         /// <returns></returns>
         public int CetProductByClassid(int classid)
         {
-            string sql = " SELECT count(productid) as totalCount  FROM product WHERE 1=1 and isDelete=0 and classid=@classid";
+            string sql = " SELECT count(productid) as totalCount  FROM product WHERE 1=1 and isDelete=0 and classid=?classid";
 
             MySqlParameter[] parameterList = new MySqlParameter[1];
-            parameterList[0] = new MySqlParameter("@classid", SqlDbType.Int);
+            parameterList[0] = new MySqlParameter("?classid", MySqlDbType.Int32);
             parameterList[0].Value = classid;
 
             using (MySqlDataReader sqlDataReader = PKMySqlHelper.ExecuteReader(sql, parameterList.ToArray()))
@@ -275,10 +275,10 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         /// <returns></returns>
         public int CetProductBySupClassid(int supclassid)
         {
-            string sql = " SELECT count(productid) as totalCount  FROM product WHERE  isDelete=0 and supclassid=@supclassid";
+            string sql = " SELECT count(productid) as totalCount  FROM product WHERE  isDelete=0 and supclassid=?supclassid";
 
             MySqlParameter[] parameterList = new MySqlParameter[1];
-            parameterList[0] = new MySqlParameter("@supclassid", SqlDbType.Int);
+            parameterList[0] = new MySqlParameter("?supclassid", MySqlDbType.Int32);
             parameterList[0].Value = supclassid;
 
             using (MySqlDataReader sqlDataReader = PKMySqlHelper.ExecuteReader(sql, parameterList.ToArray()))
@@ -303,9 +303,9 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         public Mproduct GetMproductModelById(string productid)
         {
             string sql = "select productid,classid,supclassid,className,supclassName,productname,productformat,productformatunit,origprice,sellprice,stock,shelfstate,hassellnum," +
-                "productdetails,productimgurl,priority,isDelete,isEffective,great_time,modify_time from product where isDelete=0  and productid=@productid;";
+                "productdetails,productimgurl,priority,isDelete,isEffective,great_time,modify_time from product where isDelete=0  and productid=?productid;";
             List<MySqlParameter> parameterList = new List<MySqlParameter>();
-            MySqlParameter parameter = new MySqlParameter("@productid", MySqlDbType.VarChar, 25);
+            MySqlParameter parameter = new MySqlParameter("?productid", MySqlDbType.VarChar, 25);
             parameter.Value = productid;
             parameterList.Add(parameter);
 
@@ -352,42 +352,42 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         /// <param name="productname"></param>
         /// <param name="shelfstate"></param>
         /// <returns></returns>
-        public int GetProductPagCount(int classid, int supclassid,string productname,int shelfstate) {
-            string sql = " SELECT count(productid) as totalCount  FROM product WHERE  isDelete=0 ";
+        public int GetProductPagCount(int classid, int supclassid,string productname,int shelfstate,int isDelete= 0) {
+            string sql = $" SELECT count(productid) as totalCount  FROM product WHERE  isDelete={isDelete} ";
             if (classid>0)
             {
-                sql = sql + " and classid =@classid";
+                sql = sql + " and classid =?classid";
             }
 
             if (supclassid > 0)
             {
-                sql = sql + " and supclassid =@supclassid";
+                sql = sql + " and supclassid =?supclassid";
             }
 
             if (!string.IsNullOrEmpty(productname))
             {
-                sql = sql + " and productname like @productname";
+                sql = sql + " and productname like CONCAT('%',?productname,'%')";
             }
 
             if (shelfstate != 0)
             {
-                sql = sql + " and shelfstate =@shelfstate";
+                sql = sql + " and shelfstate =?shelfstate";
             }
 
             List<MySqlParameter> parameterList = new List<MySqlParameter>();
-            MySqlParameter parameter = new MySqlParameter("@classid", SqlDbType.Int);
+            MySqlParameter parameter = new MySqlParameter("?classid", MySqlDbType.Int32);
             parameter.Value = classid;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@supclassid", SqlDbType.Int);
+            parameter = new MySqlParameter("?supclassid", MySqlDbType.Int32);
             parameter.Value = supclassid;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@productname", MySqlDbType.Int16, 100);
+            parameter = new MySqlParameter("?productname", MySqlDbType.Int16, 100);
             parameter.Value = productname;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@shelfstate", SqlDbType.Int);
+            parameter = new MySqlParameter("?shelfstate", MySqlDbType.Int32);
             parameter.Value = shelfstate;
             parameterList.Add(parameter);
 
@@ -413,46 +413,54 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         /// <param name="productname"></param>
         /// <param name="shelfstate"></param>
         /// <returns></returns>
-        public List<Mproduct> GetProductPagList(int pagIndex, int pagCount, int classid, int supclassid, string productname, int shelfstate)
+        public List<Mproduct> GetProductPagList(int pagIndex, int pagCount, int classid, int supclassid, string productname, int shelfstate, int isDelete = 0)
         {
-            string sql = "  SELECT  TOP " + pagCount * pagIndex + " productid,classid,supclassid,className,supclassName,productname,productformat,productformatunit,origprice,sellprice,stock,shelfstate,hassellnum," +
-                "productdetails,productimgurl,priority,isDelete,isEffective,great_time,modify_time " +
-               " FROM( SELECT ROW_NUMBER() OVER(ORDER BY great_time DESC) AS ROWID,* FROM product) AS TEMP1  WHERE isDelete=0 and ROWID> " + pagCount * (pagIndex - 1);
+            // 查询条件
+            StringBuilder sqlWhere = new StringBuilder($" isDelete ={isDelete} ");
 
             if (classid > 0)
             {
-                sql = sql + " and classid =@classid";
+                sqlWhere.Append(" and classid =?classid");
             }
 
             if (supclassid > 0)
             {
-                sql = sql + " and supclassid =@supclassid";
+                sqlWhere.Append(" and supclassid =?supclassid");
             }
 
             if (!string.IsNullOrEmpty(productname))
             {
-                sql = sql + " and productname like @productname";
+                sqlWhere.Append(" and productname like CONCAT('%',?productname,'%')");
             }
 
             if (shelfstate != 0)
             {
-                sql = sql + " and shelfstate =@shelfstate";
+                sqlWhere.Append(" and shelfstate =?shelfstate");
             }
 
+            string sql = "  SELECT  productid,classid,supclassid,className,supclassName,productname,productformat,productformatunit,origprice,sellprice,stock,shelfstate,hassellnum," +
+                "productdetails,productimgurl,priority,isDelete,isEffective,great_time,modify_time  " +
+               $" FROM product WHERE {sqlWhere.ToString()} ORDER BY great_time desc limit {((pagIndex - 1) * pagCount)}, {pagCount}; ";
+
+
+            //string sql = "  SELECT  TOP " + pagCount * pagIndex + " productid,classid,supclassid,className,supclassName,productname,productformat,productformatunit,origprice,sellprice,stock,shelfstate,hassellnum," +
+            //    "productdetails,productimgurl,priority,isDelete,isEffective,great_time,modify_time " +
+            //   " FROM( SELECT ROW_NUMBER() OVER(ORDER BY great_time DESC) AS ROWID,* FROM product) AS TEMP1  WHERE isDelete=0 and ROWID> " + pagCount * (pagIndex - 1);
+           
             List<MySqlParameter> parameterList = new List<MySqlParameter>();
-            MySqlParameter parameter = new MySqlParameter("@classid", SqlDbType.Int);
+            MySqlParameter parameter = new MySqlParameter("?classid", MySqlDbType.Int32);
             parameter.Value = classid;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@supclassid", SqlDbType.Int);
+            parameter = new MySqlParameter("?supclassid", MySqlDbType.Int32);
             parameter.Value = supclassid;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@productname", MySqlDbType.Int16, 100);
+            parameter = new MySqlParameter("?productname", MySqlDbType.Int16, 100);
             parameter.Value = productname;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@shelfstate", SqlDbType.Int);
+            parameter = new MySqlParameter("?shelfstate", MySqlDbType.Int32);
             parameter.Value = shelfstate;
             parameterList.Add(parameter);
 

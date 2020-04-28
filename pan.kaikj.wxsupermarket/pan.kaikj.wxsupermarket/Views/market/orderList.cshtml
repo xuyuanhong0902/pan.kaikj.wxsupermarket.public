@@ -21,12 +21,32 @@
             </a>
         </div>
         <h1 class="am-header-title">
-            <a href="" class="" style="color: #ffffff;line-height:49px;">订单管理</a>
+            <a href="" class="" style="color: #ffffff;line-height:49px;">我的订单</a>
         </h1>
         <div class="am-header-right am-header-nav">
         </div>
     </header>
-    <div style="height: 49px;"></div>
+    <div style="height: 30px;"></div>
+    <style type="text/css">
+        .subdaohang {
+            width: 23%;
+            margin:1%;
+            float: left;
+            margin-top: 5px;
+        }
+
+        .subdaohangSel {
+        color:red;font-weight:800;
+        }
+    </style>
+    <div style="height: 35px;
+    border-bottom: 1px solid #808080;
+    margin-top: 20px;">
+        <div class="subdaohang subdaohangSel" data-state="0"> 全 部</div>
+        <div class="subdaohang" data-state="4">待送货</div>
+        <div class="subdaohang" data-state="7">派送中</div>
+        <div class="subdaohang" data-state="8">已完成</div>
+    </div>
     <ul class="address-list" id="orderListCount">
         @*<li class="curr">
                 <p>下单时间：2018-11-13 09:09:09</p>
@@ -58,16 +78,26 @@
     var finished = false;
     var dataUrl = '';
     var hasGetAllData = false;
+
+    // 查询订单状态  0:全部 4：待送货 7：派送中 8：完成
+    var orderState = 0;
     $(function () {
+        $(".subdaohang").click(function () {
+            orderState = $(this).attr("data-state");
+            $(".subdaohangSel").removeClass('subdaohangSel');
+            $(this).addClass('subdaohangSel');
+            $("#orderListCount").empty();
+              getData(1);
+        });
+
         //根据页数读取数据
         function getData(pagenumber) {
-
-
+           
             $.ajax({
                 cache: true,//保留缓存数据
                 type: "get",//为post请求
                 url: "/market/GetOrderInfoPagList",//这是我在后台接受数据的文件名
-                data: "pagIndex=" + pagenumber,//将该表单序列化
+                data: "pagIndex=" + pagenumber + "&orderState=" + orderState,//将该表单序列化
                 async: true,//设置成true，这标志着在请求开始后，其他代码依然能够执行。如果把这个选项设置成false，这意味着所有的请求都不再是异步的了，这也会导致浏览器被锁死
                 error: function (request) {//请求失败之后的操作
                     alert("操作失败！");

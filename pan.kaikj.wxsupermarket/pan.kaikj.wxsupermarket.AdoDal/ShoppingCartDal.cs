@@ -51,63 +51,63 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         {
             //// sql语句
             string sql = "INSERT INTO shoppingCart (shoppingCartId,userId,userName,productId,productname,productformat,buyNum,origPrice,sellPrice,totalPrice,isDelete,isEffective,great_time,modify_time) " +
-                         "VALUES(@shoppingCartId, @userId, @userName, @productId, @productname, @productformat, @buyNum, @origPrice, @sellPrice, @totalPrice, @isDelete, @isEffective, @great_time, @modify_time)";
+                         "VALUES(?shoppingCartId, ?userId, ?userName, ?productId, ?productname, ?productformat, ?buyNum, ?origPrice, ?sellPrice, ?totalPrice, ?isDelete, ?isEffective, ?great_time, ?modify_time)";
 
             List<MySqlParameter> parameterList = new List<MySqlParameter>();
-            MySqlParameter parameter = new MySqlParameter("@shoppingCartId", MySqlDbType.VarChar, 25);
+            MySqlParameter parameter = new MySqlParameter("?shoppingCartId", MySqlDbType.VarChar, 25);
             parameter.Value = model.shoppingCartId;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@userId", MySqlDbType.VarChar, 25);
+            parameter = new MySqlParameter("?userId", MySqlDbType.VarChar, 25);
             parameter.Value = model.userId;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@userName", MySqlDbType.VarChar, 50);
+            parameter = new MySqlParameter("?userName", MySqlDbType.VarChar, 50);
             parameter.Value = model.userName;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@productId", MySqlDbType.VarChar, 25);
+            parameter = new MySqlParameter("?productId", MySqlDbType.VarChar, 25);
             parameter.Value = model.productId;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@productname", MySqlDbType.VarChar, 100);
+            parameter = new MySqlParameter("?productname", MySqlDbType.VarChar, 100);
             parameter.Value = model.productname;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@productformat", MySqlDbType.VarChar, 50);
+            parameter = new MySqlParameter("?productformat", MySqlDbType.VarChar, 50);
             parameter.Value = model.productformat;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@buyNum", SqlDbType.Int);
+            parameter = new MySqlParameter("?buyNum", MySqlDbType.Int32);
             parameter.Value = model.buyNum;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@origPrice", SqlDbType.Decimal);
+            parameter = new MySqlParameter("?origPrice", MySqlDbType.Decimal);
             parameter.Value = model.origPrice;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@sellPrice", SqlDbType.Decimal);
+            parameter = new MySqlParameter("?sellPrice", MySqlDbType.Decimal);
             parameter.Value = model.sellPrice;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@totalPrice", SqlDbType.Decimal);
+            parameter = new MySqlParameter("?totalPrice", MySqlDbType.Decimal);
             parameter.Value = model.totalPrice;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@isDelete", MySqlDbType.Int16, 1);
+            parameter = new MySqlParameter("?isDelete", MySqlDbType.Int16, 1);
             parameter.Value = 0;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@isEffective", MySqlDbType.Int16, 1);
+            parameter = new MySqlParameter("?isEffective", MySqlDbType.Int16, 1);
             parameter.Value = 1;
             parameterList.Add(parameter);
 
             DateTime dateTime = System.DateTime.Now;
-            parameter = new MySqlParameter("@great_time", SqlDbType.DateTime);
+            parameter = new MySqlParameter("?great_time", MySqlDbType.DateTime);
             parameter.Value = dateTime;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@modify_time", SqlDbType.DateTime);
+            parameter = new MySqlParameter("?modify_time", MySqlDbType.DateTime);
             parameter.Value = dateTime;
             parameterList.Add(parameter);
 
@@ -126,36 +126,36 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         /// <returns></returns>
         public bool UpdatePriceAndNum(string shoppingCartId, string userId, decimal origPrice, decimal sellPrice, decimal totalPrice, int buyNum)
         {
-            string sql = "update shoppingCart set origPrice=@origPrice,  sellPrice=@sellPrice,  totalPrice=@totalPrice ";
+            string sql = "update shoppingCart set origPrice=?origPrice,  sellPrice=?sellPrice,  totalPrice=?totalPrice ";
             if (buyNum != 0)
             {
-                sql = sql + ",buyNum=buyNum+@buyNum ";
+                sql = sql + ",buyNum=buyNum+?buyNum ";
             }
 
-            sql = sql + " where shoppingCartId=@shoppingCartId and userId=@userId;";
+            sql = sql + " where shoppingCartId=?shoppingCartId and userId=?userId;";
 
             List<MySqlParameter> parameterList = new List<MySqlParameter>();
-            MySqlParameter parameter = new MySqlParameter("@shoppingCartId", MySqlDbType.VarChar, 25);
+            MySqlParameter parameter = new MySqlParameter("?shoppingCartId", MySqlDbType.VarChar, 25);
             parameter.Value = shoppingCartId;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@userId", MySqlDbType.VarChar, 25);
+            parameter = new MySqlParameter("?userId", MySqlDbType.VarChar, 25);
             parameter.Value = userId;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@buyNum", SqlDbType.Int);
+            parameter = new MySqlParameter("?buyNum", MySqlDbType.Int32);
             parameter.Value = buyNum;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@origPrice", SqlDbType.Decimal);
+            parameter = new MySqlParameter("?origPrice", MySqlDbType.Decimal);
             parameter.Value = origPrice;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@sellPrice", SqlDbType.Decimal);
+            parameter = new MySqlParameter("?sellPrice", MySqlDbType.Decimal);
             parameter.Value = sellPrice;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@totalPrice", SqlDbType.Decimal);
+            parameter = new MySqlParameter("?totalPrice", MySqlDbType.Decimal);
             parameter.Value = totalPrice;
             parameterList.Add(parameter);
 
@@ -170,13 +170,13 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         /// <returns></returns>
         public bool DeleteShoppingCartById(string shoppingCartId, string userId)
         {
-            string sql = "delete from shoppingCart where shoppingCartId=@shoppingCartId and userId=@userId;";
+            string sql = "delete from shoppingCart where shoppingCartId=?shoppingCartId and userId=?userId;";
             List<MySqlParameter> parameterList = new List<MySqlParameter>();
-            MySqlParameter parameter = new MySqlParameter("@shoppingCartId", MySqlDbType.VarChar, 25);
+            MySqlParameter parameter = new MySqlParameter("?shoppingCartId", MySqlDbType.VarChar, 25);
             parameter.Value = shoppingCartId;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@userId", MySqlDbType.VarChar, 25);
+            parameter = new MySqlParameter("?userId", MySqlDbType.VarChar, 25);
             parameter.Value = userId;
             parameterList.Add(parameter);
 
@@ -191,13 +191,13 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         /// <returns></returns>
         public bool DeleteShoppingCartById(string[] shoppingCartId, string userId)
         {
-            string sql = "delete from shoppingCart where shoppingCartId in @shoppingCartId and userId=@userId;";
+            string sql = "delete from shoppingCart where shoppingCartId in ?shoppingCartId and userId=?userId;";
             List<MySqlParameter> parameterList = new List<MySqlParameter>();
-            MySqlParameter parameter = new MySqlParameter("@shoppingCartId", MySqlDbType.VarChar, 25);
+            MySqlParameter parameter = new MySqlParameter("?shoppingCartId", MySqlDbType.VarChar, 25);
             parameter.Value = "'"+string.Join("','", shoppingCartId)+"'";
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@userId", MySqlDbType.VarChar, 25);
+            parameter = new MySqlParameter("?userId", MySqlDbType.VarChar, 25);
             parameter.Value = userId;
             parameterList.Add(parameter);
 
@@ -212,10 +212,10 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         /// <returns></returns>
         public List<MshoppingCart> GetAllShoppingCartListBySserId(string userId)
         {
-            string sql = "select shoppingCartId,userId,userName,productId,productname,productformat,buyNum,origPrice,sellPrice,totalPrice,isDelete,isEffective,great_time,modify_time from shoppingCart where userId=@userId;";
+            string sql = "select shoppingCartId,userId,userName,productId,productname,productformat,buyNum,origPrice,sellPrice,totalPrice,isDelete,isEffective,great_time,modify_time from shoppingCart where userId=?userId;";
 
             List<MySqlParameter> parameterList = new List<MySqlParameter>();
-            MySqlParameter parameter = parameter = new MySqlParameter("@userId", MySqlDbType.VarChar, 25);
+            MySqlParameter parameter = parameter = new MySqlParameter("?userId", MySqlDbType.VarChar, 25);
             parameter.Value = userId;
             parameterList.Add(parameter);
 
@@ -257,14 +257,14 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         /// <returns></returns>
         public MshoppingCart GetShoppingCartListByUserIdAndProductId(string userId,string productId)
         {
-            string sql = "select shoppingCartId,userId,userName,productId,productname,productformat,buyNum,origPrice,sellPrice,totalPrice,isDelete,isEffective,great_time,modify_time from shoppingCart where userId=@userId and productId=@productId;";
+            string sql = "select shoppingCartId,userId,userName,productId,productname,productformat,buyNum,origPrice,sellPrice,totalPrice,isDelete,isEffective,great_time,modify_time from shoppingCart where userId=?userId and productId=?productId;";
 
             List<MySqlParameter> parameterList = new List<MySqlParameter>();
-            MySqlParameter parameter = parameter = new MySqlParameter("@userId", MySqlDbType.VarChar, 25);
+            MySqlParameter parameter = parameter = new MySqlParameter("?userId", MySqlDbType.VarChar, 25);
             parameter.Value = userId;
             parameterList.Add(parameter);
 
-            parameter = parameter = new MySqlParameter("@productId", MySqlDbType.VarChar, 25);
+            parameter = parameter = new MySqlParameter("?productId", MySqlDbType.VarChar, 25);
             parameter.Value = productId;
             parameterList.Add(parameter);
 

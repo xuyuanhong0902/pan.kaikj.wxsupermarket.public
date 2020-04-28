@@ -50,8 +50,8 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         public bool AddWxmenu(Mwxmenu model)
         {
             //// sql语句
-            string sql = "INSERT INTO wxmenu([id],[superId],[menuName],[type],[url],[isDelete],[isEffective],[great_time],[modify_time],[sortNum]) " +
-                         "VALUES (@id,@superId,@menuName,@type,@url,@isDelete,@isEffective,@great_time,@modify_time,@sortNum)";
+            string sql = "INSERT INTO wxmenu(id,superId,menuName,type,url,sortNum,isDelete,isEffective,great_time,modify_time) " +
+                         "VALUES (?id,?superId,?menuName,?type,?url,?sortNum,?isDelete,?isEffective,?great_time,?modify_time)";
 
             List<MySqlParameter> parameterList = GetMySqlParameterListByModel(model);
 
@@ -70,10 +70,13 @@ namespace pan.kaikj.wxsupermarket.AdoDal
             Mwxmenu model = null;
 
             //// 语句
-            string sql = "SELECT TOP 1 [id],[superId],[menuName],[type],[url],[isDelete],[isEffective],[great_time],[modify_time],[sortNum] FROM wxmenu where id=@id";
+            //string sql = "SELECT TOP 1 [id],[superId],[menuName],[type],[url],[isDelete],[isEffective],[great_time],[modify_time],[sortNum] FROM wxmenu where id=?id";
+            string sql = "  SELECT  id,superId,menuName,type,url,sortNum,isDelete,isEffective,great_time,modify_time " +
+              $" FROM wxmenu WHERE id=?id; ";
+
 
             MySqlParameter[] parameterList = new MySqlParameter[1];
-            MySqlParameter parameter = new MySqlParameter("@id", MySqlDbType.VarChar, 25);
+            MySqlParameter parameter = new MySqlParameter("?id", MySqlDbType.VarChar, 25);
             parameter.Value = id;
             parameterList[0] = parameter;
 
@@ -103,14 +106,14 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         /// <returns></returns>
         public List<Mwxmenu> GetAllWxmenu(string superId)
         {
-            string sql = "  SELECT  [id],[superId],[menuName],[type],[url],[isDelete],[isEffective],[great_time],[modify_time],[sortNum] FROM wxmenu where 1=1 ";
+            string sql = "  SELECT  id,superId,menuName,type,url,sortNum,isDelete,isEffective,great_time,modify_time FROM wxmenu where 1=1 ";
             if (superId!="-1")
             {
-                sql = sql + " and superId=@superId order by superId desc,id desc ";
+                sql = sql + " and superId=?superId order by superId desc,id desc ";
             }
 
             MySqlParameter[] parameterList = new MySqlParameter[1];
-            MySqlParameter parameter = new MySqlParameter("@superId", MySqlDbType.VarChar, 25);
+            MySqlParameter parameter = new MySqlParameter("?superId", MySqlDbType.VarChar, 25);
             parameter.Value = superId;
             parameterList[0] = parameter;
 
@@ -146,10 +149,10 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         /// <returns></returns>
         public bool DeleteWxmenu(string id)
         {
-            string sql = "delete from wxmenu where id=@id;";
+            string sql = "delete from wxmenu where id=?id;";
 
             List<MySqlParameter> parameterList = new List<MySqlParameter>();
-            MySqlParameter parameter = new MySqlParameter("@id", MySqlDbType.VarChar, 25);
+            MySqlParameter parameter = new MySqlParameter("?id", MySqlDbType.VarChar, 25);
             parameter.Value = id;
             parameterList.Add(parameter);
 
@@ -164,22 +167,22 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         /// <returns></returns>
         public bool UpdateWxmenu(Mwxmenu model)
         {
-            string sql = "update  wxmenu set menuName=@menuName,url=@url,sortNum=@sortNum where id=@id;";
+            string sql = "update  wxmenu set menuName=?menuName,url=?url,sortNum=?sortNum where id=?id;";
             List<MySqlParameter> parameterList = new List<MySqlParameter>();
 
-            MySqlParameter parameter = new MySqlParameter("@id", MySqlDbType.VarChar, 25);
+            MySqlParameter parameter = new MySqlParameter("?id", MySqlDbType.VarChar, 25);
             parameter.Value = model.id;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@sortNum", MySqlDbType.VarChar, 25);
+            parameter = new MySqlParameter("?sortNum", MySqlDbType.VarChar, 25);
             parameter.Value = model.sortNum;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@menuName", MySqlDbType.VarChar, 50);
+            parameter = new MySqlParameter("?menuName", MySqlDbType.VarChar, 50);
             parameter.Value = model.menuName;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@url", MySqlDbType.VarChar, 1000);
+            parameter = new MySqlParameter("?url", MySqlDbType.VarChar, 1000);
             parameter.Value = model.url;
             parameterList.Add(parameter);
             //// 执行操作
@@ -194,44 +197,44 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         private List<MySqlParameter> GetMySqlParameterListByModel(Mwxmenu model)
         {
             List<MySqlParameter> parameterList = new List<MySqlParameter>();
-            MySqlParameter parameter = new MySqlParameter("@id", MySqlDbType.VarChar, 25);
+            MySqlParameter parameter = new MySqlParameter("?id", MySqlDbType.VarChar, 25);
             parameter.Value = model.id;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@sortNum", MySqlDbType.VarChar, 25);
+            parameter = new MySqlParameter("?sortNum", MySqlDbType.VarChar, 25);
             parameter.Value = model.sortNum+"";
             parameterList.Add(parameter);
             
-            parameter = new MySqlParameter("@superId", MySqlDbType.VarChar, 25);
+            parameter = new MySqlParameter("?superId", MySqlDbType.VarChar, 25);
             parameter.Value = model.superId;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@menuName", MySqlDbType.VarChar, 50);
+            parameter = new MySqlParameter("?menuName", MySqlDbType.VarChar, 50);
             parameter.Value = model.menuName;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@type", MySqlDbType.VarChar, 50);
+            parameter = new MySqlParameter("?type", MySqlDbType.VarChar, 50);
             parameter.Value = model.type;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@url", MySqlDbType.VarChar, 1000);
+            parameter = new MySqlParameter("?url", MySqlDbType.VarChar, 1000);
             parameter.Value = model.url;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@isDelete", MySqlDbType.Int16, 1);
+            parameter = new MySqlParameter("?isDelete", MySqlDbType.Int16, 1);
             parameter.Value = model.isDelete;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@isEffective", MySqlDbType.Int16, 1);
+            parameter = new MySqlParameter("?isEffective", MySqlDbType.Int16, 1);
             parameter.Value = model.isEffective;
             parameterList.Add(parameter);
 
             DateTime dateTime = System.DateTime.Now;
-            parameter = new MySqlParameter("@great_time", SqlDbType.DateTime);
+            parameter = new MySqlParameter("?great_time", MySqlDbType.DateTime);
             parameter.Value = dateTime;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@modify_time", SqlDbType.DateTime);
+            parameter = new MySqlParameter("?modify_time", MySqlDbType.DateTime);
             parameter.Value = dateTime;
             parameterList.Add(parameter);
 

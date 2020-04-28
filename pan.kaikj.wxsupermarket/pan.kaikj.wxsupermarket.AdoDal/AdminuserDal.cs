@@ -211,12 +211,12 @@ namespace pan.kaikj.wxsupermarket.AdoDal
             string sql = " SELECT count(adminuserid) as totalCount  FROM adminuser  WHERE 1=1 ";
             if (!string.IsNullOrEmpty(acount))
             {
-                sql = sql + " and account like ?acount";
+                sql = sql + " and account like CONCAT('%',?account,'%')";
             }
 
             if (!string.IsNullOrEmpty(name))
             {
-                sql = sql + " and name like ?name";
+                sql = sql + " and name like CONCAT('%',?name,'%')";
             }
 
             List<MySqlParameter> parameterList = new List<MySqlParameter>();
@@ -254,12 +254,12 @@ namespace pan.kaikj.wxsupermarket.AdoDal
             StringBuilder sqlWhere = new StringBuilder(" 1=1 ");
             if (!string.IsNullOrEmpty(acount))
             {
-                sqlWhere.Append( " and account like ?acount");
+                sqlWhere.Append(" and account like CONCAT('%',?account,'%')");
             }
 
             if (!string.IsNullOrEmpty(name))
             {
-                sqlWhere.Append(" and name like ?name");
+                sqlWhere.Append(" and name like CONCAT('%',?name,'%')");
             }
 
             string sql = "  SELECT  adminuserid,account,name,password,sex,isDelete,isEffective,great_time,modify_time " +

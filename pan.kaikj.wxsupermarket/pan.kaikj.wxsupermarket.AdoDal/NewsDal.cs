@@ -49,8 +49,8 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         public bool AddNews(Mnews model)
         {
             //// sql语句
-            string sql = "INSERT INTO [news] ([id],[type],[title],[value],[isDelete],[isEffective],[great_time],[modify_time]) " +
-                         "VALUES (@id,@type,@title,@value,@isDelete,@isEffective,@great_time,@modify_time)";
+            string sql = "INSERT INTO news (id,type,title,`value`,isDelete,isEffective,great_time,modify_time) " +
+                         "VALUES (?id,?type,?title,?value,?isDelete,?isEffective,?great_time,?modify_time)";
 
             List<MySqlParameter> parameterList = GetMySqlParameterListByModel(model);
 
@@ -68,11 +68,12 @@ namespace pan.kaikj.wxsupermarket.AdoDal
 
             Mnews model = null;
 
-            //// 语句
-            string sql = "SELECT TOP 1 [id],[type],[title],[value],[isDelete],[isEffective],[great_time],[modify_time]  FROM news where id=@id";
+            string sql = "  SELECT id,type,title,`value`,isDelete,isEffective,great_time,modify_time  " +
+                $" FROM news WHERE id=?id ; ";
+
 
             MySqlParameter[] parameterList = new MySqlParameter[1];
-            MySqlParameter parameter = new MySqlParameter("@id", MySqlDbType.VarChar, 25);
+            MySqlParameter parameter = new MySqlParameter("?id", MySqlDbType.VarChar, 25);
             parameter.Value = id;
             parameterList[0] = parameter;
 
@@ -100,18 +101,18 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         /// <returns></returns>
         public bool UpdateNews(Mnews model)
         {
-            string sql = "update news set title=@title,value=@value where id=@id ";
+            string sql = "update news set title=?title,value=?value where id=?id ";
 
             List<MySqlParameter> parameterList = new List<MySqlParameter>();
-            MySqlParameter parameter = new MySqlParameter("@id", MySqlDbType.VarChar, 25);
+            MySqlParameter parameter = new MySqlParameter("?id", MySqlDbType.VarChar, 25);
             parameter.Value = model.id;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@title", MySqlDbType.VarChar, 100);
+            parameter = new MySqlParameter("?title", MySqlDbType.VarChar, 100);
             parameter.Value = model.title;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@value", SqlDbType.Text);
+            parameter = new MySqlParameter("?value", MySqlDbType.Text);
             parameter.Value = model.value;
             parameterList.Add(parameter);
 
@@ -126,9 +127,8 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         /// <returns></returns>
         public List<Mnews> GetNewsPagList(int pagIndex, int pagCount)
         {
-            string sql = "  SELECT  TOP " + pagCount * pagIndex + " [id],[type],[title],[value],[isDelete],[isEffective],[great_time],[modify_time] " +
-                " FROM( SELECT ROW_NUMBER() OVER(ORDER BY great_time DESC) AS ROWID,* FROM news) AS TEMP1  WHERE ROWID> " + pagCount * (pagIndex - 1);
-
+            string sql = "  SELECT  id,type,title,`value`,isDelete,isEffective,great_time,modify_time " +
+                $" FROM news WHERE 1=1 ORDER BY 1 desc limit {((pagIndex - 1) * pagCount)}, {pagCount}; ";
 
             List<Mnews> listModel = null;
             using (MySqlDataReader sqlDataReader = PKMySqlHelper.ExecuteReader(sql, null))
@@ -162,10 +162,10 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         /// <returns></returns>
         public bool DeleteNews(string id)
         {
-            string sql = "delete from news where id=@id;";
+            string sql = "delete from news where id=?id;";
 
             List<MySqlParameter> parameterList = new List<MySqlParameter>();
-            MySqlParameter parameter = new MySqlParameter("@id", MySqlDbType.VarChar, 25);
+            MySqlParameter parameter = new MySqlParameter("?id", MySqlDbType.VarChar, 25);
             parameter.Value = id;
             parameterList.Add(parameter);
 
@@ -181,37 +181,37 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         private List<MySqlParameter> GetMySqlParameterListByModel(Mnews model)
         {
             List<MySqlParameter> parameterList = new List<MySqlParameter>();
-            MySqlParameter parameter = new MySqlParameter("@id", MySqlDbType.VarChar, 25);
+            MySqlParameter parameter = new MySqlParameter("?id", MySqlDbType.VarChar, 25);
             parameter.Value = model.id;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@title", MySqlDbType.VarChar, 100);
+            parameter = new MySqlParameter("?title", MySqlDbType.VarChar, 100);
             parameter.Value = model.title;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@value", SqlDbType.Text);
+            parameter = new MySqlParameter("?value", MySqlDbType.Text);
             parameter.Value = model.value;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@type", SqlDbType.Int);
+            parameter = new MySqlParameter("?type", MySqlDbType.Int32);
             parameter.Value = model.type;
             parameterList.Add(parameter);
 
 
-            parameter = new MySqlParameter("@isDelete", MySqlDbType.Int16, 1);
+            parameter = new MySqlParameter("?isDelete", MySqlDbType.Int16, 1);
             parameter.Value = model.isDelete;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@isEffective", MySqlDbType.Int16, 1);
+            parameter = new MySqlParameter("?isEffective", MySqlDbType.Int16, 1);
             parameter.Value = model.isEffective;
             parameterList.Add(parameter);
 
             DateTime dateTime = System.DateTime.Now;
-            parameter = new MySqlParameter("@great_time", SqlDbType.DateTime);
+            parameter = new MySqlParameter("?great_time", MySqlDbType.DateTime);
             parameter.Value = dateTime;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@modify_time", SqlDbType.DateTime);
+            parameter = new MySqlParameter("?modify_time", MySqlDbType.DateTime);
             parameter.Value = dateTime;
             parameterList.Add(parameter);
 

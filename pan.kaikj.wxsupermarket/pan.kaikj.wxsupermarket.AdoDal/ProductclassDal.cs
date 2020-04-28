@@ -52,35 +52,35 @@ namespace pan.kaikj.wxsupermarket.AdoDal
 
             //// sql语句
             string sql = "INSERT INTO productclass(supclassid,classname,priority,isDelete,isEffective,great_time,modify_time) " +
-                         "VALUES (@supclassid,@classname,@priority,@isDelete,@isEffective,@great_time,@modify_time)";
+                         "VALUES (?supclassid,?classname,?priority,?isDelete,?isEffective,?great_time,?modify_time)";
 
             List<MySqlParameter> parameterList = new List<MySqlParameter>();
-            MySqlParameter parameter = new MySqlParameter("@supclassid", SqlDbType.Int);
+            MySqlParameter parameter = new MySqlParameter("?supclassid", MySqlDbType.Int32);
             parameter.Value = model.supclassid;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@classname", MySqlDbType.VarChar,50);
+            parameter = new MySqlParameter("?classname", MySqlDbType.VarChar,50);
             parameter.Value = model.classname;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@priority", SqlDbType.Int);
+            parameter = new MySqlParameter("?priority", MySqlDbType.Int32);
             parameter.Value = model.priority;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@isDelete", SqlDbType.Int);
+            parameter = new MySqlParameter("?isDelete", MySqlDbType.Int16, 1);
             parameter.Value = model.isDelete;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@isEffective", SqlDbType.Int);
+            parameter = new MySqlParameter("?isEffective", MySqlDbType.Int16, 1);
             parameter.Value = model.isEffective;
             parameterList.Add(parameter);
 
             DateTime dateTime = System.DateTime.Now;
-            parameter = new MySqlParameter("@great_time", SqlDbType.DateTime);
+            parameter = new MySqlParameter("?great_time", MySqlDbType.DateTime);
             parameter.Value = dateTime;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@modify_time", SqlDbType.DateTime);
+            parameter = new MySqlParameter("?modify_time", MySqlDbType.DateTime);
             parameter.Value = dateTime;
             parameterList.Add(parameter);
 
@@ -98,26 +98,26 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         {
 
             //// sql语句
-            string sql = "update  productclass set supclassid=@supclassid, classname=@classname,priority=@priority ,modify_time=@modify_time where classid=@classid;";
+            string sql = "update  productclass set supclassid=?supclassid, classname=?classname,priority=?priority ,modify_time=?modify_time where classid=?classid;";
 
             List<MySqlParameter> parameterList = new List<MySqlParameter>();
-            MySqlParameter parameter = new MySqlParameter("@classid", SqlDbType.Int);
+            MySqlParameter parameter = new MySqlParameter("?classid", MySqlDbType.Int32);
             parameter.Value = model.classid;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@supclassid", SqlDbType.Int);
+            parameter = new MySqlParameter("?supclassid", MySqlDbType.Int32);
             parameter.Value = model.supclassid;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@classname", MySqlDbType.VarChar, 50);
+            parameter = new MySqlParameter("?classname", MySqlDbType.VarChar, 50);
             parameter.Value = model.classname;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@priority", SqlDbType.Int);
+            parameter = new MySqlParameter("?priority", MySqlDbType.Int32);
             parameter.Value = model.priority;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("@modify_time", SqlDbType.DateTime);
+            parameter = new MySqlParameter("?modify_time", MySqlDbType.DateTime);
             parameter.Value = System.DateTime.Now;
             parameterList.Add(parameter);
 
@@ -158,16 +158,16 @@ namespace pan.kaikj.wxsupermarket.AdoDal
             if (supclassid == 0)
             {
                 //// sql语句 删除其本身子分类
-                sql = "delete from productclass where supclassid=@classid or classid=@classid";
+                sql = "delete from productclass where supclassid=?classid or classid=?classid";
             }
             else
             {
                 //// 删除自己
-                sql = "delete from productclass where classid=@classid";
+                sql = "delete from productclass where classid=?classid";
             }
 
             MySqlParameter[] parameterList = new MySqlParameter[1];
-            parameterList[0] = new MySqlParameter("@classid", SqlDbType.Int);
+            parameterList[0] = new MySqlParameter("?classid", MySqlDbType.Int32);
             parameterList[0].Value = classid;
 
             //// 执行操作
@@ -182,10 +182,10 @@ namespace pan.kaikj.wxsupermarket.AdoDal
             string sql = "  SELECT classid,supclassid,classname,priority,isDelete,isEffective,great_time,modify_time from productclass where 1=1 ";
             if (supclassid>=0)
             {
-                sql = sql + " and supclassid = @supclassid;";
+                sql = sql + " and supclassid = ?supclassid;";
             }
             MySqlParameter[] parameterList = new MySqlParameter[1];
-            parameterList[0] = new MySqlParameter("@supclassid", SqlDbType.Int);
+            parameterList[0] = new MySqlParameter("?supclassid", MySqlDbType.Int32);
             parameterList[0].Value = supclassid;
 
             List<Mproductclass> listModel = null;
@@ -218,10 +218,10 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         /// <returns></returns>
         public Mproductclass GetMproductclassByClassid(int classid)
         {
-            string sql = "  SELECT classid,supclassid,classname,priority,isDelete,isEffective,great_time,modify_time from productclass where 1=1 and classid = @classid;";
+            string sql = "  SELECT classid,supclassid,classname,priority,isDelete,isEffective,great_time,modify_time from productclass where 1=1 and classid = ?classid;";
 
             MySqlParameter[] parameterList = new MySqlParameter[1];
-            parameterList[0] = new MySqlParameter("@classid", SqlDbType.Int);
+            parameterList[0] = new MySqlParameter("?classid", MySqlDbType.Int32);
             parameterList[0].Value = classid;
 
             using (MySqlDataReader sqlDataReader = PKMySqlHelper.ExecuteReader(sql, parameterList))

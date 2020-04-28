@@ -46,7 +46,10 @@
     <div class="banner"><img src="/@(model.productimgurl)"></div>
     <div class="detail">
         <span>@(model.productname)</span>
-        <p>￥@(model.sellprice)</p>
+        <div style="color: red;">￥@(model.sellprice.ToString("0.00")) 
+        <label style="color:white;">.</label>
+        <label style="text-decoration: line-through;color:#808080;font-weight:300;">￥@(model.origprice.ToString("0.00"))</label></div>
+       
         <a href="#" id="addToShopCart" class="shopcart" onclick="addShopingCart('@(model.productid)','1')">加入购物车</a>
     </div>
     <div class="detail">

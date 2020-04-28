@@ -98,7 +98,7 @@ namespace pan.kaikj.wxsupermarket.AdoIdal
         /// <param name="productname"></param>
         /// <param name="shelfstate"></param>
         /// <returns></returns>
-        int GetProductPagCount(int classid, int supclassid, string productname, int shelfstate);
+        int GetProductPagCount(int classid, int supclassid, string productname, int shelfstate, int isDelete = 0);
 
         /// <summary>
         /// 获取产品数据总条数
@@ -108,6 +108,6 @@ namespace pan.kaikj.wxsupermarket.AdoIdal
         /// <param name="productname"></param>
         /// <param name="shelfstate"></param>
         /// <returns></returns>
-        List<Mproduct> GetProductPagList(int pagIndex, int pagCount, int classid, int supclassid, string productname, int shelfstate);
+        List<Mproduct> GetProductPagList(int pagIndex, int pagCount, int classid, int supclassid, string productname, int shelfstate, int isDelete = 0);
     }
 }
