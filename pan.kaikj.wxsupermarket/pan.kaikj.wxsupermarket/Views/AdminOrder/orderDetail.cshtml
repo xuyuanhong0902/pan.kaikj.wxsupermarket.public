@@ -46,7 +46,7 @@
 
         <div class="listCount">
             <div class="oneListVaue ng-binding">订单状态：@Model.orderStateDesc</div>
-            <div class="oneListVaue ng-binding">要求送货时间：@(Model.requireDeliveryTime == null || Model.requireDeliveryTime == System.DateTime.MinValue || Model.requireDeliveryTime.Year == 1900 ? "" : Model.requireDeliveryTime.ToString("yyyy-MM-dd HH:mm:ss"))</div>
+            <div class="oneListVaue ng-binding">要求送货时间：@Model.requireDeliveryTime</div>
             <div class="oneListVaue ng-binding">送货地址：@Model.mailAddress</div>
         </div>
         <div class="solidLin" style="margin-top: 0px"></div>

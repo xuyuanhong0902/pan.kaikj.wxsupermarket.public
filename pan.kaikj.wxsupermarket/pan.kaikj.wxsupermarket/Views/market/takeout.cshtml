@@ -59,8 +59,11 @@
             <span>
                 送货时间：
             </span> <input placeholder="立即配送" class="Wdate  kbtn" type="text" style="background:none;border:none;height:auto;"
-                           onclick="WdatePicker({ el: this, dateFmt: 'yyyy-MM-dd HH:mm:ss' })"
-                           id="deliveryTime" value="@System.DateTime.Now.AddMinutes(35).ToString("yyyy-MM-dd HH:mm")"
+                           onclick="WdatePicker({onpicked:function(dp){deliveryTimeonpicked(this,dp);}, el: this, dateFmt: 'yyyy-MM-dd HH:mm:ss' })"
+                           id="deliveryTime" value="@System.DateTime.Now.AddMinutes(12).ToString("yyyy-MM-dd HH:mm")" />
+            
+                           <input  class="Wdate  kbtn" type="text" style="background:none;border:none;height:auto;margin-left:80px;"
+                           id="deliveryTimeEnd" value="至 @System.DateTime.Now.AddMinutes(32).ToString("yyyy-MM-dd HH:mm")"/>
 
             <i class="am-icon-angle-right"></i>
         </li>
@@ -118,7 +121,7 @@
     <div class="juli"></div>
     <div class="pricebox">
         <p>总价：<i id="totalPrice">@totalMon.ToString("0.00")</i>元（含运费）</p>
-        <p>货到付款</p>
+        <p>支付方式：<i id="totalPrice"  style="color:#ff0000;">货到付款</i></p>
         <button class="paybtn" type="button" id="creatOrder"> 立即下单</button>
     </div>
 
@@ -151,8 +154,30 @@
             $("#datePlugin").hide();
         });
 
+        function convertDateFromString(dateString) {
+            if (dateString) {
+                var arr1 = dateString.split(" ");
+                var sdate = arr1[0].split('-');
+                var date = new Date(sdate[0], sdate[1] - 1, sdate[2]);
+                return date;
+            }
+        }
+
+        // 要求配送时间发送改变回调事件
+        function deliveryTimeonpicked(obj, dp) {
+            var date = dp.cal.getNewDateStr();//dp My97对象
+           
+            if (date) {
+                date= date.replace(/-/g,"/");  
+                var sta_date = new Date(date);
+                  sta_date.setMinutes(sta_date.getMinutes() + 30);
+                $("#deliveryTimeEnd").val(dateFtt("yyyy-MM-dd hh:mm:ss", sta_date));
+            }
+        }
+
         //购物数量加减
         $(function () {
+
             $(".d-stock").delegate(".increase", "click", function () {
                 var self = $(this);
 
@@ -195,7 +220,7 @@
 
                 //// 首先做数据合法性验证
                 //// 送货时间
-                var deliveryTime = $("#deliveryTime").val();
+                var deliveryTime = $("#deliveryTime").val()+$("#deliveryTimeEnd").val();
                 //// 送货地址
                 var gladdAddress = $("#gladdAddress").text();
                 //// 备注
@@ -205,14 +230,14 @@
 
                 //// 获取系统当天时间
                 var dateTimeNow = new Date();
-                dateTimeNow.setMinutes(dateTimeNow.getMinutes() + 30);
+                dateTimeNow.setMinutes(dateTimeNow.getMinutes() + 10);
 
                 var thisDateTime = dateFtt("yyyy-MM-dd hh:mm:ss", dateTimeNow);
 
                 ///// 验证送货时间
                 if (deliveryTime) {
                     if (thisDateTime > deliveryTime) {
-                        alert("送货时间请选择半个小时之后");
+                        alert("送货时间请选择10分钟之后");
                         return;
                     }
                 } else {

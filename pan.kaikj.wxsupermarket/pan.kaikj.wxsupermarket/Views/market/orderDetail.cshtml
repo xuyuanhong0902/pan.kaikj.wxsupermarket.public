@@ -45,7 +45,8 @@
                     <p class="order-add1">订单单价：￥@modelList[0].sellPrice.ToString("F2")</p>
                     <p class="order-add1">总金额：￥@modelList[0].totalPrice.ToString("F2")</p>
 
-                    <p class="order-add1">要求配送时间：@modelList[0].requireDeliveryTime.ToString("yyyy-MM-dd HH:mm:ss")</p>
+                    <p class="order-add1">支付方式：@modelList[0].payTypeDesc</p>
+                    <p class="order-add1">要求配送时间：@modelList[0].requireDeliveryTime</p>
                     <p class="order-add1">收货地址：@modelList[0].mailAddress</p>
                     <p class="order-add1">配送人：@modelList[0].deliveryName - @modelList[0].deliveryTell</p>
                     <hr />

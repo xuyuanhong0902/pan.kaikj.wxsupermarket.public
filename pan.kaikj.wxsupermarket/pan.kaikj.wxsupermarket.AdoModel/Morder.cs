@@ -48,7 +48,7 @@ namespace pan.kaikj.wxsupermarket.AdoModel
         public decimal totalPrice { get; set; }
         public int payType { get; set; }
         public string payTypeDesc { get; set; }
-        public DateTime requireDeliveryTime { get; set; }
+        public string requireDeliveryTime { get; set; }
         public int orderState { get; set; }
         public string orderStateDesc { get; set; }
         public string mailAddress { get; set; }

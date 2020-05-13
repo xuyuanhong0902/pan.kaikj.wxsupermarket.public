@@ -27,13 +27,9 @@ using pan.kaikj.wxsupermarket.AdoIdal;
 using pan.kaikj.wxsupermarket.AdoModel;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Data;
-using System.Data.SqlClient;
-using MySql.Data.MySqlClient;
 using pan.kaikj.wxsupermarket.AdoSqlHelper;
+using MySql.Data.MySqlClient;
 
 namespace pan.kaikj.wxsupermarket.AdoDal
 {

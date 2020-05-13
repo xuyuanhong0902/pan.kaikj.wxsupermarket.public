@@ -146,7 +146,7 @@ string deliveryTell)
                 ///// 获取该用户的购物车全部商品
                 List<MshoppingCart> mshoppingCartsList = new ShoppingCartBus().GetAllShoppingCartListBySserId(userId);
 
-                if (mshoppingCartsList == null || mshoppingCartsList.Count < 0)
+                if (mshoppingCartsList == null || mshoppingCartsList.Count <= 0)
                 {
                     mwxResult.errmsg = "请选择需要购买的产品！";
                     return JsonHelper.GetJson<MwxResult>(mwxResult);
@@ -161,7 +161,7 @@ string deliveryTell)
                         {
                             buyNum = item.buyNum,
                             mailAddress = mailAddress + "-" + deliveryName + "-" + deliveryTell,
-                            requireDeliveryTime = Convert.ToDateTime(deliveryTime),
+                            requireDeliveryTime = deliveryTime,
                             deliveryTime = System.DateTime.MinValue,
                             receiptTime = System.DateTime.MinValue,
 

@@ -112,7 +112,7 @@ namespace pan.kaikj.wxsupermarket.AdoDal
                 parameter.Value = model[i].payTypeDesc;
                 parameterList.Add(parameter);
 
-                parameter = new MySqlParameter("?requireDeliveryTime" + i, MySqlDbType.DateTime);
+                parameter = new MySqlParameter("?requireDeliveryTime" + i, MySqlDbType.VarChar,100);
                 parameter.Value = model[i].requireDeliveryTime;
                 parameterList.Add(parameter);
 
@@ -183,6 +183,12 @@ namespace pan.kaikj.wxsupermarket.AdoDal
 
             sql = sql + " where orderid = ?orderid;";
 
+            // 如果为8 那么更新一下对应商品的已销售数量
+            if (orderState == 8)
+            {
+                sql = sql + $" UPDATE product set hassellnum=hassellnum+(SELECT buyNum FROM orders WHERE orderid='{orderid}') WHERE productid=(SELECT productid FROM orders WHERE orderid='{orderid}') ";
+            }
+
             List<MySqlParameter> parameterList = new List<MySqlParameter>();
             MySqlParameter parameter = new MySqlParameter("?orderid", MySqlDbType.VarChar, 25);
             parameter.Value = orderid;
@@ -224,6 +230,12 @@ namespace pan.kaikj.wxsupermarket.AdoDal
 
             sql = sql + " where orderGroupId = ?orderGroupId;";
 
+            // 如果为8 那么更新一下对应商品的已销售数量
+            if (orderState == 8)
+            {
+                sql = sql + $" UPDATE product as p set hassellnum=(SELECT buyNum FROM orders WHERE orderGroupId='{orderGroupId}' and productid=p.productid)  WHERE productid in (SELECT productid FROM orders WHERE orderGroupId='{orderGroupId}') ";
+            }
+
             List<MySqlParameter> parameterList = new List<MySqlParameter>();
             MySqlParameter parameter = new MySqlParameter("?orderGroupId", MySqlDbType.VarChar, 25);
             parameter.Value = orderGroupId;
@@ -264,6 +276,12 @@ namespace pan.kaikj.wxsupermarket.AdoDal
             }
 
             sql = sql + " where orderid in  (" + orderidS + ");";
+
+            // 如果为8 那么更新一下对应商品的已销售数量
+            if (orderState == 8)
+            {
+                sql = sql + $" UPDATE product as p set hassellnum=hassellnum+(SELECT buyNum FROM orders WHERE orderid in  ({orderidS})  and productid=p.productid ) WHERE productid=(SELECT productid FROM orders WHERE orderid in  ({orderidS}) ";
+            }
 
             List<MySqlParameter> parameterList = new List<MySqlParameter>();
             MySqlParameter parameter = new MySqlParameter("?orderid", MySqlDbType.VarChar);
@@ -574,7 +592,7 @@ namespace pan.kaikj.wxsupermarket.AdoDal
 
                         model.payType = sqlDataReader["payType"] != DBNull.Value ? Convert.ToInt32(sqlDataReader["payType"].ToString()) : 0;
                         model.payTypeDesc = sqlDataReader["payTypeDesc"] != DBNull.Value ? sqlDataReader["payTypeDesc"].ToString() : string.Empty;
-                        model.requireDeliveryTime = sqlDataReader["requireDeliveryTime"] != DBNull.Value ? Convert.ToDateTime(sqlDataReader["requireDeliveryTime"].ToString()) : DateTime.MinValue;
+                        model.requireDeliveryTime = sqlDataReader["requireDeliveryTime"] != DBNull.Value ? sqlDataReader["requireDeliveryTime"].ToString() : string.Empty;
                         model.orderState = sqlDataReader["orderState"] != DBNull.Value ? Convert.ToInt32(sqlDataReader["orderState"].ToString()) : 0;
                         model.orderStateDesc = sqlDataReader["orderStateDesc"] != DBNull.Value ? sqlDataReader["orderStateDesc"].ToString() : string.Empty;
 
@@ -628,7 +646,7 @@ namespace pan.kaikj.wxsupermarket.AdoDal
 
                         model.payType = sqlDataReader["payType"] != DBNull.Value ? Convert.ToInt32(sqlDataReader["payType"].ToString()) : 0;
                         model.payTypeDesc = sqlDataReader["payTypeDesc"] != DBNull.Value ? sqlDataReader["payTypeDesc"].ToString() : string.Empty;
-                        model.requireDeliveryTime = sqlDataReader["requireDeliveryTime"] != DBNull.Value ? Convert.ToDateTime(sqlDataReader["requireDeliveryTime"].ToString()) : DateTime.MaxValue;
+                        model.requireDeliveryTime = sqlDataReader["requireDeliveryTime"] != DBNull.Value ? sqlDataReader["requireDeliveryTime"].ToString() : string.Empty;
                         model.orderState = sqlDataReader["orderState"] != DBNull.Value ? Convert.ToInt32(sqlDataReader["orderState"].ToString()) : 0;
                         model.orderStateDesc = sqlDataReader["orderStateDesc"] != DBNull.Value ? sqlDataReader["orderStateDesc"].ToString() : string.Empty;
 
@@ -714,7 +732,7 @@ namespace pan.kaikj.wxsupermarket.AdoDal
 
                         model.payType = sqlDataReader["payType"] != DBNull.Value ? Convert.ToInt32(sqlDataReader["payType"].ToString()) : 0;
                         model.payTypeDesc = sqlDataReader["payTypeDesc"] != DBNull.Value ? sqlDataReader["payTypeDesc"].ToString() : string.Empty;
-                        model.requireDeliveryTime = sqlDataReader["requireDeliveryTime"] != DBNull.Value ? Convert.ToDateTime(sqlDataReader["requireDeliveryTime"].ToString()) : DateTime.MaxValue;
+                        model.requireDeliveryTime = sqlDataReader["requireDeliveryTime"] != DBNull.Value ? sqlDataReader["requireDeliveryTime"].ToString() : string.Empty;
                         model.orderState = sqlDataReader["orderState"] != DBNull.Value ? Convert.ToInt32(sqlDataReader["orderState"].ToString()) : 0;
                         model.orderStateDesc = sqlDataReader["orderStateDesc"] != DBNull.Value ? sqlDataReader["orderStateDesc"].ToString() : string.Empty;
 
