@@ -1,0 +1,194 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>swiper</title>
+    <link href="Swiper demo_files/swiper.min.css" rel="stylesheet" />
+    <script src="Swiper demo_files/swiper.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link href="../Content/style.css" rel="stylesheet" />
+    <link href="../Content/style.css" type="text/css" rel="stylesheet" />
+    <script src="../Scripts/jquery.min.js"></script>
+    <link href="../Content/commMarkt.css" rel="stylesheet" />
+    <script src="../Scripts/comm.js"></script>
+    <script src="../Scripts/amazeui.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            outline: 0;
+            -webkit-tap-highlight-color: transparent
+        }
+
+        html {
+            -webkit-text-size-adjust: none;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body,
+        html {
+            height: 100%;
+        }
+
+        a {
+            text-decoration: none
+        }
+
+        .swiper-container {
+            width: 100%;
+            height: 200px;
+        }
+
+        .swiper-slide {
+            width: 100%;
+            height: 200px;
+            border-radius: 20px;
+        }
+
+            .swiper-slide img {
+                width: 100%;
+                height: 100%;
+                border-radius: 10px;
+            }
+    </style>
+</head>
+<body>
+    <div style="width:100%;height:40px;margin-left:20px;">
+        <div style="width:100%;height:40px;margin-top:10px; border-radius: 2%;">
+            <input style="width: 80%;height: 30px;background-color: lightgray;
+        border-radius: 20px;border: none;" />
+            <input type="button" style="        width: 10%;
+        font-size: 14px;
+        height: 30px;
+        background-color: lightgray;
+        border-radius: 20px;
+        border: none;
+        text-align: center;" value="搜索" />
+        </div>
+    </div>
+    <div>
+        <ul style="margin-top: 20px;" class="list-pro proListType2" data-hasPro="1" data-pagIndex="4">
+            <li>
+                <a href="detail.html">
+                    <img src="/images/1.png" class="list-pic" />
+                </a>
+                <div class="shop-list-mid" data-id="4">
+                    <div class="tit" style="min-height:30px;height:auto;">
+                        <a href="detail.html" style="min-height:30px;height:auto;">法国21加力果12个装 进口新鲜水果 嘎啦苹果 包邮</a>
+                    </div>
+                    <div class="am-gallery-desc" style="margin-top:10px;">￥<label class="price">66</label><label class="delprice">￥899</label></div>
+                </div>
+                <div class="list-cart">
+                    <div class="d-stock ">
+                        <a class="decrease">-</a>
+                        <input id="num" readonly="" class="text_box" name="" type="text" value="0">
+                        <a class="increase">+</a>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <a href="detail.html">
+                    <img src="/images/1.png" class="list-pic" />
+                </a>
+                <div class="shop-list-mid" data-id="4">
+                    <div class="tit" style="min-height:30px;height:auto;">
+                        <a href="detail.html" style="min-height:30px;height:auto;">法国21加力果12个装 进口新鲜水果 嘎啦苹果 包邮</a>
+                    </div>
+                    <div class="am-gallery-desc" style="margin-top:10px;">￥<label class="price">66</label><label class="delprice">￥899</label></div>
+                </div>
+                <div class="list-cart">
+                    <div class="d-stock ">
+                        <a class="decrease">-</a>
+                        <input id="num" readonly="" class="text_box" name="" type="text" value="0">
+                        <a class="increase">+</a>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <a href="detail.html">
+                    <img src="/images/1.png" class="list-pic" />
+                </a>
+                <div class="shop-list-mid" data-id="4">
+                    <div class="tit" style="min-height:30px;height:auto;">
+                        <a href="detail.html" style="min-height:30px;height:auto;">法国21加力果12个装 进口新鲜水果 嘎啦苹果 包邮</a>
+                    </div>
+                    <div class="am-gallery-desc" style="margin-top:10px;">￥<label class="price">66</label><label class="delprice">￥899</label></div>
+                </div>
+                <div class="list-cart">
+                    <div class="d-stock ">
+                        <a class="decrease">-</a>
+                        <input id="num" readonly="" class="text_box" name="" type="text" value="0">
+                        <a class="increase">+</a>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <a href="detail.html">
+                    <img src="/images/1.png" class="list-pic" />
+                </a>
+                <div class="shop-list-mid" data-id="4">
+                    <div class="tit" style="min-height:30px;height:auto;">
+                        <a href="detail.html" style="min-height:30px;height:auto;">法国21加力果12个装 进口新鲜水果 嘎啦苹果 包邮</a>
+                    </div>
+                    <div class="am-gallery-desc" style="margin-top:10px;">￥<label class="price">66</label><label class="delprice">￥899</label></div>
+                </div>
+                <div class="list-cart">
+                    <div class="d-stock ">
+                        <a class="decrease">-</a>
+                        <input id="num" readonly="" class="text_box" name="" type="text" value="0">
+                        <a class="increase">+</a>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <a href="detail.html">
+                    <img src="/images/1.png" class="list-pic" />
+                </a>
+                <div class="shop-list-mid" data-id="4">
+                    <div class="tit" style="min-height:30px;height:auto;">
+                        <a href="detail.html" style="min-height:30px;height:auto;">法国21加力果12个装 进口新鲜水果 嘎啦苹果 包邮</a>
+                    </div>
+                    <div class="am-gallery-desc" style="margin-top:10px;">￥<label class="price">66</label><label class="delprice">￥899</label></div>
+                </div>
+                <div class="list-cart">
+                    <div class="d-stock ">
+                        <a class="decrease">-</a>
+                        <input id="num" readonly="" class="text_box" name="" type="text" value="0">
+                        <a class="increase">+</a>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <a href="detail.html">
+                    <img src="/images/1.png" class="list-pic" />
+                </a>
+                <div class="shop-list-mid" data-id="4">
+                    <div class="tit" style="min-height:30px;height:auto;">
+                        <a href="detail.html" style="min-height:30px;height:auto;">法国21加力果12个装 进口新鲜水果 嘎啦苹果 包邮</a>
+                    </div>
+                    <div class="am-gallery-desc" style="margin-top:10px;">￥<label class="price">66</label><label class="delprice">￥899</label></div>
+                </div>
+                <div class="list-cart">
+                    <div class="d-stock ">
+                        <a class="decrease">-</a>
+                        <input id="num" readonly="" class="text_box" name="" type="text" value="0">
+                        <a class="increase">+</a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <script type="text/javascript">
+        var swiper = new Swiper('.swiper-container', {
+            pagination: {
+                el: '.swiper-pagination',
+                dynamicBullets: true,
+            },
+            //自动播放
+            autoplay: {
+                stopOnLastSlide: false
+            }
+        });
+    </script>
+</body>
+</html>
