@@ -684,6 +684,7 @@
     <Content Include="images\1.png" />
     <Content Include="images\2.png" />
     <Content Include="images\bj.png" />
+    <Content Include="images\goodgoods.jpg" />
     <Content Include="images\mmexport.png" />
     <Content Include="images\NewOrder.wav" />
     <Content Include="images\shopCart.png" />
@@ -757,6 +758,7 @@
     <Content Include="点餐页面\fonts\fontawesome-webfont.svg" />
     <Content Include="点餐页面\fonts\_notes\dwsync.xml" />
     <Content Include="点餐页面\images\serverTime.png" />
+    <Content Include="点餐页面\indexF2s.html" />
     <Content Include="点餐页面\indexF2.html" />
     <Content Include="点餐页面\indexF.html" />
     <Content Include="点餐页面\orderDetail.html" />
