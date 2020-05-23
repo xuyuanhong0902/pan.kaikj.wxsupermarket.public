@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="description" content="" />
     <meta name="keywords" content="" />
-    <title>茶部落</title>
+    <title>吧啦啦便利店</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <link href="/Content/amazeui.min.css" type="text/css" rel="stylesheet" />
     <link href="/Content/style.css" type="text/css" rel="stylesheet" />
@@ -22,45 +22,45 @@
     <div style="height: 49px;"></div>
     <ul class="eat-list">
         @{ List
-                                                           <pan.kaikj.wxsupermarket.AdoModel.MshoppingCart>
-                                                               modelList = ViewData["AllShoppingCartList"] == null ? null : (List<pan.kaikj.wxsupermarket.AdoModel.MshoppingCart>
-                                                                   )ViewData["AllShoppingCartList"];
+                                                            <pan.kaikj.wxsupermarket.AdoModel.MshoppingCart>
+                                                                modelList = ViewData["AllShoppingCartList"] == null ? null : (List<pan.kaikj.wxsupermarket.AdoModel.MshoppingCart>
+                                                                    )ViewData["AllShoppingCartList"];
             decimal totalMon = 0M;
-            string selProductids =ViewData["SelProductids"] == null ? null : ViewData["SelProductids"].ToString();
+            string selProductids = ViewData["SelProductids"] == null ? null : ViewData["SelProductids"].ToString();
             if (modelList != null && modelList.Count > 0)
             {
 
                 foreach (var item in modelList)
                 {
                     bool issel = string.IsNullOrEmpty(selProductids) || !selProductids.Contains(item.productId) ? false : true;
-                    string selPic ="noselect.png";
+                    string selPic = "noselect.png";
                     if (issel)
                     {
                         selPic = "select.png";
                         totalMon = totalMon + item.sellPrice * item.buyNum;
                     }
-                <li>
-                    <a class="name selInput" id='@("sel"+item.productId)' data-id="@item.productId"  data-sel="@(issel?1:0)" style="width:30px;background: url(../images/@selPic) 0% 0% / 80% 80% no-repeat"></a>
-                    <span class="name" style="width: 40%;">@item.productname</span>
-                    <em class="price" data-price="@item.sellPrice" data-id="@item.shoppingCartId">￥@item.sellPrice.ToString("0.00")</em>
-                    <div class="d-stock" data-id="@item.productId">
-                        <a class="decrease">-</a>
-                        <input id="num" readonly="" class="text_box" name="" type="text" value="@item.buyNum">
-                        <a class="increase">+</a>
-                    </div>
-                </li>
+                    <li>
+                        <a class="name selInput" id='@("sel"+item.productId)' data-id="@item.productId" data-sel="@(issel?1:0)" style="width:30px;background: url(../images/@selPic) 0% 0% / 80% 80% no-repeat"></a>
+                        <span class="name" style="width: 40%;">@item.productname</span>
+                        <em class="price" data-price="@item.sellPrice" data-id="@item.shoppingCartId">￥@item.sellPrice.ToString("0.00")</em>
+                        <div class="d-stock" data-id="@item.productId">
+                            <a class="decrease">-</a>
+                            <input id="num" readonly="" class="text_box" name="" type="text" value="@item.buyNum">
+                            <a class="increase">+</a>
+                        </div>
+                    </li>
                 }
-        }
+            }
         }
         @*<li>
-            <span class="name">绿茶</span>
-            <em class="price" data-price="2.0" data-id="2">￥2.0</em>
-            <div class="d-stock ">
-                <a class="decrease">-</a>
-                <input id="num" readonly="" class="text_box" name="" type="text" value="1">
-                <a class="increase">+</a>
-            </div>
-        </li>*@
+                <span class="name">绿茶</span>
+                <em class="price" data-price="2.0" data-id="2">￥2.0</em>
+                <div class="d-stock ">
+                    <a class="decrease">-</a>
+                    <input id="num" readonly="" class="text_box" name="" type="text" value="1">
+                    <a class="increase">+</a>
+                </div>
+            </li>*@
     </ul>
     <div class="juli"></div>
     <ul class="list-detail">
@@ -70,9 +70,9 @@
             </span> <input placeholder="立即配送" class="Wdate  kbtn" type="text" style="background:none;border:none;height:auto;"
                            onclick="WdatePicker({onpicked:function(dp){deliveryTimeonpicked(this,dp);}, el: this, dateFmt: 'yyyy-MM-dd HH:mm:ss' })"
                            id="deliveryTime" value="@System.DateTime.Now.AddMinutes(12).ToString("yyyy-MM-dd HH:mm")" />
-            
-                           <input  class="Wdate  kbtn" type="text" style="background:none;border:none;height:auto;margin-left:80px;"
-                           id="deliveryTimeEnd" value="至 @System.DateTime.Now.AddMinutes(32).ToString("yyyy-MM-dd HH:mm")"/>
+
+            <input class="Wdate  kbtn" type="text" style="background:none;border:none;height:auto;margin-left:80px;"
+                   id="deliveryTimeEnd" value="至 @System.DateTime.Now.AddMinutes(32).ToString("yyyy-MM-dd HH:mm")" />
 
             <i class="am-icon-angle-right"></i>
         </li>
@@ -81,8 +81,8 @@
             <div id="datePage" class="page" style="overflow-y: scroll;">
                 <ul class="address-list" id="address-list">
                     @{ List<pan.kaikj.wxsupermarket.AdoModel.MmailAddress>
-                                          modelListMail = ViewData["AllMmailAddresses"] == null ? 
-                                          null : (List<pan.kaikj.wxsupermarket.AdoModel.MmailAddress>)ViewData["AllMmailAddresses"];
+                                           modelListMail = ViewData["AllMmailAddresses"] == null ?
+                                           null : (List<pan.kaikj.wxsupermarket.AdoModel.MmailAddress>)ViewData["AllMmailAddresses"];
                         string defultAddress = string.Empty;
                         string defultContactName = string.Empty;
                         string defultContactTell = string.Empty;
@@ -129,8 +129,9 @@
     @*<textarea placeholder="备注说明" class="bz-infor" id="remark"></textarea>*@
     <div class="juli"></div>
     <div class="pricebox">
-        <p>总价：<i id="totalPrice">@totalMon.ToString("0.00")</i>元（含运费）</p>
-        <p>支付方式：<i id="totalPrice"  style="color:#ff0000;">货到付款</i></p>
+        <p>总价：<i id="totalPrice">@((totalMon >= 20 ? totalMon : totalMon + 1).ToString("0.00"))</i>元（含运费 <i id="totalFreight">@(totalMon >= 20 ? 0 : 1)</i>元）</p>
+        <p>支付方式：<i id="totalPriceTytpe" style="color:#ff0000;">货到付款</i></p>
+        <i style="display:none" id="realTotalPrice">@((totalMon >= 20 ? totalMon : totalMon + 1).ToString("0.00"))</i>
         <button class="paybtn" type="button" id="creatOrder"> 立即下单</button>
     </div>
 
@@ -175,9 +176,9 @@
         // 要求配送时间发送改变回调事件
         function deliveryTimeonpicked(obj, dp) {
             var date = dp.cal.getNewDateStr();//dp My97对象
-           
+
             if (date) {
-                date= date.replace(/-/g,"/");  
+                date= date.replace(/-/g,"/");
                 var sta_date = new Date(date);
                   sta_date.setMinutes(sta_date.getMinutes() + 30);
                 $("#deliveryTimeEnd").val(dateFtt("yyyy-MM-dd hh:mm:ss", sta_date));
@@ -242,12 +243,21 @@
                 }
 
                 //// 购物车数量展示处理
+                var realTotalPrice= parseFloat($("#realTotalPrice").html().trim());
                 var totalPrice = parseFloat($("#totalPrice").html().trim());
                 var thisPrice = parseFloat(self.siblings(".price").attr("data-price"));
                 var thisNum = parseInt(self.siblings(".d-stock").find(".text_box").val());
+                var freight = 0;
                 thisPrice = thisPrice * thisNum;
 
-                totalPrice = sel == "0" ? totalPrice + thisPrice : totalPrice - thisPrice;
+                realTotalPrice = sel == "0" ? realTotalPrice + thisPrice : realTotalPrice - thisPrice;
+                if (realTotalPrice < 20) {
+                    freight = 1;
+                } 
+                totalPrice = realTotalPrice + freight;
+
+                $("#totalFreight").html(freight);
+                $("#realTotalPrice").html(realTotalPrice);
                 $("#totalPrice").html(totalPrice.toFixed(2));
 
             });
@@ -362,6 +372,7 @@
 
                             $(".text_box").val(0);
                             $(".decrease").hide();
+$("#totalFreight").html("0");
                             $("#totalPrice").html("0");
                         },
                         onCancel: function () {
@@ -485,9 +496,18 @@
         //// 选择商品总价显示
         function update_item(self, opertType) {
             //// 购物车数量展示处理
+           var realTotalPrice= parseFloat($("#realTotalPrice").html().trim());
             var totalPrice = parseFloat($("#totalPrice").html().trim());
             var thisPrice = parseFloat(self.parent().prev().attr("data-price"));
-            totalPrice = opertType == 1 ? totalPrice + thisPrice : totalPrice - thisPrice;
+            realTotalPrice = opertType == 1 ? realTotalPrice + thisPrice : realTotalPrice - thisPrice;
+            var freight = 0;
+            if (realTotalPrice < 20) {
+                freight = 1;
+            } 
+            totalPrice = realTotalPrice + freight;
+
+            $("#totalFreight").html(freight);
+            $("#realTotalPrice").html(realTotalPrice);
             $("#totalPrice").html(totalPrice.toFixed(2));
         }
 

@@ -778,8 +778,6 @@
     <Content Include="点餐页面\js\jquery.min.js" />
     <Content Include="点餐页面\order.html" />
     <Content Include="点餐页面\sss.html" />
-    <Content Include="Content\swiper\Swiper demo.html" />
-    <Content Include="Content\swiper\Swiper demo_files\swiper.min.css" />
     <Content Include="Content\swiper\swiper.min.css" />
     <Content Include="Content\swiper\swiper.min.js" />
     <Content Include="点餐页面\takeout.html" />
@@ -879,7 +877,6 @@
     <Content Include="Views\news\newsAdd.cshtml" />
     <Content Include="Views\news\viewNew.cshtml" />
     <Content Include="Views\market\viewNew.cshtml" />
-    <Content Include="Content\swiper\Swiper demo_files\swiper.min.js.下载" />
     <Content Include="点餐页面\淘宝网触屏版_files\aplus_v2.js.下载" />
     <Content Include="点餐页面\淘宝网触屏版_files\entry.js.下载" />
     <Content Include="点餐页面\淘宝网触屏版_files\index.js%281%29.下载" />

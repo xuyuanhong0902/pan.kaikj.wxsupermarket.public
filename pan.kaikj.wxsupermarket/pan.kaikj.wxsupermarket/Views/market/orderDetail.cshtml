@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="description" content="" />
     <meta name="keywords" content="" />
-    <title>茶部落</title>
+    <title>吧啦啦便利店</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <link href="/Content/amazeui.min.css" type="text/css" rel="stylesheet" />
     <link href="/Content/style.css" rel="stylesheet" />
@@ -36,20 +36,37 @@
             <hr />
             @{ if (modelList != null && modelList.Count > 0)
                 {
-                    <p class="order-add1">订单号：@modelList[0].orderid</p>
+                    decimal totalF = 0;
+                    foreach (var item in modelList)
+                    {
+                        totalF = totalF +item.totalPrice;
+                    }
+
+                    totalF = totalF + modelList[0].freight;
+
+                    <p class="order-add1">主订单号：@modelList[0].orderGroupId</p>
                     <p class="order-add1">下单时间：@modelList[0].great_time.ToString("yyyy-MM-dd HH:mm:ss")</p>
-                    <p class="order-add1">订单状态：@modelList[0].orderStateDesc</p>
-
-                    <p class="order-add1">产品名称：@modelList[0].productname</p>
-                    <p class="order-add1">购买数量：@modelList[0].buyNum</p>
-                    <p class="order-add1">订单单价：￥@modelList[0].sellPrice.ToString("F2")</p>
-                    <p class="order-add1">总金额：￥@modelList[0].totalPrice.ToString("F2")</p>
-
+                    <p class="order-add1">订单总金额：@totalF</p>
+                    <p class="order-add1">运费：@modelList[0].freight</p>
                     <p class="order-add1">支付方式：@modelList[0].payTypeDesc</p>
                     <p class="order-add1">要求配送时间：@modelList[0].requireDeliveryTime</p>
                     <p class="order-add1">收货地址：@modelList[0].mailAddress</p>
-                    <p class="order-add1">配送人：@modelList[0].deliveryName - @modelList[0].deliveryTell</p>
-                    <hr />
+
+                    <h2>商品详情</h2>
+
+                    foreach (var item in modelList)
+                    {
+                        <p class="order-add1">订单号：@item.orderid</p>
+                        <p class="order-add1">订单状态：@item.orderStateDesc</p>
+
+                        <p class="order-add1">产品名称：@item.productname</p>
+                        <p class="order-add1">购买数量：@item.buyNum</p>
+                        <p class="order-add1">产品单价：￥@item.sellPrice.ToString("F2")</p>
+                        <p class="order-add1">总金额：￥@item.totalPrice.ToString("F2")</p>
+
+                        <p class="order-add1">配送人：@item.deliveryName - @item.deliveryTell</p>
+                        <hr />
+                    }
                 }
             }
 

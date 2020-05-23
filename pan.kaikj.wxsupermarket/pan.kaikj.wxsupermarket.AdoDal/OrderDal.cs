@@ -50,7 +50,7 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         {
 
             //// sql语句
-            string sql = "INSERT INTO orders(orderid,orderGroupId,userId,userName,productId,productname,productformat,buyNum,origPrice,sellPrice,totalPrice,payType,payTypeDesc,requireDeliveryTime,orderState,orderStateDesc,mailAddress,isDelete,isEffective,great_time,modify_time) VALUES";
+            string sql = "INSERT INTO orders(orderid,orderGroupId,userId,userName,productId,productname,productformat,buyNum,origPrice,sellPrice,totalPrice,payType,payTypeDesc,requireDeliveryTime,orderState,orderStateDesc,mailAddress,isDelete,isEffective,great_time,modify_time,freight) VALUES";
             string deleteShoppingCart = " ;delete from shoppingCart where shoppingCartId in(";
             bool hasShoppingCart = false;
 
@@ -58,7 +58,7 @@ namespace pan.kaikj.wxsupermarket.AdoDal
             MySqlParameter parameter = null;
             for (int i = 0; i < model.Count; i++)
             {
-                sql = string.Format("{0} (?orderid{1},?orderGroupId{1},?userId{1},?userName{1},?productId{1},?productname{1},?productformat{1},?buyNum{1},?origPrice{1},?sellPrice{1},?totalPrice{1},?payType{1},?payTypeDesc{1},?requireDeliveryTime{1},?orderState{1},?orderStateDesc{1},?mailAddress{1},?isDelete{1},?isEffective{1},?great_time{1},?modify_time{1}),", sql, i);
+                sql = string.Format("{0} (?orderid{1},?orderGroupId{1},?userId{1},?userName{1},?productId{1},?productname{1},?productformat{1},?buyNum{1},?origPrice{1},?sellPrice{1},?totalPrice{1},?payType{1},?payTypeDesc{1},?requireDeliveryTime{1},?orderState{1},?orderStateDesc{1},?mailAddress{1},?isDelete{1},?isEffective{1},?great_time{1},?modify_time{1},?freight{1}),", sql, i);
 
                 parameter = new MySqlParameter("?orderid" + i, MySqlDbType.VarChar, 25);
                 parameter.Value = model[i].orderid;
@@ -98,6 +98,10 @@ namespace pan.kaikj.wxsupermarket.AdoDal
 
                 parameter = new MySqlParameter("?sellPrice" + i, MySqlDbType.Decimal);
                 parameter.Value = model[i].sellPrice;
+                parameterList.Add(parameter);
+
+                parameter = new MySqlParameter("?freight" + i, MySqlDbType.Decimal);
+                parameter.Value = model[i].freight;
                 parameterList.Add(parameter);
 
                 parameter = new MySqlParameter("?totalPrice" + i, MySqlDbType.Decimal);
@@ -532,7 +536,7 @@ namespace pan.kaikj.wxsupermarket.AdoDal
             //string sql = " SELECT  TOP " + pagCount * pagIndex + " orderid,orderGroupId,userId,userName,productId,productname,productformat,buyNum,origPrice,sellPrice,totalPrice,payType,payTypeDesc,requireDeliveryTime,orderState,orderStateDesc,mailAddress,deliveryName,deliveryTell,deliveryTime,receiptTime,isDelete,isEffective,great_time,modify_time   " +
             //       " FROM( SELECT ROW_NUMBER() OVER(ORDER BY great_time DESC) AS ROWID,* FROM [order]) AS TEMP1  WHERE ROWID> " + pagCount * (pagIndex - 1);
 
-            string sql = "  SELECT  orderid,orderGroupId,userId,userName,productId,productname,productformat,buyNum,origPrice,sellPrice,totalPrice,payType,payTypeDesc,requireDeliveryTime,orderState,orderStateDesc,mailAddress,deliveryName,deliveryTell,deliveryTime,receiptTime,isDelete,isEffective,great_time,modify_time " +
+            string sql = "  SELECT  orderid,orderGroupId,userId,userName,productId,productname,productformat,buyNum,origPrice,sellPrice,totalPrice,payType,payTypeDesc,requireDeliveryTime,orderState,orderStateDesc,mailAddress,deliveryName,deliveryTell,deliveryTime,receiptTime,isDelete,isEffective,great_time,modify_time,freight " +
                 $" FROM orders WHERE {sqlWhere.ToString()} ORDER BY great_time DESC limit {((pagIndex - 1) * pagCount)}, {pagCount}; ";
 
             List<MySqlParameter> parameterList = new List<MySqlParameter>();
@@ -588,8 +592,9 @@ namespace pan.kaikj.wxsupermarket.AdoDal
                         model.buyNum = sqlDataReader["buyNum"] != DBNull.Value ? Convert.ToInt32(sqlDataReader["buyNum"].ToString()) : 0;
                         model.origPrice = sqlDataReader["origPrice"] != DBNull.Value ? Convert.ToDecimal(sqlDataReader["origPrice"].ToString()) : 0M;
                         model.sellPrice = sqlDataReader["sellPrice"] != DBNull.Value ? Convert.ToDecimal(sqlDataReader["sellPrice"].ToString()) : 0M;
+                        model.freight = sqlDataReader["freight"] != DBNull.Value ? Convert.ToDecimal(sqlDataReader["freight"].ToString()) : 0M;
                         model.totalPrice = sqlDataReader["totalPrice"] != DBNull.Value ? Convert.ToDecimal(sqlDataReader["totalPrice"].ToString()) : 0M;
-
+                        
                         model.payType = sqlDataReader["payType"] != DBNull.Value ? Convert.ToInt32(sqlDataReader["payType"].ToString()) : 0;
                         model.payTypeDesc = sqlDataReader["payTypeDesc"] != DBNull.Value ? sqlDataReader["payTypeDesc"].ToString() : string.Empty;
                         model.requireDeliveryTime = sqlDataReader["requireDeliveryTime"] != DBNull.Value ? sqlDataReader["requireDeliveryTime"].ToString() : string.Empty;
@@ -619,7 +624,7 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         /// <returns></returns>
         public Morder GetOrderInfoById(string orderid)
         {
-            string sql = " SELECT orderid,orderGroupId,userId,userName,productId,productname,productformat,buyNum,origPrice,sellPrice,totalPrice,payType,payTypeDesc,requireDeliveryTime,orderState,orderStateDesc,mailAddress,deliveryName,deliveryTell,deliveryTime,receiptTime,isDelete,isEffective,great_time,modify_time  FROM orders where orderid=?orderid";
+            string sql = " SELECT orderid,orderGroupId,userId,userName,productId,productname,productformat,buyNum,origPrice,sellPrice,totalPrice,payType,payTypeDesc,requireDeliveryTime,orderState,orderStateDesc,mailAddress,deliveryName,deliveryTell,deliveryTime,receiptTime,isDelete,isEffective,great_time,modify_time,freight  FROM orders where orderid=?orderid";
             MySqlParameter[] parameterList = new MySqlParameter[1];
             parameterList[0] = new MySqlParameter("?orderid", MySqlDbType.VarChar, 25);
             parameterList[0].Value = orderid;
@@ -643,6 +648,7 @@ namespace pan.kaikj.wxsupermarket.AdoDal
                         model.origPrice = sqlDataReader["origPrice"] != DBNull.Value ? Convert.ToDecimal(sqlDataReader["origPrice"].ToString()) : 0M;
                         model.sellPrice = sqlDataReader["sellPrice"] != DBNull.Value ? Convert.ToDecimal(sqlDataReader["sellPrice"].ToString()) : 0M;
                         model.totalPrice = sqlDataReader["totalPrice"] != DBNull.Value ? Convert.ToDecimal(sqlDataReader["totalPrice"].ToString()) : 0M;
+                        model.freight = sqlDataReader["freight"] != DBNull.Value ? Convert.ToDecimal(sqlDataReader["freight"].ToString()) : 0M;
 
                         model.payType = sqlDataReader["payType"] != DBNull.Value ? Convert.ToInt32(sqlDataReader["payType"].ToString()) : 0;
                         model.payTypeDesc = sqlDataReader["payTypeDesc"] != DBNull.Value ? sqlDataReader["payTypeDesc"].ToString() : string.Empty;
@@ -704,7 +710,7 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         /// <returns></returns>
         public List<Morder> GetOrderInfoByGroupId(string orderGroupId)
         {
-            string sql = " SELECT orderid,orderGroupId,userId,userName,productId,productname,productformat,buyNum,origPrice,sellPrice,totalPrice,payType,payTypeDesc,requireDeliveryTime,orderState,orderStateDesc,mailAddress,deliveryName,deliveryTell,deliveryTime,receiptTime,isDelete,isEffective,great_time,modify_time  FROM orders where orderGroupId=?orderGroupId";
+            string sql = " SELECT orderid,orderGroupId,userId,userName,productId,productname,productformat,buyNum,origPrice,sellPrice,totalPrice,payType,payTypeDesc,requireDeliveryTime,orderState,orderStateDesc,mailAddress,deliveryName,deliveryTell,deliveryTime,receiptTime,isDelete,isEffective,great_time,modify_time,freight  FROM orders where orderGroupId=?orderGroupId";
             MySqlParameter[] parameterList = new MySqlParameter[1];
             parameterList[0] = new MySqlParameter("?orderGroupId", MySqlDbType.VarChar, 25);
             parameterList[0].Value = orderGroupId;
@@ -729,6 +735,7 @@ namespace pan.kaikj.wxsupermarket.AdoDal
                         model.origPrice = sqlDataReader["origPrice"] != DBNull.Value ? Convert.ToDecimal(sqlDataReader["origPrice"].ToString()) : 0M;
                         model.sellPrice = sqlDataReader["sellPrice"] != DBNull.Value ? Convert.ToDecimal(sqlDataReader["sellPrice"].ToString()) : 0M;
                         model.totalPrice = sqlDataReader["totalPrice"] != DBNull.Value ? Convert.ToDecimal(sqlDataReader["totalPrice"].ToString()) : 0M;
+                        model.freight = sqlDataReader["freight"] != DBNull.Value ? Convert.ToDecimal(sqlDataReader["freight"].ToString()) : 0M;
 
                         model.payType = sqlDataReader["payType"] != DBNull.Value ? Convert.ToInt32(sqlDataReader["payType"].ToString()) : 0;
                         model.payTypeDesc = sqlDataReader["payTypeDesc"] != DBNull.Value ? sqlDataReader["payTypeDesc"].ToString() : string.Empty;

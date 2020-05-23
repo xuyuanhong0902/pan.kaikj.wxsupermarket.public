@@ -33,19 +33,18 @@ namespace pan.kaikj.wxsupermarket.AdoModel
 { /// <summary>
   /// Morder 订单
   /// </summary>
-    public class Morder
+    public class Mordersmain
     {
-        public string orderid { get; set; }
         public string orderGroupId { get; set; }
         public string userId { get; set; }
         public string userName { get; set; }
         public string productId { get; set; }
         public string productname { get; set; }
         public string productformat { get; set; }
-        public int buyNum { get; set; }
         public decimal origPrice { get; set; }
         public decimal sellPrice { get; set; }
         public decimal freight { get; set; }
+
         public decimal totalPrice { get; set; }
         public int payType { get; set; }
         public string payTypeDesc { get; set; }

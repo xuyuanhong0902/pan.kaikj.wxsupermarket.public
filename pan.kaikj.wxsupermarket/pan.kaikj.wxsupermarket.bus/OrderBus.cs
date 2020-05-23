@@ -164,13 +164,15 @@ namespace pan.kaikj.wxsupermarket.bus
                 {
                     ///// 构建订单列表
                     List<Morder> modelList = new List<Morder>();
+                    decimal freight = 0;
+                    decimal totalF = 0;
                     foreach (var item in mshoppingCartsList)
                     {
                         if (!hasSel.Contains(item.productId))
                         {
                             continue;
                         }
-
+                        totalF = totalF+item.sellPrice * item.buyNum;
                         modelList.Add(new Morder()
                         {
                             buyNum = item.buyNum,
@@ -187,9 +189,19 @@ namespace pan.kaikj.wxsupermarket.bus
                             origPrice = item.origPrice,
                             sellPrice = item.sellPrice,
                             totalPrice = item.sellPrice * item.buyNum,
+                            freight = item.sellPrice,
 
                             shoppingCartId = item.shoppingCartId
                         });
+                    }
+
+                    // 小于20需要1元钱运费
+                    if (totalF<20)
+                    {
+                        foreach (var item in modelList)
+                        {
+                            item.freight = 1M;
+                        }
                     }
 
                     mwxResult = this.AddOrder(modelList);
