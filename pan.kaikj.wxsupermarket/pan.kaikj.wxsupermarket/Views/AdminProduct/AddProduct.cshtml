@@ -7,7 +7,8 @@
     </div>
 </div>
 <div class="valueCount-body listOutCount">
-    <form ng-app="myApp" ng-controller="myContro" name="addForm" id="addForm" class="ng-pristine ng-valid ng-scope" method="post" enctype="multipart/form-data">
+    <form ng-app="myApp" ng-controller="myContro" name="addForm" id="addForm"
+          class="ng-pristine ng-valid ng-scope" method="post" enctype="multipart/form-data">
         @{
 
             pan.kaikj.wxsupermarket.AdoModel.Mproduct mproduct = ViewData["ProductModel"] == null ? null : (pan.kaikj.wxsupermarket.AdoModel.Mproduct)ViewData["ProductModel"];
@@ -132,13 +133,13 @@
                     </div>
                 </div>
 
-                <div class="oneListCount-body" style="height:150px;">
+                <div class="oneListCount-body" style="height:175px;">
                     <div class="title">图片：</div>
                     <div class="value" style="width:132px;height:132px;">
                         <img style="width:132px;height:132px;" src="../@mproduct.productimgurl" />
+                        <input type="file" id="productimgurl" name="productimgurl">
                     </div>
                 </div>
-
                 <div class="oneListCount-body" style="height:180px;">
                     <div class="title">详情：</div>
                     <div class="value" style="height:180px;">

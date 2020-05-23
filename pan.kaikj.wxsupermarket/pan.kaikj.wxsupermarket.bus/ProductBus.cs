@@ -135,7 +135,7 @@ namespace pan.kaikj.wxsupermarket.bus
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public string AddProductclasses(Mproductclass model)
+        public string AddProductclasses(Mproductclass model, HttpPostedFileBase productimgurl, string path)
         {
             MwxResult mwxResult = new MwxResult()
             {
@@ -148,6 +148,27 @@ namespace pan.kaikj.wxsupermarket.bus
                 if (model == null || string.IsNullOrEmpty(model.classname))
                 {
                     mwxResult.errmsg = "操作失败，新增数据不能为空！";
+                }
+
+                if (productimgurl == null)
+                {
+                    mwxResult.errmsg = "图片不能为空！";
+                    return JsonHelper.GetJson<MwxResult>(mwxResult);
+                }
+                
+                string savePath = string.Empty;
+
+                //// 存图片
+                string fileSave = FileOpert.UploadImg(productimgurl, path + "uploadFile\\" + System.DateTime.Now.ToString("yyyy") + "\\", out savePath);
+                if (string.IsNullOrEmpty(fileSave))
+                {
+                    model.imgpath = savePath.Replace(path, "");
+                }
+                else
+                {
+                    //// 构建错误信息并返回
+                    mwxResult.errmsg = fileSave;
+                    return JsonHelper.GetJson<MwxResult>(mwxResult);
                 }
 
                 //// 时间相关参数赋值
@@ -235,7 +256,7 @@ namespace pan.kaikj.wxsupermarket.bus
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public string EditProductclass(Mproductclass model)
+        public string EditProductclass(Mproductclass model, HttpPostedFileBase productimgurl, string path)
         {
             MwxResult mwxResult = new MwxResult()
             {
@@ -248,6 +269,16 @@ namespace pan.kaikj.wxsupermarket.bus
                 if (model == null || model.classid < 1 || string.IsNullOrEmpty(model.classname))
                 {
                     mwxResult.errmsg = "操作失败，新增数据不能为空！";
+                }
+
+                if (productimgurl != null)
+                {
+                    string savePath = string.Empty;
+                    string fileSave = FileOpert.UploadImg(productimgurl, path + "uploadFile\\" + System.DateTime.Now.ToString("yyyy") + "\\", out savePath);
+                    if (string.IsNullOrEmpty(fileSave))
+                    {
+                        model.imgpath = savePath.Replace(path, "");
+                    }
                 }
 
                 //// 数据落地入库
@@ -342,15 +373,25 @@ namespace pan.kaikj.wxsupermarket.bus
         /// <param name="productimgurl"></param>
         /// <param name="path"></param>
         /// <returns></returns>
-        public string EditeProduct(Mproduct mproduct)
+        public string EditeProduct(Mproduct mproduct, HttpPostedFileBase productimgurl, string path)
         {
             MwxResult mwxResult = new MwxResult()
             {
                 errcode = -1
             };
 
+            if (productimgurl!= null)
+            {
+                string savePath = string.Empty;
+                string fileSave = FileOpert.UploadImg(productimgurl, path + "uploadFile\\" + System.DateTime.Now.ToString("yyyy") + "\\", out savePath);
+                if (string.IsNullOrEmpty(fileSave))
+                {
+                    mproduct.productimgurl = savePath.Replace(path, "");
+                }
+            }
+
             bool addResult = new ProductService().UpdateProdctPrice(mproduct.productid, 
-                (decimal)mproduct.origprice, (decimal)mproduct.sellprice, (int)mproduct.stock, (int)mproduct.priority);
+                (decimal)mproduct.origprice, (decimal)mproduct.sellprice, (int)mproduct.stock, (int)mproduct.priority, mproduct);
 
             if (addResult)
             {
@@ -397,7 +438,7 @@ namespace pan.kaikj.wxsupermarket.bus
         /// <param name="productname"></param>
         /// <param name="shelfstate"></param>
         /// <returns></returns>
-       public string GetProductcList(int pagIndex,  string productname,int shelfstate,int type) {
+       public string GetProductcList(int pagIndex,  string productname,int shelfstate, int recommend,int type) {
             try
             {
                 //// 实现步骤
@@ -413,7 +454,7 @@ namespace pan.kaikj.wxsupermarket.bus
                 //// 1、首先获取符号要求的数据总条数
                 ProductService productService = new ProductService();
                 type = type > 0 ? type : -1;
-                pageListResult.totalNum = productService.GetProductPagCount(type, -1, productname, shelfstate);
+                pageListResult.totalNum = productService.GetProductPagCount(type, -1, productname, shelfstate, recommend);
                 if (pageListResult.totalNum > 0)
                 {
                     //// 2、根据获取到数据条数、每页数据量、页码。优化处理页面
@@ -421,7 +462,7 @@ namespace pan.kaikj.wxsupermarket.bus
                     pagIndex = pagIndex > pageListResult.totalPage ? pageListResult.totalPage : pagIndex;
 
                     //// 3、获取具体的分页数据信息
-                    pageListResult.dataList = productService.GetProductPagList(pagIndex, pagSize, -1, -1, productname, shelfstate);
+                    pageListResult.dataList = productService.GetProductPagList(pagIndex, pagSize, -1, -1, productname, shelfstate, recommend);
                 }
 
                 pageListResult.pagIndex = pagIndex;
@@ -442,7 +483,9 @@ namespace pan.kaikj.wxsupermarket.bus
         /// <param name="productname"></param>
         /// <param name="shelfstate"></param>
         /// <returns></returns>
-        public string GetProductcListBySupClassId(int pagIndex, int supClassid, int shelfstate)
+        public string GetProductcListBySupClassId(int pagIndex, int supClassid, 
+            int shelfstate,int recommend,string keyValues)
+
         {
             try
             {
@@ -458,7 +501,7 @@ namespace pan.kaikj.wxsupermarket.bus
 
                 //// 1、首先获取符号要求的数据总条数
                 ProductService productService = new ProductService();
-                pageListResult.totalNum = productService.GetProductPagCount(-1, supClassid, string.Empty, shelfstate);
+                pageListResult.totalNum = productService.GetProductPagCount(-1, supClassid, keyValues, shelfstate, recommend);
                 if (pageListResult.totalNum > 0)
                 {
                     //// 2、根据获取到数据条数、每页数据量、页码。优化处理页面
@@ -466,7 +509,7 @@ namespace pan.kaikj.wxsupermarket.bus
                     if (pagIndex <= pageListResult.totalPage )
                     {
                         //// 3、获取具体的分页数据信息
-                        pageListResult.dataList = productService.GetProductPagList(pagIndex, pagSize, -1, supClassid, string.Empty, shelfstate);
+                        pageListResult.dataList = productService.GetProductPagList(pagIndex, pagSize, -1, supClassid, keyValues, shelfstate, recommend);
                     }
                 }
 
@@ -541,6 +584,47 @@ namespace pan.kaikj.wxsupermarket.bus
                 else
                 {
                     if (!new ProductService().UpdateProductShelfstate(productid, 9999))
+                    {
+                        mwxResult.errmsg = "操作失败";
+                    }
+                    else
+                    {
+                        mwxResult.errcode = 0;
+                        mwxResult.errmsg = "操作成功";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                mwxResult.errmsg = "操作失败：系统异常！";
+            }
+
+            return JsonHelper.GetJson<MwxResult>(mwxResult);
+        }
+
+
+        /// <summary>
+        /// 更新商品的是否推荐
+        /// </summary>
+        /// <param name="productid"></param>
+        /// <param name="recommend"></param>
+        /// <returns></returns>
+        public string UpdateProductRecommend(string productid, int recommend)
+        {
+            MwxResult mwxResult = new MwxResult()
+            {
+                errcode = -1
+            };
+
+            try
+            {
+                if (string.IsNullOrEmpty(productid))
+                {
+                    mwxResult.errmsg = "操作失败：ID不能为空！";
+                }
+                else
+                {
+                    if (!new ProductService().UpdateProductRecommend(productid, recommend))
                     {
                         mwxResult.errmsg = "操作失败";
                     }

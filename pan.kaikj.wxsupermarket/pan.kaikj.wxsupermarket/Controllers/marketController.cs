@@ -42,6 +42,23 @@ namespace pan.kaikj.wxsupermarket.Controllers
             return View();
         }
 
+        // GET: market
+        public ActionResult IndexPage(String code)
+        {
+            new ProductBus().GetWXUserInfoJesonByCode(code);
+
+            ViewData["AllClass"] = new ProductBus().GetAllSupProductclassList();
+
+            return View();
+        }
+
+        // GET: market
+        public ActionResult Search(String code)
+        {
+            new ProductBus().GetWXUserInfoJesonByCode(code);
+            return View();
+        }
+
         /// <summary>
         /// 产品详情页面
         /// </summary>
@@ -58,12 +75,13 @@ namespace pan.kaikj.wxsupermarket.Controllers
         /// 购物车结算页面
         /// </summary>
         /// <returns></returns>
-        public ActionResult takeout()
+        public ActionResult takeout(string selProductids)
         {
             if (!this.CheckIsLogin())
             {
                 return RedirectToAction("userCenter", "market");
             }
+            ViewData["SelProductids"] = selProductids;
             ViewData["AllShoppingCartList"] = new ShoppingCartBus().GetAllShoppingCartListBySserId(Session["loginuserId"] + string.Empty);
             ViewData["AllMmailAddresses"] = new MailAddressBus().GetMmailAddressesByUserId(Session["loginuserId"] + string.Empty);
             return View();
@@ -77,7 +95,8 @@ namespace pan.kaikj.wxsupermarket.Controllers
         /// <param name="productname"></param>
         /// <param name="shelfstate"></param>
         /// <returns></returns>
-        public string GetProductcListBySupClassId(string pagIndex, string supClassid)
+        public string GetProductcListBySupClassId(string pagIndex, string supClassid, 
+            string recommend,string keyValues)
         {
             //if (!this.CheckIsLogin())
             //{
@@ -90,7 +109,17 @@ namespace pan.kaikj.wxsupermarket.Controllers
             int supClassidI = 0;
             Int32.TryParse(supClassid, out supClassidI);
 
-            return new ProductBus().GetProductcListBySupClassId(pagIndexI, supClassidI, 1);
+            int recommendI = -1;
+            if (string.IsNullOrEmpty(recommend))
+            {
+                recommendI = -1;
+            }
+            else {
+                Int32.TryParse(recommend, out recommendI);
+            }
+
+
+            return new ProductBus().GetProductcListBySupClassId(pagIndexI, supClassidI, 1, recommendI, keyValues);
         }
 
         /// <summary>
@@ -205,14 +234,15 @@ namespace pan.kaikj.wxsupermarket.Controllers
         /// <param name="contactName"></param>
         /// <param name="contactTell"></param>
         /// <returns></returns>
-        public string AddOrder(string deliveryTime, string detailedAddress, string contactName, string contactTell)
+        public string AddOrder(string deliveryTime, string detailedAddress,
+            string contactName, string contactTell,string hasSelProId)
         {
             if (!this.CheckIsLogin())
             {
                 return "-1";
             }
 
-            return new OrderBus().AddOrderByShoppingCart(Session["loginuserId"] + string.Empty, deliveryTime, detailedAddress, contactName, contactTell);
+            return new OrderBus().AddOrderByShoppingCart(Session["loginuserId"] + string.Empty, deliveryTime, detailedAddress, contactName, contactTell, hasSelProId);
         }
 
         /// <summary>

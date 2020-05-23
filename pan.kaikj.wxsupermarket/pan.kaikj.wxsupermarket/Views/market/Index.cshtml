@@ -85,7 +85,7 @@
         <script type="text/javascript">
             //// 底部事件
             $(function () {
-                initBotom(1);
+                initBotom(2);
             });
         </script>
     </div>
@@ -269,7 +269,7 @@
                     alert("请选中需要的产品！");
                     return false;
                 }
-                window.location.href = '/market/takeout';
+                window.location.href = '/market/takeout?selProductids='+hasSelProId.join(",");
             });
         });
 

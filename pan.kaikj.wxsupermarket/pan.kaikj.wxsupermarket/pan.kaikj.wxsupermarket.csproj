@@ -687,6 +687,8 @@
     <Content Include="images\goodgoods.jpg" />
     <Content Include="images\mmexport.png" />
     <Content Include="images\NewOrder.wav" />
+    <Content Include="images\noselect.png" />
+    <Content Include="images\select.png" />
     <Content Include="images\shopCart.png" />
     <Content Include="images\sprite.png" />
     <Content Include="Scripts\AdminIndex\Adminlogin.js" />
@@ -776,10 +778,10 @@
     <Content Include="点餐页面\js\jquery.min.js" />
     <Content Include="点餐页面\order.html" />
     <Content Include="点餐页面\sss.html" />
-    <Content Include="点餐页面\Swiper demo_files\Swiper demo.html" />
-    <Content Include="点餐页面\Swiper demo_files\Swiper demo_files\swiper.min.css" />
-    <Content Include="点餐页面\Swiper demo_files\swiper.min.css" />
-    <Content Include="点餐页面\Swiper demo_files\swiper.min.js" />
+    <Content Include="Content\swiper\Swiper demo.html" />
+    <Content Include="Content\swiper\Swiper demo_files\swiper.min.css" />
+    <Content Include="Content\swiper\swiper.min.css" />
+    <Content Include="Content\swiper\swiper.min.js" />
     <Content Include="点餐页面\takeout.html" />
     <Content Include="点餐页面\淘宝网触屏版.html" />
     <Content Include="点餐页面\淘宝网触屏版_files\blk.html" />
@@ -877,7 +879,7 @@
     <Content Include="Views\news\newsAdd.cshtml" />
     <Content Include="Views\news\viewNew.cshtml" />
     <Content Include="Views\market\viewNew.cshtml" />
-    <Content Include="点餐页面\Swiper demo_files\Swiper demo_files\swiper.min.js.下载" />
+    <Content Include="Content\swiper\Swiper demo_files\swiper.min.js.下载" />
     <Content Include="点餐页面\淘宝网触屏版_files\aplus_v2.js.下载" />
     <Content Include="点餐页面\淘宝网触屏版_files\entry.js.下载" />
     <Content Include="点餐页面\淘宝网触屏版_files\index.js%281%29.下载" />
@@ -910,6 +912,8 @@
     <Content Include="点餐页面\淘宝网触屏版_files\TB29XscEbuWBuNjSszgXXb8jVXa_!!81-0-luban.jpg_180x180q90_.webp" />
     <Content Include="点餐页面\淘宝网触屏版_files\TB2ZBCHu8yWBuNkSmFPXXXguVXa_!!119-2-luban.png_125x125q90_.webp" />
     <Content Include="点餐页面\淘宝网触屏版_files\wake.js.下载" />
+    <Content Include="Views\market\IndexPage.cshtml" />
+    <Content Include="Views\market\Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\pan.kaikj.wxsupermarket.AdoModel\pan.kaikj.wxsupermarket.AdoModel.csproj">

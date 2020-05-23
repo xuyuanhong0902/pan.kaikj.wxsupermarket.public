@@ -60,6 +60,14 @@ namespace pan.kaikj.wxsupermarket.AdoIdal
         bool UpdateProductShelfstate(string productid, int shelfstate);
 
         /// <summary>
+        /// 更新商品的是否推荐
+        /// </summary>
+        /// <param name="productid"></param>
+        /// <param name="recommend"></param>
+        /// <returns></returns>
+        bool UpdateProductRecommend(string productid, int recommend);
+
+        /// <summary>
         /// 根据产品的价格、库存信息
         /// </summary>
         /// <param name="productid"></param>
@@ -67,7 +75,7 @@ namespace pan.kaikj.wxsupermarket.AdoIdal
         /// <param name="sellprice"></param>
         /// <param name="stock"></param>
         /// <returns></returns>
-        bool UpdateProdctPrice(string productid, decimal origprice, decimal sellprice, int stock, int priority);
+        bool UpdateProdctPrice(string productid, decimal origprice, decimal sellprice, int stock, int priority, Mproduct mproduct);
 
         /// <summary>
         /// 根据产品类别，查询对应的产品数量
@@ -98,7 +106,7 @@ namespace pan.kaikj.wxsupermarket.AdoIdal
         /// <param name="productname"></param>
         /// <param name="shelfstate"></param>
         /// <returns></returns>
-        int GetProductPagCount(int classid, int supclassid, string productname, int shelfstate, int isDelete = 0);
+        int GetProductPagCount(int classid, int supclassid, string productname, int shelfstate, int isDelete = 0,int recommend=-1);
 
         /// <summary>
         /// 获取产品数据总条数
@@ -108,6 +116,6 @@ namespace pan.kaikj.wxsupermarket.AdoIdal
         /// <param name="productname"></param>
         /// <param name="shelfstate"></param>
         /// <returns></returns>
-        List<Mproduct> GetProductPagList(int pagIndex, int pagCount, int classid, int supclassid, string productname, int shelfstate, int isDelete = 0);
+        List<Mproduct> GetProductPagList(int pagIndex, int pagCount, int classid, int supclassid, string productname, int shelfstate, int isDelete = 0, int recommend=-1);
     }
 }

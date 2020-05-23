@@ -34,5 +34,6 @@ namespace pan.kaikj.wxsupermarket.AdoModel
         public string isEffective { get; set; }
         public DateTime great_time { get; set; }
         public DateTime modify_time { get; set; }
+        public int recommend { get; set; }
     }
 }

@@ -7,8 +7,9 @@
     </div>
 </div>
 <div class="valueCount-body listOutCount">
-    <form ng-app="myApp" ng-controller="myContro" name="addForm" id="addForm" class="ng-pristine ng-valid ng-scope">
-
+    <form ng-app="myApp" ng-controller="myContro" name="addForm" id="addForm"
+          class="ng-pristine ng-valid ng-scope" method="post" enctype="multipart/form-data">
+        <input id="classid" name="classid" style="display:none;" value="@Model.classid">
 
         <div class="oneListCount-body">
             <div class="title">上级产品类别：</div>
@@ -20,7 +21,7 @@
                             List<pan.kaikj.wxsupermarket.AdoModel.Mproductclass> modelList = ViewData["AllPersonClass"] == null ? null : (List<pan.kaikj.wxsupermarket.AdoModel.Mproductclass>)ViewData["AllPersonClass"];
                             foreach (var item in modelList)
                             {
-                                <option  value="@item.classid">@item.classname</option>
+                                <option value="@item.classid">@item.classname</option>
                             }
                         }
                     </select>
@@ -54,13 +55,20 @@
                 </div>
             </div>
         </div>
+        <div class="oneListCount-body" style="height:175px;">
+            <div class="title">图片：</div>
+            <div class="value" style="width:132px;height:132px;">
+                <img style="width:132px;height:132px;" src="../@Model.imgpath" />
+                <input type="file" id="productimgurl" name="productimgurl">
+            </div>
+        </div>
         <div>
             <input type="button" id="submit" class="submitBut" value="保存" ng-click="submit()" ng-disabled="addForm.$invalid">
             <label style="color: #f00;" id="message" class="alert"></label>
         </div>
     </form>
 </div>
-
+<script src="../Scripts/jquery-form.js"></script>
 <script src="../Scripts/angular.min.js"></script>
 <script src="../Scripts/angular-messages.min.js"></script>
 <script type="text/javascript">
@@ -77,6 +85,7 @@
         $scope.model = {
             supclassid: supclassid,
             classname: classname,
+            classid: id,
             priority: priority
         };
 
@@ -86,12 +95,10 @@
                 var paramData = "classid=" + id + "&supclassid=" + $scope.model.supclassid + "&classname=" +
                     $scope.model.classname + "&priority=" + $scope.model.priority;
                 //// 表单数据真实提交逻辑
-                $.ajax({
-                    cache: true,//保留缓存数据
-                    type: "get",//为post请求
+                  $("#addForm").ajaxSubmit({
                     url: "../AdminProduct/EditProductclassMeth",//这是我在后台接受数据的文件名
-                    data: paramData,//将该表单序列化
-                    async: true,//设置成true，这标志着在请求开始后，其他代码依然能够执行。如果把这个选项设置成false，这意味着所有的请求都不再是异步的了，这也会导致浏览器被锁死
+                      type: "post",
+                    data:paramData,
                     error: function (request) {//请求失败之后的操作
                         alert("操作失败！");
                     },

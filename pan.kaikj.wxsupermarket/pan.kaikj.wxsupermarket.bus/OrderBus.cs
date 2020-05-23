@@ -127,8 +127,9 @@ namespace pan.kaikj.wxsupermarket.bus
 
         public string AddOrderByShoppingCart(string userId, string deliveryTime,
            string mailAddress,
-string deliveryName,
-string deliveryTell)
+            string deliveryName,
+            string deliveryTell,
+            string hasSelProId)
         {
 
             MwxResult mwxResult = new MwxResult()
@@ -143,10 +144,18 @@ string deliveryTell)
                     mwxResult.errmsg = "请先登录！";
                     return JsonHelper.GetJson<MwxResult>(mwxResult);
                 }
+
+                if (string.IsNullOrEmpty(hasSelProId))
+                {
+                    mwxResult.errmsg = "请选择需要购买的产品！";
+                    return JsonHelper.GetJson<MwxResult>(mwxResult);
+                }
+
                 ///// 获取该用户的购物车全部商品
                 List<MshoppingCart> mshoppingCartsList = new ShoppingCartBus().GetAllShoppingCartListBySserId(userId);
+                string[] hasSel= hasSelProId.Split(',');
 
-                if (mshoppingCartsList == null || mshoppingCartsList.Count <= 0)
+                if (hasSel==null || hasSel.Length<1 || mshoppingCartsList == null || mshoppingCartsList.Count <= 0)
                 {
                     mwxResult.errmsg = "请选择需要购买的产品！";
                     return JsonHelper.GetJson<MwxResult>(mwxResult);
@@ -157,6 +166,11 @@ string deliveryTell)
                     List<Morder> modelList = new List<Morder>();
                     foreach (var item in mshoppingCartsList)
                     {
+                        if (!hasSel.Contains(item.productId))
+                        {
+                            continue;
+                        }
+
                         modelList.Add(new Morder()
                         {
                             buyNum = item.buyNum,

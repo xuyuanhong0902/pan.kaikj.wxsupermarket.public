@@ -73,6 +73,17 @@ namespace pan.kaikj.wxsupermarket.AdoService
         }
 
         /// <summary>
+        /// 更新商品的是否推荐
+        /// </summary>
+        /// <param name="productid"></param>
+        /// <param name="recommend"></param>
+        /// <returns></returns>
+        public bool UpdateProductRecommend(string productid, int recommend)
+        {
+            return opertService.UpdateProductRecommend(productid, recommend);
+        }
+
+        /// <summary>
         /// 根据产品的价格、库存信息
         /// </summary>
         /// <param name="productid"></param>
@@ -80,9 +91,9 @@ namespace pan.kaikj.wxsupermarket.AdoService
         /// <param name="sellprice"></param>
         /// <param name="stock"></param>
         /// <returns></returns>
-        public bool UpdateProdctPrice(string productid, decimal origprice, decimal sellprice, int stock,int priority)
+        public bool UpdateProdctPrice(string productid, decimal origprice, decimal sellprice, int stock,int priority,Mproduct mproduct)
         {
-            return opertService.UpdateProdctPrice(productid, origprice, sellprice, stock, priority);
+            return opertService.UpdateProdctPrice(productid, origprice, sellprice, stock, priority, mproduct);
         }
 
         /// <summary>
@@ -123,9 +134,9 @@ namespace pan.kaikj.wxsupermarket.AdoService
         /// <param name="productname"></param>
         /// <param name="shelfstate"></param>
         /// <returns></returns>
-        public int GetProductPagCount(int classid, int supclassid, string productname, int shelfstate)
+        public int GetProductPagCount(int classid, int supclassid, string productname, int shelfstate,int recommend)
         {
-            return opertService.GetProductPagCount(classid, supclassid, productname, shelfstate);
+            return opertService.GetProductPagCount(classid, supclassid, productname, shelfstate,0, recommend);
         }
 
         /// <summary>
@@ -136,9 +147,9 @@ namespace pan.kaikj.wxsupermarket.AdoService
         /// <param name="productname"></param>
         /// <param name="shelfstate"></param>
         /// <returns></returns>
-        public List<Mproduct> GetProductPagList(int pagIndex, int pagCount, int classid, int supclassid, string productname, int shelfstate)
+        public List<Mproduct> GetProductPagList(int pagIndex, int pagCount, int classid, int supclassid, string productname, int shelfstate, int recommend)
         {
-            return opertService.GetProductPagList(pagIndex, pagCount, classid, supclassid, productname, shelfstate);
+            return opertService.GetProductPagList(pagIndex, pagCount, classid, supclassid, productname, shelfstate,0, recommend);
         }
     }
 }

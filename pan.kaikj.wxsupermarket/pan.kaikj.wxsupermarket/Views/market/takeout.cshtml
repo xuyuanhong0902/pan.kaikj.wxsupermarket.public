@@ -22,36 +22,45 @@
     <div style="height: 49px;"></div>
     <ul class="eat-list">
         @{ List
-                                    <pan.kaikj.wxsupermarket.AdoModel.MshoppingCart>
-                                        modelList = ViewData["AllShoppingCartList"] == null ? null : (List<pan.kaikj.wxsupermarket.AdoModel.MshoppingCart>
-                                            )ViewData["AllShoppingCartList"];
+                                                           <pan.kaikj.wxsupermarket.AdoModel.MshoppingCart>
+                                                               modelList = ViewData["AllShoppingCartList"] == null ? null : (List<pan.kaikj.wxsupermarket.AdoModel.MshoppingCart>
+                                                                   )ViewData["AllShoppingCartList"];
             decimal totalMon = 0M;
+            string selProductids =ViewData["SelProductids"] == null ? null : ViewData["SelProductids"].ToString();
             if (modelList != null && modelList.Count > 0)
             {
+
                 foreach (var item in modelList)
                 {
-                    totalMon = totalMon + item.sellPrice * item.buyNum;
-                    <li>
-                        <span class="name" style="width: 47%;">@item.productname</span>
-                        <em class="price" data-price="@item.sellPrice" data-id="@item.shoppingCartId">￥@item.sellPrice.ToString("0.00")</em>
-                        <div class="d-stock" data-id="@item.productId">
-                            <a class="decrease">-</a>
-                            <input id="num" readonly="" class="text_box" name="" type="text" value="@item.buyNum">
-                            <a class="increase">+</a>
-                        </div>
-                    </li>
+                    bool issel = string.IsNullOrEmpty(selProductids) || !selProductids.Contains(item.productId) ? false : true;
+                    string selPic ="noselect.png";
+                    if (issel)
+                    {
+                        selPic = "select.png";
+                        totalMon = totalMon + item.sellPrice * item.buyNum;
+                    }
+                <li>
+                    <a class="name selInput" id='@("sel"+item.productId)' data-id="@item.productId"  data-sel="@(issel?1:0)" style="width:30px;background: url(../images/@selPic) 0% 0% / 80% 80% no-repeat"></a>
+                    <span class="name" style="width: 40%;">@item.productname</span>
+                    <em class="price" data-price="@item.sellPrice" data-id="@item.shoppingCartId">￥@item.sellPrice.ToString("0.00")</em>
+                    <div class="d-stock" data-id="@item.productId">
+                        <a class="decrease">-</a>
+                        <input id="num" readonly="" class="text_box" name="" type="text" value="@item.buyNum">
+                        <a class="increase">+</a>
+                    </div>
+                </li>
                 }
-            }
+        }
         }
         @*<li>
-                <span class="name">绿茶</span>
-                <em class="price" data-price="2.0" data-id="2">￥2.0</em>
-                <div class="d-stock ">
-                    <a class="decrease">-</a>
-                    <input id="num" readonly="" class="text_box" name="" type="text" value="1">
-                    <a class="increase">+</a>
-                </div>
-            </li>*@
+            <span class="name">绿茶</span>
+            <em class="price" data-price="2.0" data-id="2">￥2.0</em>
+            <div class="d-stock ">
+                <a class="decrease">-</a>
+                <input id="num" readonly="" class="text_box" name="" type="text" value="1">
+                <a class="increase">+</a>
+            </div>
+        </li>*@
     </ul>
     <div class="juli"></div>
     <ul class="list-detail">
@@ -138,7 +147,7 @@
         <script type="text/javascript">
             //// 底部事件
             $(function () {
-                initBotom(2);
+                initBotom(3);
             });
         </script>
     </div>
@@ -193,7 +202,10 @@
                     self.siblings('input').val(current_num);
 
                     //// 购物车数量展示处理
-                    update_item(self, 1);
+                    if (self.parent().siblings("#sel" + self.parent().attr("data-id")).attr("data-sel") == "1")
+                    {
+                        update_item(self, 1);
+                    }
                 }
             })
 
@@ -210,13 +222,51 @@
                             self.siblings(".text_box").fadeOut();
                         }
                         self.siblings('input').val(current_num);
-                        update_item(self, 0);
+                        if (self.parent().siblings("#sel" + self.parent().attr("data-id")).attr("data-sel") == "1") {
+                            update_item(self, 0);
+                        }
                     }
                 }
             })
 
+            $(".selInput").click(function () {
+                var self = $(this);
+                var pid = self.attr("data-id");
+                var sel = self.attr("data-sel");
+                if (sel == "1") {
+                    self.attr("data-sel", "0");
+                    self.css("background","url(../images/noselect.png) 0% 0% / 80% 80% no-repeat")
+                } else {
+                    self.attr("data-sel", "1");
+                    self.css("background","url(../images/select.png) 0% 0% / 80% 80% no-repeat")
+                }
+
+                //// 购物车数量展示处理
+                var totalPrice = parseFloat($("#totalPrice").html().trim());
+                var thisPrice = parseFloat(self.siblings(".price").attr("data-price"));
+                var thisNum = parseInt(self.siblings(".d-stock").find(".text_box").val());
+                thisPrice = thisPrice * thisNum;
+
+                totalPrice = sel == "0" ? totalPrice + thisPrice : totalPrice - thisPrice;
+                $("#totalPrice").html(totalPrice.toFixed(2));
+
+            });
+
             //// 提交订单
             $("#creatOrder").click(function () {
+
+                // 获取已经选择的商品
+                var hasSelProId = new Array();
+                $(".selInput").each(function () {
+                    if ($(this).attr("data-sel")=="1") {
+                        hasSelProId.push($(this).attr("data-id"));
+                    }
+                });
+
+                if (!hasSelProId || hasSelProId.length<1) {
+                    alert("请选择需要购买的商品");
+                    return;
+                }
 
                 //// 首先做数据合法性验证
                 //// 送货时间
@@ -264,7 +314,8 @@
                         deliveryTime: deliveryTime,
                         detailedAddress: detailedAddress,
                         contactName: contactName,
-                        contactTell: contactTell
+                        contactTell: contactTell,
+                        hasSelProId:hasSelProId.join(",")
                         },//将该表单序列化
                     async: true,//设置成true，这标志着在请求开始后，其他代码依然能够执行。如果把这个选项设置成false，这意味着所有的请求都不再是异步的了，这也会导致浏览器被锁死
                     error: function (request) {//请求失败之后的操作
@@ -436,8 +487,6 @@
             //// 购物车数量展示处理
             var totalPrice = parseFloat($("#totalPrice").html().trim());
             var thisPrice = parseFloat(self.parent().prev().attr("data-price"));
-            var thisId = parseFloat(self.parent().parent().find(".price").attr("data-id"));
-
             totalPrice = opertType == 1 ? totalPrice + thisPrice : totalPrice - thisPrice;
             $("#totalPrice").html(totalPrice.toFixed(2));
         }

@@ -51,8 +51,8 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         {
 
             //// sql语句
-            string sql = "INSERT INTO productclass(supclassid,classname,priority,isDelete,isEffective,great_time,modify_time) " +
-                         "VALUES (?supclassid,?classname,?priority,?isDelete,?isEffective,?great_time,?modify_time)";
+            string sql = "INSERT INTO productclass(supclassid,classname,priority,isDelete,isEffective,great_time,modify_time,imgpath) " +
+                         "VALUES (?supclassid,?classname,?priority,?isDelete,?isEffective,?great_time,?modify_time,?imgpath)";
 
             List<MySqlParameter> parameterList = new List<MySqlParameter>();
             MySqlParameter parameter = new MySqlParameter("?supclassid", MySqlDbType.Int32);
@@ -84,6 +84,10 @@ namespace pan.kaikj.wxsupermarket.AdoDal
             parameter.Value = dateTime;
             parameterList.Add(parameter);
 
+            parameter = new MySqlParameter("?imgpath", MySqlDbType.VarChar, 255);
+            parameter.Value = model.imgpath;
+            parameterList.Add(parameter);
+
             //// 执行操作
             return PKMySqlHelper.ExecuteNonQuery(sql, parameterList.ToArray()) > 0;
         }
@@ -98,7 +102,13 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         {
 
             //// sql语句
-            string sql = "update  productclass set supclassid=?supclassid, classname=?classname,priority=?priority ,modify_time=?modify_time where classid=?classid;";
+            string sql = "update  productclass set supclassid=?supclassid, classname=?classname,priority=?priority ,modify_time=?modify_time";
+
+            if (!string.IsNullOrEmpty(model.imgpath)) {
+                sql = sql+ ",imgpath=?imgpath ";
+            }
+
+            sql = sql + " where classid=?classid;";
 
             List<MySqlParameter> parameterList = new List<MySqlParameter>();
             MySqlParameter parameter = new MySqlParameter("?classid", MySqlDbType.Int32);
@@ -119,6 +129,10 @@ namespace pan.kaikj.wxsupermarket.AdoDal
 
             parameter = new MySqlParameter("?modify_time", MySqlDbType.DateTime);
             parameter.Value = System.DateTime.Now;
+            parameterList.Add(parameter);
+
+            parameter = new MySqlParameter("?imgpath", MySqlDbType.VarChar, 255);
+            parameter.Value = model.imgpath;
             parameterList.Add(parameter);
 
             //// 执行操作
@@ -179,7 +193,7 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         /// </summary>
         /// <returns></returns>
         public List<Mproductclass> GetMproductclasses(int supclassid) {
-            string sql = "  SELECT classid,supclassid,classname,priority,isDelete,isEffective,great_time,modify_time from productclass where 1=1 ";
+            string sql = "  SELECT classid,supclassid,classname,priority,isDelete,isEffective,great_time,modify_time,imgpath from productclass where 1=1 ";
             if (supclassid>=0)
             {
                 sql = sql + " and supclassid = ?supclassid;";
@@ -203,6 +217,7 @@ namespace pan.kaikj.wxsupermarket.AdoDal
                         model.classname = sqlDataReader["classname"] != DBNull.Value ? sqlDataReader["classname"].ToString() : string.Empty;
                         model.great_time = sqlDataReader["great_time"] != DBNull.Value ? Convert.ToDateTime(sqlDataReader["great_time"].ToString()) : DateTime.MinValue;
                         model.modify_time = sqlDataReader["modify_time"] != DBNull.Value ? Convert.ToDateTime(sqlDataReader["modify_time"].ToString()) : DateTime.MinValue;
+                        model.imgpath = sqlDataReader["imgpath"] != DBNull.Value ? sqlDataReader["imgpath"].ToString() : string.Empty;
                         listModel.Add(model);
                     }
                 }
@@ -218,7 +233,7 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         /// <returns></returns>
         public Mproductclass GetMproductclassByClassid(int classid)
         {
-            string sql = "  SELECT classid,supclassid,classname,priority,isDelete,isEffective,great_time,modify_time from productclass where 1=1 and classid = ?classid;";
+            string sql = "  SELECT classid,supclassid,classname,priority,isDelete,isEffective,great_time,modify_time,imgpath from productclass where 1=1 and classid = ?classid;";
 
             MySqlParameter[] parameterList = new MySqlParameter[1];
             parameterList[0] = new MySqlParameter("?classid", MySqlDbType.Int32);
@@ -237,6 +252,7 @@ namespace pan.kaikj.wxsupermarket.AdoDal
                         model.classname = sqlDataReader["classname"] != DBNull.Value ? sqlDataReader["classname"].ToString() : string.Empty;
                         model.great_time = sqlDataReader["great_time"] != DBNull.Value ? Convert.ToDateTime(sqlDataReader["great_time"].ToString()) : DateTime.MinValue;
                         model.modify_time = sqlDataReader["modify_time"] != DBNull.Value ? Convert.ToDateTime(sqlDataReader["modify_time"].ToString()) : DateTime.MinValue;
+                        model.imgpath = sqlDataReader["imgpath"] != DBNull.Value ? sqlDataReader["imgpath"].ToString() : string.Empty;
                         return model;
                     }
                 }

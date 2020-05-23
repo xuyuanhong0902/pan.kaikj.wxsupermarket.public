@@ -7,6 +7,7 @@ app.controller("myContro", function ($scope) {
     $scope.condition = {
         productname: "",
         shelfstate: "0",
+        recommend: "-1",
         type:"0"
     }
 
@@ -18,6 +19,9 @@ app.controller("myContro", function ($scope) {
 
     //// 上下架设置
     $scope.shelfstateOpert = shelfstateOpert;
+
+    //// 推荐设置
+    $scope.recommendOpert = recommendOpert;
 
     //// 分页控件页码单击事件
     $scope.SearchFunPageBut = function (butId) {
@@ -52,6 +56,7 @@ app.controller("myContro", function ($scope) {
             data: "pagIndex=" + pagIndex + "&acount=" + $scope.condition.acount +
                 "&productname=" + $scope.condition.productname +
                 "&shelfstate=" + $scope.condition.shelfstate +
+                "&recommend=" + $scope.condition.recommend +
                 "&type=" + $scope.condition.type,//将该表单序列化
             async: true,//设置成true，这标志着在请求开始后，其他代码依然能够执行。如果把这个选项设置成false，这意味着所有的请求都不再是异步的了，这也会导致浏览器被锁死
             error: function (request) {//请求失败之后的操作
@@ -114,6 +119,44 @@ app.controller("myContro", function ($scope) {
             type: "get",//为post请求
             url: "../AdminProduct/UpdateProductShelfstateByIdMeth",//这是我在后台接受数据的文件名
             data: "productid=" + productid,//将该表单序列化
+            async: true,//设置成true，这标志着在请求开始后，其他代码依然能够执行。如果把这个选项设置成false，这意味着所有的请求都不再是异步的了，这也会导致浏览器被锁死
+            error: function (request) {//请求失败之后的操作
+                alert("操作失败！");
+            },
+            success: function (data) {//请求成功之后的操作
+                if (data == "-1") {
+                    window.location.href = '../Login/Index';
+                } else {
+                    if (data) {
+                        var dataObj = $.parseJSON(data);
+                        if (dataObj) {
+                            if (dataObj["errcode"] == "0") {
+                                //// 操作成功：重新绑定数据
+                                $scope.selectFun();
+                            }
+                            alert(dataObj["errmsg"]);
+                        }
+                    } else {
+                        alert("操作失败！");
+                    }
+                }
+            }
+        });
+    }
+
+    //推荐设置
+    function recommendOpert(productid, recommend) {
+        if (recommend == 1) {
+            recommend = 0;
+        } else {
+            recommend = 1;
+        }
+        //// 表单数据真实提交逻辑
+        $.ajax({
+            cache: true,//保留缓存数据
+            type: "get",//为post请求
+            url: "../AdminProduct/UpdateProductRecommend",//这是我在后台接受数据的文件名
+            data: "productid=" + productid + "&recommend=" + recommend,//将该表单序列化
             async: true,//设置成true，这标志着在请求开始后，其他代码依然能够执行。如果把这个选项设置成false，这意味着所有的请求都不再是异步的了，这也会导致浏览器被锁死
             error: function (request) {//请求失败之后的操作
                 alert("操作失败！");

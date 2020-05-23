@@ -52,8 +52,8 @@ namespace pan.kaikj.wxsupermarket.AdoDal
 
             //// sql语句  
 
-        string sql = "INSERT INTO product(productid,classid,supclassid,className,supclassName,productname,productformat,productformatunit,origprice,sellprice,stock,shelfstate,hassellnum,productdetails,productimgurl,priority,isDelete,isEffective,great_time,modify_time) " +
-                         "VALUES (?productid,?classid,?supclassid,(select classname from productclass where classid=?classid),(select classname from productclass where classid=?supclassid),?productname,?productformat,?productformatunit,?origprice,?sellprice,?stock,?shelfstate,?hassellnum,?productdetails,?productimgurl,?priority,?isDelete,?isEffective,?great_time,?modify_time)";
+        string sql = "INSERT INTO product(productid,classid,supclassid,className,supclassName,productname,productformat,productformatunit,origprice,sellprice,stock,shelfstate,hassellnum,productdetails,productimgurl,priority,isDelete,isEffective,great_time,modify_time,recommend) " +
+                         "VALUES (?productid,?classid,?supclassid,(select classname from productclass where classid=?classid),(select classname from productclass where classid=?supclassid),?productname,?productformat,?productformatunit,?origprice,?sellprice,?stock,?shelfstate,?hassellnum,?productdetails,?productimgurl,?priority,?isDelete,?isEffective,?great_time,?modify_time,recommend)";
 
             List<MySqlParameter> parameterList = new List<MySqlParameter>();
             MySqlParameter parameter = new MySqlParameter("?productid", MySqlDbType.VarChar, 25);
@@ -129,6 +129,10 @@ namespace pan.kaikj.wxsupermarket.AdoDal
             parameter.Value = dateTime;
             parameterList.Add(parameter);
 
+            parameter = new MySqlParameter("?recommend", MySqlDbType.Int32);
+            parameter.Value =model.recommend;
+            parameterList.Add(parameter);
+
             //// 执行操作
             return PKMySqlHelper.ExecuteNonQuery(sql, parameterList.ToArray()) > 0;
         }
@@ -182,6 +186,29 @@ namespace pan.kaikj.wxsupermarket.AdoDal
             return PKMySqlHelper.ExecuteNonQuery(sql, parameterList.ToArray()) > 0;
         }
 
+
+        /// <summary>
+        /// 更新商品的是否推荐
+        /// </summary>
+        /// <param name="productid"></param>
+        /// <param name="recommend"></param>
+        /// <returns></returns>
+        public bool UpdateProductRecommend(string productid, int recommend)
+        {
+            string sql = "update  product set recommend=?recommend where productid=?productid;";
+            List<MySqlParameter> parameterList = new List<MySqlParameter>();
+            MySqlParameter parameter = new MySqlParameter("?recommend", MySqlDbType.Int32);
+            parameter.Value = recommend;
+            parameterList.Add(parameter);
+
+            parameter = new MySqlParameter("?productid", MySqlDbType.VarChar, 25);
+            parameter.Value = productid;
+            parameterList.Add(parameter);
+
+            //// 执行操作
+            return PKMySqlHelper.ExecuteNonQuery(sql, parameterList.ToArray()) > 0;
+        }
+
         /// <summary>
         /// 根据产品的价格、库存信息
         /// </summary>
@@ -190,7 +217,7 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         /// <param name="sellprice"></param>
         /// <param name="stock"></param>
         /// <returns></returns>
-        public bool UpdateProdctPrice(string productid,decimal origprice,decimal sellprice,int stock, int priority) {
+        public bool UpdateProdctPrice(string productid,decimal origprice,decimal sellprice,int stock, int priority, Mproduct mproduct) {
             string sql = "update  product set ";
 
             if (origprice>0)
@@ -211,6 +238,11 @@ namespace pan.kaikj.wxsupermarket.AdoDal
             if (priority > 0)
             {
                 sql = sql + "  priority = ?priority,";
+            }
+
+            if (!string.IsNullOrEmpty(mproduct.productimgurl))
+            {
+                sql = sql + "  productimgurl = ?productimgurl,";
             }
 
             sql = sql.TrimEnd(',') + " where productid=?productid;";
@@ -235,6 +267,10 @@ namespace pan.kaikj.wxsupermarket.AdoDal
 
             parameter = new MySqlParameter("?priority", MySqlDbType.Decimal);
             parameter.Value = priority;
+            parameterList.Add(parameter);
+
+            parameter = new MySqlParameter("?productimgurl", MySqlDbType.VarChar, 100);
+            parameter.Value = mproduct.productimgurl;
             parameterList.Add(parameter);
 
             //// 执行操作
@@ -303,7 +339,7 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         public Mproduct GetMproductModelById(string productid)
         {
             string sql = "select productid,classid,supclassid,className,supclassName,productname,productformat,productformatunit,origprice,sellprice,stock,shelfstate,hassellnum," +
-                "productdetails,productimgurl,priority,isDelete,isEffective,great_time,modify_time from product where isDelete=0  and productid=?productid;";
+                "productdetails,productimgurl,priority,isDelete,isEffective,great_time,modify_time,recommend from product where isDelete=0  and productid=?productid;";
             List<MySqlParameter> parameterList = new List<MySqlParameter>();
             MySqlParameter parameter = new MySqlParameter("?productid", MySqlDbType.VarChar, 25);
             parameter.Value = productid;
@@ -336,6 +372,8 @@ namespace pan.kaikj.wxsupermarket.AdoDal
                         model.priority = sqlDataReader["priority"] != DBNull.Value ? Convert.ToInt32(sqlDataReader["priority"].ToString()) : 0;
                         model.great_time = sqlDataReader["great_time"] != DBNull.Value ? Convert.ToDateTime(sqlDataReader["great_time"].ToString()) : DateTime.MinValue;
                         model.modify_time = sqlDataReader["modify_time"] != DBNull.Value ? Convert.ToDateTime(sqlDataReader["modify_time"].ToString()) : DateTime.MinValue;
+
+                        model.recommend = sqlDataReader["recommend"] != DBNull.Value ? Convert.ToInt32(sqlDataReader["recommend"].ToString()) : 0;
                         return model;
                     }
                 }
@@ -352,7 +390,7 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         /// <param name="productname"></param>
         /// <param name="shelfstate"></param>
         /// <returns></returns>
-        public int GetProductPagCount(int classid, int supclassid,string productname,int shelfstate,int isDelete= 0) {
+        public int GetProductPagCount(int classid, int supclassid,string productname,int shelfstate,int isDelete= 0,int recommend = -1) {
             string sql = $" SELECT count(productid) as totalCount  FROM product WHERE  isDelete={isDelete} ";
             if (classid>0)
             {
@@ -372,6 +410,11 @@ namespace pan.kaikj.wxsupermarket.AdoDal
             if (shelfstate != 0)
             {
                 sql = sql + " and shelfstate =?shelfstate";
+            }
+
+            if (recommend>=0)
+            {
+                sql = sql + " and recommend ="+ recommend;
             }
 
             List<MySqlParameter> parameterList = new List<MySqlParameter>();
@@ -413,7 +456,7 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         /// <param name="productname"></param>
         /// <param name="shelfstate"></param>
         /// <returns></returns>
-        public List<Mproduct> GetProductPagList(int pagIndex, int pagCount, int classid, int supclassid, string productname, int shelfstate, int isDelete = 0)
+        public List<Mproduct> GetProductPagList(int pagIndex, int pagCount, int classid, int supclassid, string productname, int shelfstate, int isDelete = 0, int recommend = -1)
         {
             // 查询条件
             StringBuilder sqlWhere = new StringBuilder($" isDelete ={isDelete} ");
@@ -438,8 +481,13 @@ namespace pan.kaikj.wxsupermarket.AdoDal
                 sqlWhere.Append(" and shelfstate =?shelfstate");
             }
 
+            if (recommend >= 0)
+            {
+                sqlWhere.Append(" and recommend ="+ recommend);
+            }
+
             string sql = "  SELECT  productid,classid,supclassid,className,supclassName,productname,productformat,productformatunit,origprice,sellprice,stock,shelfstate,hassellnum," +
-                "productdetails,productimgurl,priority,isDelete,isEffective,great_time,modify_time  " +
+                "productdetails,productimgurl,priority,isDelete,isEffective,great_time,modify_time,recommend  " +
                $" FROM product WHERE {sqlWhere.ToString()} ORDER BY great_time desc limit {((pagIndex - 1) * pagCount)}, {pagCount}; ";
 
 
@@ -493,6 +541,8 @@ namespace pan.kaikj.wxsupermarket.AdoDal
                         model.priority = sqlDataReader["priority"] != DBNull.Value ? Convert.ToInt32(sqlDataReader["priority"].ToString()) : 0;
                         model.great_time = sqlDataReader["great_time"] != DBNull.Value ? Convert.ToDateTime(sqlDataReader["great_time"].ToString()) : DateTime.MinValue;
                         model.modify_time = sqlDataReader["modify_time"] != DBNull.Value ? Convert.ToDateTime(sqlDataReader["modify_time"].ToString()) : DateTime.MinValue;
+
+                        model.recommend = sqlDataReader["recommend"] != DBNull.Value ? Convert.ToInt32(sqlDataReader["recommend"].ToString()) : 0;
 
                         listModel.Add(model);
                     }

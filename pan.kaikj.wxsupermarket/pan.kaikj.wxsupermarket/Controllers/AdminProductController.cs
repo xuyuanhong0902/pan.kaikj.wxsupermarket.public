@@ -44,8 +44,8 @@ namespace pan.kaikj.wxsupermarket.Controllers
             {
                 return "-1";
             }
-
-            return new ProductBus().AddProductclasses(model);
+            HttpPostedFileBase productimgurl = Request.Files["productimgurl"];
+            return new ProductBus().AddProductclasses(model, productimgurl, Server.MapPath("/"));
         }
 
         /// <summary>
@@ -111,7 +111,8 @@ namespace pan.kaikj.wxsupermarket.Controllers
                 return "-1";
             }
 
-            return new ProductBus().EditProductclass(model);
+            HttpPostedFileBase productimgurl = Request.Files["productimgurl"];
+            return new ProductBus().EditProductclass(model, productimgurl, Server.MapPath("/"));
         }
 
         #endregion
@@ -166,16 +167,16 @@ namespace pan.kaikj.wxsupermarket.Controllers
             {
                 return "-1";
             }
+            HttpPostedFileBase productimgurl = Request.Files["productimgurl"];
 
             if (string.IsNullOrEmpty(mproduct.productid))
             {
-                HttpPostedFileBase productimgurl = Request.Files["productimgurl"];
                 return new ProductBus().AddProduct(mproduct, productimgurl, Server.MapPath("/"));
             }
             else
             {
                 //// 编辑
-                return new ProductBus().EditeProduct(mproduct);
+                return new ProductBus().EditeProduct(mproduct, productimgurl, Server.MapPath("/"));
             }
            
         }
@@ -187,7 +188,7 @@ namespace pan.kaikj.wxsupermarket.Controllers
         /// <param name="acount"></param>
         /// <param name="productname"></param>
         /// <returns></returns>
-        public string GetProductcListMeth(string pagIndex, string productname, string shelfstate,string type)
+        public string GetProductcListMeth(string pagIndex, string productname, string shelfstate,string recommend, string type)
         {
             if (!base.CheckIsLogin())
             {
@@ -200,10 +201,13 @@ namespace pan.kaikj.wxsupermarket.Controllers
             int shelfstateI = 0;
             Int32.TryParse(shelfstate, out shelfstateI);
 
+            int recommendI = -1;
+            Int32.TryParse(recommend, out recommendI);
+
             int typeI = 0;
             Int32.TryParse(type, out typeI);
 
-            return new ProductBus().GetProductcList(pagIndexI, productname, shelfstateI, typeI);
+            return new ProductBus().GetProductcList(pagIndexI, productname, shelfstateI, recommendI, typeI);
         }
 
         /// <summary>
@@ -235,6 +239,23 @@ namespace pan.kaikj.wxsupermarket.Controllers
 
             return new ProductBus().UpdateProductShelfstateById(productid);
         }
+
+        /// <summary>
+        /// 更新商品的是否推荐
+        /// </summary>
+        /// <param name="productid"></param>
+        /// <param name="recommend"></param>
+        /// <returns></returns>
+        public string UpdateProductRecommend(string productid, int recommend)
+        {
+            if (!base.CheckIsLogin())
+            {
+                return "-1";
+            }
+
+            return new ProductBus().UpdateProductRecommend(productid,recommend);
+        }
+
 
         #endregion
     }
