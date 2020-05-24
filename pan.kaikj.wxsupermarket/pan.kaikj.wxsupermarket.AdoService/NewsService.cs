@@ -77,9 +77,9 @@ namespace pan.kaikj.wxsupermarket.AdoService
         /// <param name="pagIndex">页码（第一页从1 开始）</param>
         /// <param name="pagCount">每页数据条数</param>
         /// <returns></returns>
-        public List<Mnews> GetNewsPagList(int pagIndex, int pagCount)
+        public List<Mnews> GetNewsPagList(int pagIndex, int pagCount, int type)
         {
-            return opertService.GetNewsPagList(pagIndex, pagCount);
+            return opertService.GetNewsPagList(pagIndex, pagCount, type);
         }
 
         /// <summary>

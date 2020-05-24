@@ -39,9 +39,13 @@ namespace pan.kaikj.wxsupermarket.AdoModel
         public int type { get; set; }
         public string title { get; set; }
         public string value { get; set; }
+        public string url { get; set; }
+        public string img { get; set; }
         public string isDelete { get; set; }
         public string isEffective { get; set; }
         public DateTime great_time { get; set; }
         public DateTime modify_time { get; set; }
+
+        public int sortNum { get; set; }
     }
 }

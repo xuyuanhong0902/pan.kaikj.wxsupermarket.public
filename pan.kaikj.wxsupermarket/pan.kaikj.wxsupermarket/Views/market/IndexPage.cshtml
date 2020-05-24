@@ -68,19 +68,38 @@
                 <a href="Search" style="padding-left:20px;line-height:30px;width:80%;margin-left:10%;border-radius: 5%;height:30px;display: flex;border:1px solid #8080805c;">搜索</a>
             </div>
         </div>
-        <div style="margin-top:10px;" class="swiper-container swiper-container-initialized swiper-container-horizontal">
-            <div class="swiper-wrapper" style="transition-duration: 0ms;transform: translate3d(-5464px, 0px, 0px);">
-                <div class="swiper-slide" style="width:100%;">
-                    <img style="width:100%;" src="../images/1.png" />
+
+        @{ List
+                                  <pan.kaikj.wxsupermarket.AdoModel.Mnews>
+                                      modelListRo = ViewData["Rotation"] == null ? null : (List<pan.kaikj.wxsupermarket.AdoModel.Mnews>
+                                          )ViewData["Rotation"];
+            if (modelListRo != null && modelListRo.Count > 0)
+            {
+                <div style="margin-top:10px;" class="swiper-container swiper-container-initialized swiper-container-horizontal">
+                            <div class="swiper-wrapper" style="transition-duration: 0ms;transform: translate3d(-5464px, 0px, 0px);">
+
+                                @foreach (var item in modelListRo)
+                                {
+                                    if (!string.IsNullOrEmpty(item.img))
+                                    {
+                                        <div class="swiper-slide" style="width:100%;">
+                                            <a href="@(string.IsNullOrEmpty(item.url)?"#":item.url)">
+                                                <img style="width:100%;" src="/@item.img" />
+                                            </a>
+                                        </div>
+                                    }
+                                }
+
+                            </div>
+                    <!-- Add Pagination -->
+                    <div class="swiper-pagination swiper-pagination-bullets swiper-pagination-bullets-dynamic" style="width: 80px;"><span class="swiper-pagination-bullet" style="left: -32px;"></span><span class="swiper-pagination-bullet" style="left: -32px;"></span><span class="swiper-pagination-bullet swiper-pagination-bullet-active-prev-prev" style="left: -32px;"></span><span class="swiper-pagination-bullet swiper-pagination-bullet-active-prev" style="left: -32px;"></span><span class="swiper-pagination-bullet swiper-pagination-bullet-active swiper-pagination-bullet-active-main" style="left: -32px;"></span><span class="swiper-pagination-bullet swiper-pagination-bullet-active-next" style="left: -32px;"></span><span class="swiper-pagination-bullet swiper-pagination-bullet-active-next-next" style="left: -32px;"></span><span class="swiper-pagination-bullet" style="left: -32px;"></span><span class="swiper-pagination-bullet" style="left: -32px;"></span><span class="swiper-pagination-bullet" style="left: -32px;"></span></div>
+                    <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
                 </div>
-                <div class="swiper-slide" style="width: 100%;">
-                    <img style="width:100%;" src="../images/2.png" />
-                </div>
-            </div>
-            <!-- Add Pagination -->
-            <div class="swiper-pagination swiper-pagination-bullets swiper-pagination-bullets-dynamic" style="width: 80px;"><span class="swiper-pagination-bullet" style="left: -32px;"></span><span class="swiper-pagination-bullet" style="left: -32px;"></span><span class="swiper-pagination-bullet swiper-pagination-bullet-active-prev-prev" style="left: -32px;"></span><span class="swiper-pagination-bullet swiper-pagination-bullet-active-prev" style="left: -32px;"></span><span class="swiper-pagination-bullet swiper-pagination-bullet-active swiper-pagination-bullet-active-main" style="left: -32px;"></span><span class="swiper-pagination-bullet swiper-pagination-bullet-active-next" style="left: -32px;"></span><span class="swiper-pagination-bullet swiper-pagination-bullet-active-next-next" style="left: -32px;"></span><span class="swiper-pagination-bullet" style="left: -32px;"></span><span class="swiper-pagination-bullet" style="left: -32px;"></span><span class="swiper-pagination-bullet" style="left: -32px;"></span></div>
-            <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
-        </div>
+            }
+        }
+
+
+
         <div style="width:100%;height:130px;border-radius: 10px;margin-top:10px;background-color:#E0FFFF;">
             <div style="font-size:16px;text-align:center;height:10px;line-height:10px;font-family:微软雅黑;color:#0094ff"></div>
             <div style="height: 80px;">
@@ -100,9 +119,9 @@
         <div style="width:100%;height:auto;margin-top:10px ; display: inline-table;">
 
             @{ List
-                                <pan.kaikj.wxsupermarket.AdoModel.Mproductclass>
-                                    modelList = ViewData["AllClass"] == null ? null : (List<pan.kaikj.wxsupermarket.AdoModel.Mproductclass>
-                                        )ViewData["AllClass"];
+                                   <pan.kaikj.wxsupermarket.AdoModel.Mproductclass>
+                                       modelList = ViewData["AllClass"] == null ? null : (List<pan.kaikj.wxsupermarket.AdoModel.Mproductclass>
+                                           )ViewData["AllClass"];
                 if (modelList != null && modelList.Count > 0)
                 {
                     foreach (var item in modelList)
@@ -128,23 +147,23 @@
         <div>
             <ul id="productList" style="margin-top: 20px;" class="list-pro proListType2" data-hasPro="1" data-pagIndex="4">
                 @* <li>
-                        <a href="detail.html">
-                            <img src="/images/1.png" class="list-pic" />
-                        </a>
-                        <div class="shop-list-mid" data-id="4">
-                            <div class="tit" style="min-height:30px;height:auto;">
-                                <a href="detail.html" style="min-height:30px;height:auto;">法国21加力果12个装 进口新鲜水果 嘎啦苹果 包邮</a>
-                            </div>
-                            <div class="am-gallery-desc" style="margin-top: 10px;">￥<label class="price">66</label><label class="delprice">￥899</label></div>
+                    <a href="detail.html">
+                        <img src="/images/1.png" class="list-pic" />
+                    </a>
+                    <div class="shop-list-mid" data-id="4">
+                        <div class="tit" style="min-height:30px;height:auto;">
+                            <a href="detail.html" style="min-height:30px;height:auto;">法国21加力果12个装 进口新鲜水果 嘎啦苹果 包邮</a>
                         </div>
-                        <div class="list-cart">
-                            <div class="d-stock ">
-                                <a class="decrease">-</a>
-                                <input id="num" readonly="" class="text_box" name="" type="text" value="0">
-                                <a class="increase">+</a>
-                            </div>
+                        <div class="am-gallery-desc" style="margin-top: 10px;">￥<label class="price">66</label><label class="delprice">￥899</label></div>
+                    </div>
+                    <div class="list-cart">
+                        <div class="d-stock ">
+                            <a class="decrease">-</a>
+                            <input id="num" readonly="" class="text_box" name="" type="text" value="0">
+                            <a class="increase">+</a>
                         </div>
-                    </li>*@
+                    </div>
+                </li>*@
             </ul>
         </div>
         <script type="text/javascript">

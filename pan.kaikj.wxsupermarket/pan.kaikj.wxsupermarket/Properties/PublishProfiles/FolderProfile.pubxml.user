@@ -67,31 +67,31 @@
       <publishTime>12/16/2018 21:22:37</publishTime>
     </File>
     <File Include="bin/pan.kaikj.wxsupermarket.AdoDal.dll">
-      <publishTime>05/24/2020 00:38:39</publishTime>
+      <publishTime>05/24/2020 12:22:56</publishTime>
     </File>
     <File Include="bin/pan.kaikj.wxsupermarket.AdoDal.dll.config">
       <publishTime>05/11/2020 09:36:32</publishTime>
     </File>
     <File Include="bin/pan.kaikj.wxsupermarket.AdoDal.pdb">
-      <publishTime>05/24/2020 00:38:39</publishTime>
+      <publishTime>05/24/2020 12:22:56</publishTime>
     </File>
     <File Include="bin/pan.kaikj.wxsupermarket.AdoIdal.dll">
-      <publishTime>05/24/2020 00:38:36</publishTime>
+      <publishTime>05/24/2020 12:22:55</publishTime>
     </File>
     <File Include="bin/pan.kaikj.wxsupermarket.AdoIdal.pdb">
-      <publishTime>05/24/2020 00:38:36</publishTime>
+      <publishTime>05/24/2020 12:22:55</publishTime>
     </File>
     <File Include="bin/pan.kaikj.wxsupermarket.AdoModel.dll">
-      <publishTime>05/24/2020 00:38:35</publishTime>
+      <publishTime>05/24/2020 12:22:51</publishTime>
     </File>
     <File Include="bin/pan.kaikj.wxsupermarket.AdoModel.pdb">
-      <publishTime>05/24/2020 00:38:35</publishTime>
+      <publishTime>05/24/2020 12:22:51</publishTime>
     </File>
     <File Include="bin/pan.kaikj.wxsupermarket.AdoService.dll">
-      <publishTime>05/24/2020 00:38:40</publishTime>
+      <publishTime>05/24/2020 12:22:57</publishTime>
     </File>
     <File Include="bin/pan.kaikj.wxsupermarket.AdoService.pdb">
-      <publishTime>05/24/2020 00:38:40</publishTime>
+      <publishTime>05/24/2020 12:22:57</publishTime>
     </File>
     <File Include="bin/pan.kaikj.wxsupermarket.AdoSqlHelper.dll">
       <publishTime>05/24/2020 00:38:35</publishTime>
@@ -103,13 +103,13 @@
       <publishTime>05/24/2020 00:38:35</publishTime>
     </File>
     <File Include="bin/pan.kaikj.wxsupermarket.bus.dll">
-      <publishTime>05/24/2020 00:38:41</publishTime>
+      <publishTime>05/24/2020 12:22:58</publishTime>
     </File>
     <File Include="bin/pan.kaikj.wxsupermarket.bus.pdb">
-      <publishTime>05/24/2020 00:38:41</publishTime>
+      <publishTime>05/24/2020 12:22:58</publishTime>
     </File>
     <File Include="bin/pan.kaikj.wxsupermarket.dll">
-      <publishTime>05/24/2020 00:39:46</publishTime>
+      <publishTime>05/24/2020 12:23:01</publishTime>
     </File>
     <File Include="bin/pan.kaikj.wxsupermarket.model.dll">
       <publishTime>05/24/2020 00:38:34</publishTime>
@@ -118,13 +118,13 @@
       <publishTime>05/24/2020 00:38:34</publishTime>
     </File>
     <File Include="bin/pan.kaikj.wxsupermarket.pdb">
-      <publishTime>05/24/2020 00:39:46</publishTime>
+      <publishTime>05/24/2020 12:23:01</publishTime>
     </File>
     <File Include="bin/pan.kaikj.wxsupermarket.tool.dll">
-      <publishTime>05/24/2020 00:38:37</publishTime>
+      <publishTime>05/24/2020 12:22:53</publishTime>
     </File>
     <File Include="bin/pan.kaikj.wxsupermarket.tool.pdb">
-      <publishTime>05/24/2020 00:38:37</publishTime>
+      <publishTime>05/24/2020 12:22:53</publishTime>
     </File>
     <File Include="bin/roslyn/csc.exe">
       <publishTime>05/24/2018 13:38:22</publishTime>
@@ -2017,10 +2017,10 @@
       <publishTime>11/13/2018 20:04:21</publishTime>
     </File>
     <File Include="Views/Login/_Layout.cshtml">
-      <publishTime>01/06/2019 19:42:43</publishTime>
+      <publishTime>05/24/2020 11:17:16</publishTime>
     </File>
     <File Include="Views/Login/_ViewStart.cshtml">
-      <publishTime>09/12/2018 20:47:44</publishTime>
+      <publishTime>05/24/2020 11:18:05</publishTime>
     </File>
     <File Include="Views/market/creatTest.cshtml">
       <publishTime>12/16/2018 11:51:47</publishTime>
@@ -2032,7 +2032,7 @@
       <publishTime>05/23/2020 19:39:26</publishTime>
     </File>
     <File Include="Views/market/IndexPage.cshtml">
-      <publishTime>05/23/2020 22:47:46</publishTime>
+      <publishTime>05/24/2020 12:22:11</publishTime>
     </File>
     <File Include="Views/market/orderDetail.cshtml">
       <publishTime>05/24/2020 00:35:54</publishTime>
@@ -2070,11 +2070,20 @@
     <File Include="Views/Product/Index.cshtml">
       <publishTime>12/15/2018 23:11:50</publishTime>
     </File>
+    <File Include="Views/rotation/newsAdd.cshtml">
+      <publishTime>05/24/2020 12:11:25</publishTime>
+    </File>
+    <File Include="Views/rotation/newsList.cshtml">
+      <publishTime>05/24/2020 12:09:47</publishTime>
+    </File>
+    <File Include="Views/rotation/viewNew.cshtml">
+      <publishTime>05/24/2020 11:04:38</publishTime>
+    </File>
     <File Include="Views/Shared/Error.cshtml">
       <publishTime>09/09/2018 11:35:05</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>12/19/2018 23:16:52</publishTime>
+      <publishTime>05/24/2020 11:20:04</publishTime>
     </File>
     <File Include="Views/SndGoodsUser/Add.cshtml">
       <publishTime>12/11/2018 23:15:09</publishTime>
@@ -2098,7 +2107,7 @@
       <publishTime>09/09/2018 11:35:05</publishTime>
     </File>
     <File Include="Views/_ViewStart.cshtml">
-      <publishTime>09/09/2018 11:35:05</publishTime>
+      <publishTime>05/24/2020 11:16:03</publishTime>
     </File>
     <File Include="Web.config">
       <publishTime>05/24/2020 00:38:46</publishTime>

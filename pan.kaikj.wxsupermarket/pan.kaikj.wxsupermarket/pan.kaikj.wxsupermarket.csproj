@@ -164,6 +164,7 @@
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MarkBaseController.cs" />
     <Compile Include="Controllers\marketController.cs" />
+    <Compile Include="Controllers\rotationController.cs" />
     <Compile Include="Controllers\newsController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\SndGoodsUserController.cs" />
@@ -911,6 +912,9 @@
     <Content Include="点餐页面\淘宝网触屏版_files\wake.js.下载" />
     <Content Include="Views\market\IndexPage.cshtml" />
     <Content Include="Views\market\Search.cshtml" />
+    <Content Include="Views\rotation\newsAdd.cshtml" />
+    <Content Include="Views\rotation\newsList.cshtml" />
+    <Content Include="Views\rotation\viewNew.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\pan.kaikj.wxsupermarket.AdoModel\pan.kaikj.wxsupermarket.AdoModel.csproj">

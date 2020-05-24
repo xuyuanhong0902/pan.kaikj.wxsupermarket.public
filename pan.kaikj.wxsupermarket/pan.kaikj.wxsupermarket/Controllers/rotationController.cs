@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace pan.kaikj.wxsupermarket.Controllers
 {
-    public class newsController : BaseController
+    public class rotationController : BaseController
     {
         // GET: news
         public ActionResult newsList()
@@ -18,7 +18,7 @@ namespace pan.kaikj.wxsupermarket.Controllers
                 return RedirectToAction("Index", "Login");
             }
 
-            ViewData["AllNews"] = new NewsBus().GetAllNews(1);
+            ViewData["AllNews"] = new NewsBus().GetAllNews(2);
             return View();
         }
 
@@ -28,7 +28,7 @@ namespace pan.kaikj.wxsupermarket.Controllers
             {
                 return RedirectToAction("Index", "Login");
             }
-         
+
             return View(new NewsBus().GetNewsById(id));
         }
 
@@ -39,16 +39,20 @@ namespace pan.kaikj.wxsupermarket.Controllers
         /// <returns></returns>
         [HttpPost]
         [ValidateInput(false)]
-        public string AddNewsMeth(Mnews model) {
+        public string AddNewsMeth(Mnews model)
+        {
             if (!base.CheckIsLogin())
             {
                 return "-1";
             }
 
-            return new NewsBus().AddNews(model);
+            HttpPostedFileBase productimgurl = Request.Files["productimgurl"];
+
+            return new NewsBus().AddNews(model, productimgurl, Server.MapPath("/"), 2);
         }
 
-        public string DelectNewsMeth(string id ) {
+        public string DelectNewsMeth(string id)
+        {
             if (!base.CheckIsLogin())
             {
                 return "-1";

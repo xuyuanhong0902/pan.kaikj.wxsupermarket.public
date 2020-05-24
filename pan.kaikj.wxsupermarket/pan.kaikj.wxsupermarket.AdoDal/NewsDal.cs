@@ -49,8 +49,8 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         public bool AddNews(Mnews model)
         {
             //// sql语句
-            string sql = "INSERT INTO news (id,type,title,`value`,isDelete,isEffective,great_time,modify_time) " +
-                         "VALUES (?id,?type,?title,?value,?isDelete,?isEffective,?great_time,?modify_time)";
+            string sql = "INSERT INTO news (id,type,title,`value`,isDelete,isEffective,great_time,modify_time,img,url,sortNum) " +
+                         "VALUES (?id,?type,?title,?value,?isDelete,?isEffective,?great_time,?modify_time,?img,?url,?sortNum)";
 
             List<MySqlParameter> parameterList = GetMySqlParameterListByModel(model);
 
@@ -68,7 +68,7 @@ namespace pan.kaikj.wxsupermarket.AdoDal
 
             Mnews model = null;
 
-            string sql = "  SELECT id,type,title,`value`,isDelete,isEffective,great_time,modify_time  " +
+            string sql = "  SELECT id,type,title,`value`,isDelete,isEffective,great_time,modify_time,img,url,sortNum  " +
                 $" FROM news WHERE id=?id ; ";
 
 
@@ -85,7 +85,10 @@ namespace pan.kaikj.wxsupermarket.AdoDal
                     model.id = sqlDataReader["id"] != DBNull.Value ? sqlDataReader["id"].ToString() : string.Empty;
                     model.title = sqlDataReader["title"] != DBNull.Value ? sqlDataReader["title"].ToString() : string.Empty;
                     model.value = sqlDataReader["value"] != DBNull.Value ? sqlDataReader["value"].ToString() : string.Empty;
+                    model.img = sqlDataReader["img"] != DBNull.Value ? sqlDataReader["img"].ToString() : string.Empty;
+                    model.url = sqlDataReader["url"] != DBNull.Value ? sqlDataReader["url"].ToString() : string.Empty;
                     model.type = sqlDataReader["type"] != DBNull.Value ? Convert.ToInt32(sqlDataReader["type"].ToString()) : 0;
+                    model.sortNum = sqlDataReader["sortNum"] != DBNull.Value ? Convert.ToInt32(sqlDataReader["sortNum"].ToString()) : 0;
                     model.great_time = sqlDataReader["great_time"] != DBNull.Value ? Convert.ToDateTime(sqlDataReader["great_time"].ToString()) : DateTime.MinValue;
                     model.modify_time = sqlDataReader["modify_time"] != DBNull.Value ? Convert.ToDateTime(sqlDataReader["modify_time"].ToString()) : DateTime.MinValue;
                 }
@@ -125,10 +128,10 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         /// <param name="pagIndex">页码（第一页从1 开始）</param>
         /// <param name="pagCount">每页数据条数</param>
         /// <returns></returns>
-        public List<Mnews> GetNewsPagList(int pagIndex, int pagCount)
+        public List<Mnews> GetNewsPagList(int pagIndex, int pagCount,int type=1)
         {
-            string sql = "  SELECT  id,type,title,`value`,isDelete,isEffective,great_time,modify_time " +
-                $" FROM news WHERE 1=1 ORDER BY 1 desc limit {((pagIndex - 1) * pagCount)}, {pagCount}; ";
+            string sql = "  SELECT  id,type,title,`value`,isDelete,isEffective,great_time,modify_time,img,url,sortNum " +
+                $" FROM news WHERE 1=1 and type="+type+$"  ORDER BY sortNum asc ,1 desc limit {((pagIndex - 1) * pagCount)}, {pagCount}; ";
 
             List<Mnews> listModel = null;
             using (MySqlDataReader sqlDataReader = PKMySqlHelper.ExecuteReader(sql, null))
@@ -142,6 +145,11 @@ namespace pan.kaikj.wxsupermarket.AdoDal
                         model.id = sqlDataReader["id"] != DBNull.Value ? sqlDataReader["id"].ToString() : string.Empty;
                         model.title = sqlDataReader["title"] != DBNull.Value ? sqlDataReader["title"].ToString() : string.Empty;
                         model.value = sqlDataReader["value"] != DBNull.Value ? sqlDataReader["value"].ToString() : string.Empty;
+                        model.img = sqlDataReader["img"] != DBNull.Value ? sqlDataReader["img"].ToString() : string.Empty;
+                        model.url = sqlDataReader["url"] != DBNull.Value ? sqlDataReader["url"].ToString() : string.Empty;
+
+                        model.sortNum = sqlDataReader["sortNum"] != DBNull.Value ? Convert.ToInt32(sqlDataReader["sortNum"].ToString()) : 0;
+
                         model.type = sqlDataReader["type"] != DBNull.Value ? Convert.ToInt32(sqlDataReader["type"].ToString()) : 0;
                         model.great_time = sqlDataReader["great_time"] != DBNull.Value ? Convert.ToDateTime(sqlDataReader["great_time"].ToString()) : DateTime.MinValue;
                         model.modify_time = sqlDataReader["modify_time"] != DBNull.Value ? Convert.ToDateTime(sqlDataReader["modify_time"].ToString()) : DateTime.MinValue;
@@ -189,6 +197,14 @@ namespace pan.kaikj.wxsupermarket.AdoDal
             parameter.Value = model.title;
             parameterList.Add(parameter);
 
+            parameter = new MySqlParameter("?url", MySqlDbType.VarChar, 200);
+            parameter.Value = model.url;
+            parameterList.Add(parameter);
+
+            parameter = new MySqlParameter("?img", MySqlDbType.VarChar, 200);
+            parameter.Value = model.img;
+            parameterList.Add(parameter);
+
             parameter = new MySqlParameter("?value", MySqlDbType.Text);
             parameter.Value = model.value;
             parameterList.Add(parameter);
@@ -197,7 +213,10 @@ namespace pan.kaikj.wxsupermarket.AdoDal
             parameter.Value = model.type;
             parameterList.Add(parameter);
 
-
+            parameter = new MySqlParameter("?sortNum", MySqlDbType.Int32);
+            parameter.Value = model.sortNum;
+            parameterList.Add(parameter);
+            
             parameter = new MySqlParameter("?isDelete", MySqlDbType.Int16, 1);
             parameter.Value = model.isDelete;
             parameterList.Add(parameter);

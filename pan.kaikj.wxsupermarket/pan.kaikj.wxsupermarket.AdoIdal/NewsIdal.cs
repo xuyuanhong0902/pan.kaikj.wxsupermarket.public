@@ -64,7 +64,7 @@ namespace pan.kaikj.wxsupermarket.AdoIdal
         /// <param name="pagIndex">页码（第一页从1 开始）</param>
         /// <param name="pagCount">每页数据条数</param>
         /// <returns></returns>
-        List<Mnews> GetNewsPagList(int pagIndex, int pagCount);
+        List<Mnews> GetNewsPagList(int pagIndex, int pagCount, int type);
 
         /// <summary>
         /// 根据ID删除微信才菜单

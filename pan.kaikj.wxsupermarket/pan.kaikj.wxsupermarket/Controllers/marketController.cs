@@ -48,6 +48,7 @@ namespace pan.kaikj.wxsupermarket.Controllers
             new ProductBus().GetWXUserInfoJesonByCode(code);
 
             ViewData["AllClass"] = new ProductBus().GetAllSupProductclassList();
+            ViewData["Rotation"] = new NewsBus().GetAllNews(2);
 
             return View();
         }

@@ -32,6 +32,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace pan.kaikj.wxsupermarket.bus
 {
@@ -45,13 +46,24 @@ namespace pan.kaikj.wxsupermarket.bus
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public string AddNews(Mnews model)
+        public string AddNews(Mnews model , HttpPostedFileBase productimgurl=null,string path="",int type=1)
         {
             MwxResult mwxResult = new MwxResult()
             {
                 errcode = -1
             };
 
+            string savePath = string.Empty;
+
+            //// 存图片
+            if (productimgurl != null)
+            {
+                string fileSave = FileOpert.UploadImg(productimgurl, path + "uploadFile\\" + System.DateTime.Now.ToString("yyyy") + "\\", out savePath);
+                if (string.IsNullOrEmpty(fileSave))
+                {
+                    model.img = savePath.Replace(path, "");
+                }
+            }
 
             try
             {
@@ -62,7 +74,7 @@ namespace pan.kaikj.wxsupermarket.bus
                     model.isEffective = "1";
                     model.great_time = dateTimeNow;
                     model.modify_time = dateTimeNow;
-                    model.type = 1;
+                    model.type = type;
                     model.id = PublicTools.GetRandomNumberByTime();
                     if (new NewsService().AddNews(model))
                     {
@@ -96,12 +108,12 @@ namespace pan.kaikj.wxsupermarket.bus
             return JsonHelper.GetJson<MwxResult>(mwxResult);
         }
 
-        public List<Mnews> GetAllNews()
+        public List<Mnews> GetAllNews(int type=1)
         {
             try
             {
                 NewsService opert = new NewsService();
-                return opert.GetNewsPagList(1,999);
+                return opert.GetNewsPagList(1,999, type);
             }
             catch (Exception ex)
             {
