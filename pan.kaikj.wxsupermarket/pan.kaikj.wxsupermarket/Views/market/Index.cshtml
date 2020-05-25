@@ -89,8 +89,9 @@
             });
         </script>
     </div>
-
+    <script src="../Scripts/Tools.js"></script>
     <script type="text/javascript">
+        var supClassid = getUrlParam("supClassid");
         var hasSelProId = new Array();
 
         //购物数量加减
@@ -160,6 +161,16 @@
             window.onload = function () {
                 var $li = $('#tab li');
                 var $ul = $('#content ul');
+
+                // 初始化
+                if (supClassid) {
+                    getPro($("li[data-typeid='"+supClassid+"']"));
+                } else {
+                    getPro($li.first());
+                    //// 初始化加载第一个类别数据
+                    $li.first().addClass("current").addClass("currentLi");
+                }
+
                 $li.click(function () {
                     var $this = $(this);
                     getPro($this);
@@ -234,9 +245,7 @@
                     }
                 }
 
-                //// 初始化加载第一个类别数据
-                $li.first().addClass("current").addClass("currentLi");
-                getPro($li.first());
+              
 
 
                 //核心代码
