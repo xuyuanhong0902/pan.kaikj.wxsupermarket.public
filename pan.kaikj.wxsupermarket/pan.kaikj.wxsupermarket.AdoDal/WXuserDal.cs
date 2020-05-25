@@ -51,7 +51,7 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         {
 
             //// sql语句
-            string sql = "INSERT INTO wxuser]([wxuserid],[subscribe],[openid],[nickname],[sex],[sexdes],[city],[country],[province],[language],[headimgurl],[subscribe_time],[remark],[tagid_list],[subscribe_scene],[subscribe_scene_des],[isDelete],[isEffective],[great_time],[modify_time]) " +
+            string sql = "INSERT INTO wxuser(wxuserid,subscribe,openid,nickname,sex,sexdes,city,country,province,language,headimgurl,subscribe_time,remark,tagid_list,subscribe_scene,subscribe_scene_des,isDelete,isEffective,great_time,modify_time) " +
                          "VALUES (?wxuserid,?subscribe,?openid,?nickname,?sex,?sexdes,?city,?country,?province,?language,?headimgurl,?subscribe_time,?remark,?tagid_list,?subscribe_scene,?subscribe_scene_des,?isDelete,?isEffective,?great_time,?modify_time)";
 
             List<MySqlParameter> parameterList = GetMySqlParameterListByModel(model);
@@ -71,7 +71,7 @@ namespace pan.kaikj.wxsupermarket.AdoDal
             MWXUserInfo model = null;
 
             //// 语句
-            string sql = "SELECT  [wxuserid],[subscribe],[openid],[nickname],[sex],[sexdes],[city],[country],[province],[language],[headimgurl],[subscribe_time],[remark],[tagid_list],[subscribe_scene],[subscribe_scene_des],[great_time],[modify_time]  FROM wxuser] where openid=?openid";
+            string sql = "SELECT  wxuserid,subscribe,openid,nickname,sex,sexdes,city,country,province,language,headimgurl,subscribe_time,remark,tagid_list,subscribe_scene,subscribe_scene_des,great_time,modify_time FROM wxuser where openid=?openid";
 
             MySqlParameter[] parameterList = new MySqlParameter[1];
             MySqlParameter parameter = new MySqlParameter("?openid", MySqlDbType.VarChar, 50);
@@ -117,7 +117,7 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         /// <returns></returns>
         public bool UpdateWXUserInfo(MWXUserInfo model)
         {
-            string sql = "update wxuser] set subscribe='?subscribe',nickname='?nickname',sex='?sex',sexdes='?sexdes',city='?city',country='?country',province='?province',language='?language',headimgurl='?headimgurl',tagid_list='?tagid_list',subscribe_scene='?subscribe_scene',subscribe_scene_des='?subscribe_scene_des',qr_scene_str='?qr_scene_str',qr_scene='?qr_scene' where 1=1 ";
+            string sql = "update wxuser set subscribe=?subscribe,nickname=?nickname,sex=?sex,sexdes=?sexdes,city=?city,country=?country,province=?province,language=?language,headimgurl=?headimgurl,tagid_list=?tagid_list,subscribe_scene=?subscribe_scene,subscribe_scene_des=?subscribe_scene_des,qr_scene_str=?qr_scene_str,qr_scene=?qr_scene where 1=1 ";
 
             if (!string.IsNullOrEmpty(model.wxuserid))
             {
@@ -156,7 +156,7 @@ namespace pan.kaikj.wxsupermarket.AdoDal
                 sqlWhere.Append(" and subscribe= ?subscribe ");
             }
 
-            string sql = "  SELECT  [wxuserid],[subscribe],[openid],[nickname],[sex],[sexdes],[city],[country],[province],[language],[headimgurl],[subscribe_time],[remark],[tagid_list],[subscribe_scene],[subscribe_scene_des],[qr_scene],[qr_scene_str],[great_time],[modify_time] " +
+            string sql = "  SELECT  wxuserid,subscribe,openid,nickname,sex,sexdes,city,country,province,language,headimgurl,subscribe_time,remark,tagid_list,subscribe_scene,subscribe_scene_des,qr_scene,qr_scene_str,great_time,modify_time " +
                $" FROM wxuser WHERE {sqlWhere.ToString()} ORDER BY wxuserid desc limit {((pagIndex - 1) * pagCount)}, {pagCount}; ";
 
 
@@ -218,7 +218,7 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         /// <returns></returns>
         public int GetWXUserInfoPagCount(string nickname, string subscribe)
         {
-            string sql = " SELECT count(wxuserid) as totalCount  FROM wxuser] WHERE 1=1 ";
+            string sql = " SELECT count(wxuserid) as totalCount  FROM wxuser WHERE 1=1 ";
             if (!string.IsNullOrEmpty(nickname))
             {
                 sql = sql + " and nickname like CONCAT('%',?nickname,'%') ";

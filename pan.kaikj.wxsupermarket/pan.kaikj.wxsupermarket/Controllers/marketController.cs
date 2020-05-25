@@ -37,7 +37,7 @@ namespace pan.kaikj.wxsupermarket.Controllers
         {
             new ProductBus().GetWXUserInfoJesonByCode(code);
 
-            ViewData["AllClass"] = new ProductBus().GetAllSupProductclassList();
+            ViewData["AllClass"] = CacheData.allProductClass ;
 
             return View();
         }
@@ -48,7 +48,7 @@ namespace pan.kaikj.wxsupermarket.Controllers
            ViewData["code"] = code;
            new ProductBus().GetWXUserInfoJesonByCode(code);
 
-            ViewData["AllClass"] = new ProductBus().GetAllSupProductclassList();
+            ViewData["AllClass"] = CacheData.allProductClass;
             ViewData["Rotation"] = new NewsBus().GetAllNews(2);
 
             return View();
@@ -98,7 +98,7 @@ namespace pan.kaikj.wxsupermarket.Controllers
         /// <param name="shelfstate"></param>
         /// <returns></returns>
         public string GetProductcListBySupClassId(string pagIndex, string supClassid, 
-            string recommend,string keyValues)
+            string recommend,string keyValues,string classid)
         {
             //if (!this.CheckIsLogin())
             //{
@@ -111,6 +111,10 @@ namespace pan.kaikj.wxsupermarket.Controllers
             int supClassidI = 0;
             Int32.TryParse(supClassid, out supClassidI);
 
+            int classidI = -1;
+            Int32.TryParse(classid, out classidI);
+
+            
             int recommendI = -1;
             if (string.IsNullOrEmpty(recommend))
             {
@@ -121,7 +125,19 @@ namespace pan.kaikj.wxsupermarket.Controllers
             }
 
 
-            return new ProductBus().GetProductcListBySupClassId(pagIndexI, supClassidI, 1, recommendI, keyValues);
+            return new ProductBus().GetProductcListBySupClassId(pagIndexI, supClassidI, 1, recommendI, keyValues, classidI);
+        }
+
+        /// <summary>
+        /// 获取推荐
+        /// </summary>
+        /// <param name="pagIndex"></param>
+        /// <param name="productname"></param>
+        /// <param name="shelfstate"></param>
+        /// <returns></returns>
+        public string GetRecommendProduct()
+        {
+            return  CacheData.allRecommendPro;
         }
 
         /// <summary>

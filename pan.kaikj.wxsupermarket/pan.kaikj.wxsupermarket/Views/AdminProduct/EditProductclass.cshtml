@@ -15,7 +15,7 @@
             <div class="title">上级产品类别：</div>
             <div class="value">
                 <div style="float: left;">
-                    <select id="sex" name="sex" ng-model="model.supclassid">
+                    <select id="supclassid" name="supclassid" ng-model="model.supclassid">
                         @{
                             <option value="0">主类</option>
                             List<pan.kaikj.wxsupermarket.AdoModel.Mproductclass> modelList = ViewData["AllPersonClass"] == null ? null : (List<pan.kaikj.wxsupermarket.AdoModel.Mproductclass>)ViewData["AllPersonClass"];

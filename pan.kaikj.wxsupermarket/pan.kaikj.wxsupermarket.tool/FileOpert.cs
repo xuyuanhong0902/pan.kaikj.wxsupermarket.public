@@ -236,7 +236,7 @@ namespace pan.kaikj.wxsupermarket.tool
             }
             catch (Exception ex)
             {
-                return "图片上传失败！";
+                return "图片上传失败！"+ ex.Message;
             }
         }
     }

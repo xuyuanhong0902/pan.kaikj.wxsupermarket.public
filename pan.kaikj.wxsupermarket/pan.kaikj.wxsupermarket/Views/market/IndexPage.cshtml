@@ -7,7 +7,7 @@
     <title>吧啦啦便利店</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <link href="~/Content/amazeui.min.css" type="text/css" rel="stylesheet" />
-    <link href="~/Content/style.css" type="text/css" rel="stylesheet" />
+    <link href="~/Content/style.css?tim=200525" type="text/css" rel="stylesheet" />
     <script src="~/Scripts/jquery.min.js"></script>
     <link href="~/Content/commMarkt.css" rel="stylesheet" />
     <script src="~/Scripts/comm.js"></script>
@@ -57,17 +57,15 @@
     </style>
 </head>
 <body>
-    <header data-am-widget="header" class="am-header am-header-default sq-head ">
-        <h1 class="am-header-title">
-            <a href="" class="" style="color: #ffffff;line-height:49px;">吧啦啦便利店</a>
-        </h1>
-    </header>
-    <div class="content-list" id="outer" style="margin-top:40px;">
+    <header data-am-widget="header" class="am-header  sq-head ">
         <div style="width:100%;height:30px;">
             <div style="width:100%;height:30px;margin-top:10px; ">
-                <a href="Search" style="background-color:#e3e3e5; padding-left:20px;line-height:30px;width:80%;margin-left:10%;border-radius: 5%;height:30px;display: flex;border:1px solid #8080805c;">搜索</a>
+                <a href="Search" class="search">搜索：快速搜索你想要的商品...</a>
             </div>
         </div>
+    </header>
+    <div class="content-list" id="outer" style="margin-top:50px;">
+       
 
         @{ List
                                   <pan.kaikj.wxsupermarket.AdoModel.Mnews>
@@ -98,7 +96,7 @@
             }
         }
 
-        <div style="width:100%;height:130px;border-radius: 10px;margin-top:10px;background-color:#E0FFFF;">
+        <div style="width:auto;height:130px;border-radius: 10px;margin:10px;background-color:#E0FFFF;">
             <div style="font-size:16px;text-align:center;height:10px;line-height:10px;font-family:微软雅黑;color:#0094ff"></div>
             <div style="height: 80px;">
                 <div style="width:25%;float:left;height:80px;line-height:120px;text-align:center;color:#eedc10">
@@ -271,8 +269,8 @@
                 $.ajax({
                     cache: false,//保留缓存数据
                     type: "get",//为post请求
-                    url: "/market/GetProductcListBySupClassId",//这是我在后台接受数据的文件名
-                    data: "pagIndex=1&supClassid=0&recommend=1",//将该表单序列化
+                    url: "/market/GetRecommendProduct",//这是我在后台接受数据的文件名
+                    data: "",//将该表单序列化
                     async: false,//设置成true，这标志着在请求开始后，其他代码依然能够执行。如果把这个选项设置成false，这意味着所有的请求都不再是异步的了，这也会导致浏览器被锁死
                     error: function (request) {//请求失败之后的操作
                         alert("操作失败！");

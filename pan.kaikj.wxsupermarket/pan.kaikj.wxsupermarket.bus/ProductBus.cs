@@ -115,11 +115,11 @@ namespace pan.kaikj.wxsupermarket.bus
         /// </summary>
         /// <param name="supclassid"></param>
         /// <returns></returns>
-        public List<Mproductclass> GetAllSupProductclassList()
+        public List<Mproductclass> GetAllSupProductclassList(int supId=0)
         {
             try
             {
-                List<Mproductclass> modelList = new ProductclassService().GetMproductclasses(0);
+                List<Mproductclass> modelList = new ProductclassService().GetMproductclasses(supId);
                 return modelList;
             }
             catch (Exception ex)
@@ -186,6 +186,7 @@ namespace pan.kaikj.wxsupermarket.bus
                 {
                     mwxResult.errcode = 0;
                     mwxResult.errmsg = "操作成功";
+                    CacheData.allProductClass = null;
                 }
             }
             catch (Exception ex)
@@ -224,6 +225,7 @@ namespace pan.kaikj.wxsupermarket.bus
                     {
                         mwxResult.errcode = 0;
                         mwxResult.errmsg = "操作成功";
+                        CacheData.allProductClass = null;
                     }
                 }
             }
@@ -290,6 +292,7 @@ namespace pan.kaikj.wxsupermarket.bus
                 {
                     mwxResult.errcode = 0;
                     mwxResult.errmsg = "操作成功";
+                    CacheData.allProductClass = null;
                 }
             }
             catch (Exception ex)
@@ -357,6 +360,7 @@ namespace pan.kaikj.wxsupermarket.bus
             {
                 mwxResult.errmsg = "新增成功！";
                 mwxResult.errcode = 0;
+                CacheData.allRecommendPro = null;
             }
             else
             {
@@ -397,6 +401,8 @@ namespace pan.kaikj.wxsupermarket.bus
             {
                 mwxResult.errmsg = "保存成功！";
                 mwxResult.errcode = 0;
+                CacheData.allRecommendPro = null;
+
             }
             else
             {
@@ -483,9 +489,8 @@ namespace pan.kaikj.wxsupermarket.bus
         /// <param name="productname"></param>
         /// <param name="shelfstate"></param>
         /// <returns></returns>
-        public string GetProductcListBySupClassId(int pagIndex, int supClassid, 
-            int shelfstate,int recommend,string keyValues)
-
+        public string GetProductcListBySupClassId(int pagIndex, int supClassid,
+            int shelfstate,int recommend,string keyValues, int classid=-1)
         {
             try
             {
@@ -497,11 +502,11 @@ namespace pan.kaikj.wxsupermarket.bus
                 MPageListResult<Mproduct> pageListResult = new MPageListResult<Mproduct>();
 
                 //// 每页获取20条数据
-                int pagSize = 20;
+                int pagSize = 1000;
 
                 //// 1、首先获取符号要求的数据总条数
                 ProductService productService = new ProductService();
-                pageListResult.totalNum = productService.GetProductPagCount(-1, supClassid, keyValues, shelfstate, recommend);
+                pageListResult.totalNum = productService.GetProductPagCount(classid, supClassid, keyValues, shelfstate, recommend);
                 if (pageListResult.totalNum > 0)
                 {
                     //// 2、根据获取到数据条数、每页数据量、页码。优化处理页面
@@ -509,7 +514,7 @@ namespace pan.kaikj.wxsupermarket.bus
                     if (pagIndex <= pageListResult.totalPage )
                     {
                         //// 3、获取具体的分页数据信息
-                        pageListResult.dataList = productService.GetProductPagList(pagIndex, pagSize, -1, supClassid, keyValues, shelfstate, recommend);
+                        pageListResult.dataList = productService.GetProductPagList(pagIndex, pagSize, classid, supClassid, keyValues, shelfstate, recommend);
                     }
                 }
 
@@ -552,6 +557,8 @@ namespace pan.kaikj.wxsupermarket.bus
                     {
                         mwxResult.errcode = 0;
                         mwxResult.errmsg = "操作成功";
+                        CacheData.allRecommendPro = null;
+
                     }
                 }
             }
@@ -591,6 +598,8 @@ namespace pan.kaikj.wxsupermarket.bus
                     {
                         mwxResult.errcode = 0;
                         mwxResult.errmsg = "操作成功";
+                        CacheData.allRecommendPro = null;
+
                     }
                 }
             }
@@ -632,6 +641,7 @@ namespace pan.kaikj.wxsupermarket.bus
                     {
                         mwxResult.errcode = 0;
                         mwxResult.errmsg = "操作成功";
+                        CacheData.allRecommendPro = null;
                     }
                 }
             }

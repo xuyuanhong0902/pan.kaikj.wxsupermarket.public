@@ -7,26 +7,34 @@
     <title>吧啦啦便利店</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <link href="~/Content/amazeui.min.css" type="text/css" rel="stylesheet" />
-    <link href="~/Content/style.css" type="text/css" rel="stylesheet" />
+    <link href="~/Content/style.css?tim=200525" type="text/css" rel="stylesheet" />
     <script src="~/Scripts/jquery.min.js"></script>
     <link href="~/Content/commMarkt.css" rel="stylesheet" />
     <script src="~/Scripts/comm.js"></script>
     <script src="~/Scripts/amazeui.min.js"></script>
 </head>
 <body>
-    <header data-am-widget="header" class="am-header am-header-default sq-head ">
-        <h1 class="am-header-title">
-            <a href="" class="" style="color: #ffffff;line-height:49px;">吧啦啦便利店</a>
-        </h1>
+    @*<header data-am-widget="header" class="am-header am-header-default sq-head ">
+            <h1 class="am-header-title">
+                <a href="" class="" style="color: #ffffff;line-height:49px;">吧啦啦便利店</a>
+            </h1>
+        </header>*@
+    <header data-am-widget="header" class="am-header  sq-head ">
+        <div style="width:100%;height:30px;">
+            <div style="width:100%;height:30px;margin-top:10px; ">
+                <a href="Search" class="search">搜索：快速搜索你想要的商品...</a>
+            </div>
+        </div>
     </header>
-    <div class="content-list" id="outer">
-        <div class="list-left" id="tab" style="bottom:100px;height:auto;">
+    <div class="content-list" id="outer" style="margin-top:50px;border-top: 1px solid rgb(247, 243, 243);">
+        <div class="list-left" id="tab" style="bottom:100px;height:auto;margin-top:50px;">
             <!--<li><a style="position: relative;">新品推荐<i class="num">8</i></a></li>-->
             <ul>
                 @{ List
-                      <pan.kaikj.wxsupermarket.AdoModel.Mproductclass>
-                          modelList = ViewData["AllClass"] == null ? null : (List<pan.kaikj.wxsupermarket.AdoModel.Mproductclass>
-                              )ViewData["AllClass"];
+                        <pan.kaikj.wxsupermarket.AdoModel.Mproductclass>
+                            modelList = ViewData["AllClass"] == null ? null : (List<pan.kaikj.wxsupermarket.AdoModel.Mproductclass>
+                                )ViewData["AllClass"];
+                    string subClassHtml = "<li data-classid='' data-supClassid='' class='allSubdaohang subdaohang active2'>全 部</li>";
                     if (modelList != null && modelList.Count > 0)
                     {
                         foreach (var item in modelList)
@@ -35,40 +43,115 @@
                             {
                                 <li data-typeId="@item.classid"><a>@item.classname</a></li>
                             }
+                            else
+                            {
+                                subClassHtml = $"{subClassHtml}<li style='display: none;' data-classid='{item.classid}' data-supClassid='{item.supclassid}' class='subdaohangInfor subdaohang'>{item.classname}</li>";
+                            }
                         }
                     }
                 }
             </ul>
         </div>
-        <div class="list-right" id="content">
-            @{
-                if (modelList != null && modelList.Count > 0)
-                {
-                    foreach (var item in modelList)
+        <div class="list-right">
+            <style type="text/css">
+                .subdaohang {
+                    width: auto;
+                    margin: 5px;
+                    float: left;
+                    margin-top: 5px;
+                }
+
+                .subdaohangSel {
+                    color: red;
+                    font-weight: 800;
+                }
+
+                * {
+                    margin: 0px;
+                    padding: 0px;
+                }
+
+                .wrap {
+                    overflow: hidden;
+                    height: 30px;
+                    border-bottom: 1px solid #999;
+                }
+
+                .cont {
+                    height: 30px;
+                    overflow-x: auto;
+                    overflow-y: hidden;
+                    position: relative;
+                }
+
+                .state {
+                    left: 0px;
+                    top: 0px;
+                    position: absolute;
+                    height: 30px;
+                    overflow-x: auto;
+                    white-space: nowrap;
+                    display: flex;
+                }
+
+                    .state li {
+                        display: inline-block;
+                        float: left;
+                        font-size: 13px;
+                        text-decoration: none;
+                        color: #999;
+                        padding: 1px 5px;
+                    }
+
+                    .state .active2 {
+                        font-weight: bold;
+                        color: #ff6c00;
+                        border-color: rgb(84, 46, 69);
+                    }
+            </style>
+
+            <div class="wrap">
+                <div class="cont">
+                    <ul class="state">
+                        @Html.Raw(subClassHtml)
+                    </ul>
+                </div>
+            </div>
+
+            <script type="text/javascript">
+               
+            </script>
+
+            <div class="" id="content">
+                @{
+                    if (modelList != null && modelList.Count > 0)
                     {
-                        if (@item.supclassid == 0)
+                        foreach (var item in modelList)
                         {
-                            <ul class='list-pro  @("proListType"+item.classid)' data-hasPro="1" data-pagIndex="1"></ul>
+                            if (@item.supclassid == 0)
+                            {
+                                <ul class='list-pro  @("proListType"+item.classid)' data-hasPro="1" data-pagIndex="1"></ul>
+                            }
                         }
                     }
                 }
-            }
-            @*<ul class="list-pro proListType2" data-hasPro="1" data-pagIndex="4">
-                    <li>
-                        <a href="detail.html"><img src="/images/1.png" class="list-pic" /></a>
-                        <div class="shop-list-mid" data-id="4">
-                            <div class="tit"><a href="detail.html">法国21加力果12个装 进口新鲜水果 嘎啦苹果 包邮</a></div>
-                            <div class="am-gallery-desc">￥<label class="price">66</label></div>
-                        </div>
-                        <div class="list-cart">
-                            <div class="d-stock ">
-                                <a class="decrease">-</a>
-                                <input id="num" readonly="" class="text_box" name="" type="text" value="0">
-                                <a class="increase">+</a>
+                @*<ul class="list-pro proListType2" data-hasPro="1" data-pagIndex="4">
+                        <li>
+                            <a href="detail.html"><img src="/images/1.png" class="list-pic" /></a>
+                            <div class="shop-list-mid" data-id="4">
+                                <div class="tit"><a href="detail.html">法国21加力果12个装 进口新鲜水果 嘎啦苹果 包邮</a></div>
+                                <div class="am-gallery-desc">￥<label class="price">66</label></div>
                             </div>
-                        </div>
-                    </li>
-                </ul>*@
+                            <div class="list-cart">
+                                <div class="d-stock ">
+                                    <a class="decrease">-</a>
+                                    <input id="num" readonly="" class="text_box" name="" type="text" value="0">
+                                    <a class="increase">+</a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>*@
+            </div>
         </div>
     </div>
     <!--底部-->
@@ -93,6 +176,8 @@
     <script type="text/javascript">
         var supClassid = getUrlParam("supClassid");
         var hasSelProId = new Array();
+        var selSupClassid = "";
+        var selClassid = -1;
 
         //购物数量加减
         $(function () {
@@ -164,7 +249,8 @@
 
                 // 初始化
                 if (supClassid) {
-                    getPro($("li[data-typeid='"+supClassid+"']"));
+                    getPro($("li[data-typeid='" + supClassid + "']"));
+
                 } else {
                     getPro($li.first());
                     //// 初始化加载第一个类别数据
@@ -173,21 +259,45 @@
 
                 $li.click(function () {
                     var $this = $(this);
+                    selClassid = -1
                     getPro($this);
                 });
 
                 //// 获取产品列表数据
                 function getPro($this) {
                     var $seleType = $this.attr("data-typeId");
+                    selSupClassid = $seleType;
+                    $(".subdaohangInfor").hide();
+                    $(".subdaohangInfor[data-supClassid=" + $seleType + "]").show();
+                    $(".active").removeClass("active");
+                    $(".allSubdaohang").addClass("active");
+
+
                     $li.removeClass();
                     $this.addClass('current');
                     $this.addClass('currentLi');
-                    
-                    $ul.css('display', 'none');
-                    var $selProCount = $(".proListType" + $seleType);
-                    $selProCount.css('display', 'block');
 
-                    //// 查找是否是否还有数据标识
+                    $ul.css('display', 'none');
+                  
+
+                    getProD($seleType,selClassid,1);
+                }
+
+                 $(".subdaohang").click(function () {
+                    selClassid = $(this).attr("data-classid");
+                    var supClassid = $(this).attr("data-supClassid");
+                    $(".active2").removeClass('active2');
+                     $(this).addClass('active2');
+
+                     getProD(selSupClassid,selClassid,2);
+                 });
+
+
+                  //// 获取产品列表数据(根据子类id)
+                function getProD(supClassid, classid,type) {
+                      var $selProCount = $(".proListType" + supClassid);
+                    $selProCount.css('display', 'block');
+                     //// 查找是否是否还有数据标识
                     var hasPro = $selProCount.attr("data-hasPro");
                     if (hasPro != "0") {
                         ///// 获取当前数据所显示的页码
@@ -200,7 +310,7 @@
                             cache: false,//保留缓存数据
                             type: "get",//为post请求
                             url: "/market/GetProductcListBySupClassId",//这是我在后台接受数据的文件名
-                            data: "pagIndex=" + pagIndex + "&supClassid=" + $seleType,//将该表单序列化
+                            data: "pagIndex=" + pagIndex + "&supClassid=" + supClassid+"&classid=-1",//将该表单序列化
                             async: false,//设置成true，这标志着在请求开始后，其他代码依然能够执行。如果把这个选项设置成false，这意味着所有的请求都不再是异步的了，这也会导致浏览器被锁死
                             error: function (request) {//请求失败之后的操作
                                 alert("操作失败！");
@@ -212,10 +322,10 @@
                                         var dataList = dataObj["dataList"];
                                         if (dataList) {
                                             for (var i = 0; i < dataList.length; i++) {
-                                                var phtml = '<li><a href="detail?productId=' + dataList[i]["productid"] + '"><img src="/' + dataList[i]["productimgurl"] + '" class="list-pic" /></a>' +
+                                                var phtml = '<li dta-pro-lsitLis="lsitLis" data-pro-supClassId=' + dataList[i]["supclassid"] + ' data-pro-classId=' + dataList[i]["classid"] + '><a href="detail?productId=' + dataList[i]["productid"] + '"><img src="/' + dataList[i]["productimgurl"] + '" class="list-pic" /></a>' +
                                                     '<div class="shop-list-mid" data-id="' + dataList[i]["productid"] + '">' +
                                                     '   <div class="tit"><a href="detail?productId=' + dataList[i]["productid"] + '">' + dataList[i]["productname"] + '</a></div>' +
-                                                    '   <div class="am-gallery-desc" >￥<label class="price">' + dataList[i]["sellprice"] + '</label><label style="color: white;">.</label><label class="delprice">￥'+dataList[i]["origprice"] +'</label></div > ' +
+                                                    '   <div class="am-gallery-desc" >￥<label class="price">' + dataList[i]["sellprice"] + '</label><label style="color: white;">.</label><label class="delprice">￥' + dataList[i]["origprice"] + '</label></div > ' +
                                                     '</div> ' +
                                                     '<div class="list-cart">' +
                                                     ' <div class="d-stock ">' +
@@ -235,17 +345,36 @@
                                                 $selProCount.attr("data-pagIndex", parseInt($selProCount.attr("data-pagIndex")) + 1);
                                             }
 
+                                            if (selClassid>0) {
+                                                $("li[dta-pro-lsitLis=lsitLis]").css('display', 'none');
+                                                $("li[data-pro-classId=" + classid + "]").css('display', 'block');
+                                            } else {
+                                                $("li[dta-pro-lsitLis=lsitLis]").css('display', 'block');
+                                            }
+
                                             return;
                                         }
                                     }
+                                } else {
+                                    $selProCount.attr("data-hasPro", "0");
                                 }
-                                $selProCount.attr("data-hasPro", "0");
+
                             }
                         });
                     }
+                    else {
+                         // 如果未取完数据，并且是根据子分类来查询数据，需要晴空查询
+                        if (type == 2) {
+                            if (classid) {
+                                $("li[dta-pro-lsitLis=lsitLis]").css('display', 'none');
+                                $("li[data-pro-classId=" + classid + "]").css('display', 'block');
+                            } else {
+                                $("li[dta-pro-lsitLis=lsitLis]").css('display', 'block');
+                            }
+                          
+                        }
+                    }
                 }
-
-              
 
 
                 //核心代码
@@ -260,7 +389,7 @@
                         ////$(window).unbind('scroll');
                         ////$("#btn_Page").show();
                         finished = true;
-                    
+
                         setTimeout(function () { finished = false; }, 2000);
                         //// $("#btn_Page").hide();
                     }
@@ -278,7 +407,7 @@
                     alert("请选中需要的产品！");
                     return false;
                 }
-                window.location.href = '/market/takeout?selProductids='+hasSelProId.join(",");
+                window.location.href = '/market/takeout?selProductids=' + hasSelProId.join(",");
             });
         });
 

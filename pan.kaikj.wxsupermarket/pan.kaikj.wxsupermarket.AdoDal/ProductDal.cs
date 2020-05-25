@@ -144,7 +144,7 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         /// <returns></returns>
         public bool DeleteProduct(string productid)
         {
-            string sql = "update  product set isDelete=1 where productid=?productid;";
+            string sql = "update  product set isDelete=1 where productid=?productid;delete from shoppingCart where productId=?productid";
 
             List<MySqlParameter> parameterList = new List<MySqlParameter>();
             MySqlParameter parameter = new MySqlParameter("?productid", MySqlDbType.VarChar, 25);
@@ -488,7 +488,7 @@ namespace pan.kaikj.wxsupermarket.AdoDal
 
             string sql = "  SELECT  productid,classid,supclassid,className,supclassName,productname,productformat,productformatunit,origprice,sellprice,stock,shelfstate,hassellnum," +
                 "productdetails,productimgurl,priority,isDelete,isEffective,great_time,modify_time,recommend  " +
-               $" FROM product WHERE {sqlWhere.ToString()} ORDER BY great_time desc limit {((pagIndex - 1) * pagCount)}, {pagCount}; ";
+               $" FROM product WHERE {sqlWhere.ToString()} ORDER BY priority asc limit {((pagIndex - 1) * pagCount)}, {pagCount}; ";
 
 
             //string sql = "  SELECT  TOP " + pagCount * pagIndex + " productid,classid,supclassid,className,supclassName,productname,productformat,productformatunit,origprice,sellprice,stock,shelfstate,hassellnum," +

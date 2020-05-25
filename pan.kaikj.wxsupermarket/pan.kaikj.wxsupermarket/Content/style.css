@@ -5,14 +5,13 @@ ul{ padding: 0; margin: 0;}
     top: 0;
     width: 100%;
     z-index: 100;
-    background: #39b867;
-    border-bottom: 1px solid #ddd;
+    background-color:#fff;
 }
 .sq-head .am-icon-trash{ color: #999;}
 .sq-head .am-header-left a { border: 1px solid #ddd; color: #fff; padding: 0 8px; height: 35px; line-height: 35px; border-radius: 8px;}
-.content-list{border-top: 1px solid #ddd; margin-top: -1px;  width: 100%;}
+.content-list{ margin-top: 5px;  width: 100%;}
 .list-content{ position: relative; overflow: hidden; }
-.list-left{ width: 25%; position: fixed;  height: 90%;  top: 50px;  overflow: auto; border-right: 1px solid #ddd; }
+.list-left{ width: 25%; position: fixed;  height: 90%;  top: 0px;  overflow: auto; border-right: 1px solid #ddd; }
 .list-left li {width: 100%;  font-size: 1.4rem;
     height: 4rem;line-height: 4rem;text-align: center; border-bottom: 1px solid #ddd;overflow: hidden;}
 .list-left li a{ color: #666;}
@@ -28,7 +27,7 @@ ul{ padding: 0; margin: 0;}
     border-radius: 5px;
 }
 .list-right .am-gallery-default .am-gallery-title{ text-align: center; font-size: 1.6rem; margin-top: 10px;}
-.list-pro{ overflow: hidden; padding-bottom: 60px; margin-top: 60px;}
+.list-pro{ overflow: hidden; padding-bottom: 60px; margin-top: 10px;}
 .list-pro li{ position: relative; border-bottom: 1px solid #ddd; margin: 0px 3%; padding: 15px 0; overflow: hidden;}
 .list-pic{ float: left; width: 30%;  padding: 3px; border: 1px solid #ddd;}
 .list-pro .am-gallery-desc { color: #cb2527; font-size: 1.6rem;}
@@ -227,3 +226,15 @@ em ,i{ font-style: normal;}
 .shopcart{ position: absolute; top: 22px; right: 15px; padding: 5px 8px; color: #fff; background: #39b867;}
 .yd_img{ padding: 15px; z-index: 110px; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8);}
 .yd_img img{ width: 100%;}
+
+.search {
+    background-color: #e3e3e5;
+    padding-left: 20px;
+    line-height: 30px;
+    width: 90%;
+    margin-left: 5%;
+    border-radius: 30px;
+    height: 30px;
+    display: flex;
+    border: 1px solid #8080805c;
+}

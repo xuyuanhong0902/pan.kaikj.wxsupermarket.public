@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AliyunMessageApi.cs" />
+    <Compile Include="CacheData.cs" />
     <Compile Include="NewOrderNum.cs" />
     <Compile Include="NewsBus.cs" />
     <Compile Include="SndGoodsUserBus.cs" />

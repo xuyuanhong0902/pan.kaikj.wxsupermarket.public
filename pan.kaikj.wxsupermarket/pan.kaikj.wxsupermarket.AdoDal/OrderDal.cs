@@ -284,7 +284,7 @@ namespace pan.kaikj.wxsupermarket.AdoDal
             // 如果为8 那么更新一下对应商品的已销售数量
             if (orderState == 8)
             {
-                sql = sql + $" UPDATE product as p set hassellnum=hassellnum+(SELECT buyNum FROM orders WHERE orderid in  ({orderidS})  and productid=p.productid ) WHERE productid=(SELECT productid FROM orders WHERE orderid in  ({orderidS}) ";
+                sql = sql + $" UPDATE product as p set hassellnum=hassellnum+(SELECT buyNum FROM orders WHERE orderid in  ({orderidS})  and productid=p.productid ) WHERE productid=(SELECT productid FROM orders WHERE orderid in  ({orderidS})) ";
             }
 
             List<MySqlParameter> parameterList = new List<MySqlParameter>();

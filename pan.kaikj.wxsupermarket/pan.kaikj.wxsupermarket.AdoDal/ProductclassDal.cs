@@ -196,9 +196,10 @@ namespace pan.kaikj.wxsupermarket.AdoDal
             string sql = "  SELECT classid,supclassid,classname,priority,isDelete,isEffective,great_time,modify_time,imgpath from productclass where 1=1 ";
             if (supclassid>=0)
             {
-                sql = sql + " and supclassid = ?supclassid;";
+                sql = sql + " and supclassid = ?supclassid ";
             }
-            MySqlParameter[] parameterList = new MySqlParameter[1];
+            sql = sql + " order by priority asc;";
+             MySqlParameter[] parameterList = new MySqlParameter[1];
             parameterList[0] = new MySqlParameter("?supclassid", MySqlDbType.Int32);
             parameterList[0].Value = supclassid;
 

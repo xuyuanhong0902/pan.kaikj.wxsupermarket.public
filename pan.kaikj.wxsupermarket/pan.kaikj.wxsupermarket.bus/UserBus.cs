@@ -79,7 +79,7 @@ namespace pan.kaikj.wxsupermarket.bus
 
                 return JsonHelper.GetJson<MPageListResult<MWXUserInfo>>(pageListResult);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return string.Empty;
             }
