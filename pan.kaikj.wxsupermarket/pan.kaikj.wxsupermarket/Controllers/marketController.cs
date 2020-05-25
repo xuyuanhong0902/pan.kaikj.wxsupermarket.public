@@ -45,7 +45,8 @@ namespace pan.kaikj.wxsupermarket.Controllers
         // GET: market
         public ActionResult IndexPage(String code)
         {
-            new ProductBus().GetWXUserInfoJesonByCode(code);
+           ViewData["code"] = code;
+           new ProductBus().GetWXUserInfoJesonByCode(code);
 
             ViewData["AllClass"] = new ProductBus().GetAllSupProductclassList();
             ViewData["Rotation"] = new NewsBus().GetAllNews(2);

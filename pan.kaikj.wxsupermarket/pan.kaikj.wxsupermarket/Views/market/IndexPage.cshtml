@@ -65,7 +65,7 @@
     <div class="content-list" id="outer" style="margin-top:40px;">
         <div style="width:100%;height:30px;">
             <div style="width:100%;height:30px;margin-top:10px; ">
-                <a href="Search" style="padding-left:20px;line-height:30px;width:80%;margin-left:10%;border-radius: 5%;height:30px;display: flex;border:1px solid #8080805c;">搜索</a>
+                <a href="Search" style="background-color:#e3e3e5; padding-left:20px;line-height:30px;width:80%;margin-left:10%;border-radius: 5%;height:30px;display: flex;border:1px solid #8080805c;">搜索</a>
             </div>
         </div>
 
@@ -97,8 +97,6 @@
                 </div>
             }
         }
-
-
 
         <div style="width:100%;height:130px;border-radius: 10px;margin-top:10px;background-color:#E0FFFF;">
             <div style="font-size:16px;text-align:center;height:10px;line-height:10px;font-family:微软雅黑;color:#0094ff"></div>
@@ -200,7 +198,8 @@
 
     <script type="text/javascript">
         var hasSelProId = new Array();
-
+        var codes = '@ViewData["code"]';
+        console.log(codes);
         //购物数量加减
         $(function () {
             $(".list-pro").delegate(".increase", "click", function () {
