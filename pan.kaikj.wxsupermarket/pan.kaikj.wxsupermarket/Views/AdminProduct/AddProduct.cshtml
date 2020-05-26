@@ -17,16 +17,19 @@
             {
                 <input id="productid" name="productid" style="display:none;" value="@mproduct.productid">
                 <script type="text/javascript">
-                  var Vsupclassid =@mproduct.supclassid;
-                  var Vclassid =@mproduct.classid;
-                  var Vproductname =@mproduct.productname;
-                  var Vproductformat =@mproduct.productformat;
+                    var Vsupclassid =@mproduct.supclassid;
+                    var Vsupclassid =@mproduct.supclassid;
+                    var Vclassid =@mproduct.classid;
+                    var Vclassid =@mproduct.classid;
+                  var Vproductname ="@mproduct.productname";
+                  var Vproductformat ="@mproduct.productformat";
                   var Vproductformatunit =@mproduct.productformatunit;
                   var Vshelfstate =@mproduct.shelfstate;
                   var Vpriority =@mproduct.priority;
                   var Vorigprice =@mproduct.origprice;
                   var Vsellprice =@mproduct.sellprice;
                   var Vstock =@mproduct.stock;
+                  var Vproductdetails =@mproduct.productdetails;
                 </script>
             }
             else
@@ -37,15 +40,16 @@
                     var Vproductname = "";
                     var Vproductformat = "";
                     var Vproductformatunit = "0";
-                    var Vshelfstate = "-1";
+                    var Vshelfstate = "1";
                     var Vpriority = 10;
                     var Vorigprice = "";
                     var Vsellprice = "";
                     var Vstock = "";
+                    var Vproductdetails = "";
                 </script>
             }
 
-            if (mproduct != null)
+            if (1 == 2)
             {
                 <div class="oneListCount-body">
                     <div class="title">产品类别：</div>
@@ -66,7 +70,7 @@
                 <div class="oneListCount-body">
                     <div class="title">产品规格：</div>
                     <div class="value">
-                        @(mproduct.productformat + (mproduct.productformatunit == "0" ? "个" : mproduct.productformatunit == "1" ? "袋" : mproduct.productformatunit == "2" ? "斤" : mproduct.productformatunit == "3" ? "瓶" : "升"))
+                        @(mproduct.productformat + (mproduct.productformatunit == "0" ? "个" : mproduct.productformatunit == "1" ? "袋" : mproduct.productformatunit == "2" ? "斤" : mproduct.productformatunit == "3" ? "瓶" : mproduct.productformatunit == "4" ? "升" : mproduct.productformatunit == "5" ? "听" : mproduct.productformatunit == "4" ? "升" : mproduct.productformatunit == "6" ? "件" : mproduct.productformatunit == "7" ? "盒" : mproduct.productformatunit == "8" ? "包" : mproduct.productformatunit == "9" ? "提" : "双"))
                     </div>
                 </div>
 
@@ -165,7 +169,7 @@
                                         {
                                             if (@item.supclassid == 0)
                                             {
-                                                <option value="@item.classid">@item.classname</option>
+                                                <option selected="@((mproduct!=null && mproduct.supclassid==@item.supclassid)?"selected":"")" value="@item.classid">@item.classname</option>
                                             }
                                         }
                                     }
@@ -182,7 +186,7 @@
                                         {
                                             if (@item.supclassid != 0)
                                             {
-                                                <option class='classid @("classid" + item.supclassid)' value="@item.classid">@item.classname</option>
+                                                <option selected="selected" class='classid @("classid" + item.supclassid)' value="@item.classid">@item.classname</option>
                                             }
                                         }
                                     }
@@ -218,6 +222,12 @@
                             <option value="2">斤</option>
                             <option value="3">瓶</option>
                             <option value="4">升</option>
+                            <option value="5">听</option>
+                            <option value="6">件</option>
+                            <option value="7">盒</option>
+                            <option value="8">包</option>
+                            <option value="9">提</option>
+                            <option value="10">双</option>
                         </select>
                         <div class="warning alert">*</div>
                     </div>
@@ -289,12 +299,11 @@
                     </div>
                 </div>
 
-                <div class="oneListCount-body">
+                <div class="oneListCount-body" style="height:175px;">
                     <div class="title">图片：</div>
-                    <div class="value">
-                        <div style="float: left;">
-                            <input type="file" id="productimgurl" name="productimgurl">
-                        </div>
+                    <div class="value" style="width:132px;height:132px;">
+                        <img style="width:132px;height:132px;" src="../@(mproduct==null?"":mproduct.productimgurl)" />
+                        <input type="file" id="productimgurl" name="productimgurl">
                     </div>
                 </div>
 
@@ -337,7 +346,9 @@
     app.controller("myContro", function ($scope) {
         $scope.model = {
             supclassid: Vsupclassid,
+            supclassid: Vsupclassid,
             classid: Vclassid,
+            supclassid: Vsupclassid,
             productname: Vproductname,
             productformat: Vproductformat,
             productformatunit: Vproductformatunit,
@@ -345,7 +356,8 @@
             priority: Vpriority,
             origprice: Vorigprice,
             sellprice: Vsellprice,
-            stock: Vstock
+            stock: Vstock,
+            productdetails:Vproductdetails
         };
 
         $scope.supclassidChange = function () {
@@ -389,5 +401,15 @@
                 });
             }
         }
+
+        
+    });
+
+    $(function () {
+        $("#supclassid").val( Vsupclassid);
+        $("#classid").val(Vclassid);
+        $("#productformatunit").val( Vproductformatunit);
+        $("#shelfstate").val( Vshelfstate);
+
     });
 </script>

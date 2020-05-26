@@ -207,7 +207,7 @@ namespace pan.kaikj.wxsupermarket.Controllers
             int typeI = 0;
             Int32.TryParse(type, out typeI);
 
-            return new ProductBus().GetProductcList(pagIndexI, productname, shelfstateI, recommendI, typeI);
+            return new ProductBus().GetProductcList(pagIndexI, productname, shelfstateI, recommendI,-1, typeI);
         }
 
         /// <summary>

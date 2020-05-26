@@ -55,10 +55,17 @@
     <div class="detail">
         <span>
             规格：@(model.productformat +
-                     (model.productformatunit == "0" ? "个" :
-                     model.productformatunit == "1" ? "袋" :
-                     model.productformatunit == "2" ? "斤" :
-                     model.productformatunit == "3" ? "瓶" : "升"))
+                  (model.productformatunit == "0" ? "个" :
+                  model.productformatunit == "1" ? "袋" :
+                  model.productformatunit == "2" ? "斤" :
+                  model.productformatunit == "3" ? "瓶" : 
+                  model.productformatunit == "4" ? "升" : 
+                  model.productformatunit == "5" ? "听" : 
+                  model.productformatunit == "4" ? "升" : 
+                  model.productformatunit == "6" ? "件" : 
+                  model.productformatunit == "7" ? "盒" : 
+                  model.productformatunit == "8" ? "包" : 
+                  model.productformatunit == "9" ? "提" : "双"))
         </span>
     </div>
     <div class="detail">

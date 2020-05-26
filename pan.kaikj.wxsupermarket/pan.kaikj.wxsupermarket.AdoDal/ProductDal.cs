@@ -245,6 +245,35 @@ namespace pan.kaikj.wxsupermarket.AdoDal
                 sql = sql + "  productimgurl = ?productimgurl,";
             }
 
+            if (mproduct.supclassid>0)
+            {
+                sql = sql + "  supclassid = "+ mproduct.supclassid + ",";
+                sql = sql + "  supclassName = (select classname from productclass where classid=" + mproduct.supclassid + "),";
+            }
+
+            if (mproduct.classid > 0)
+            {
+                sql = sql + "  classid = " + mproduct.classid + ",";
+                sql = sql + "  className = (select classname from productclass where classid=" + mproduct.classid + "),";
+            }
+
+            if (!string.IsNullOrEmpty(mproduct.productname))
+            {
+                sql = sql + "  productname = ?productname,";
+            }
+
+           
+            sql = sql + "  productformat = ?productformat,";
+            sql = sql + "  productformatunit = ?productformatunit,";
+            sql = sql + "  origprice = ?origprice,";
+            sql = sql + "  sellprice = ?sellprice,";
+            sql = sql + "  stock = ?stock,";
+
+            sql = sql + "  shelfstate = ?shelfstate,";
+            sql = sql + "  priority = ?priority,";
+            sql = sql + "  productdetails = ?productdetails,";
+
+
             sql = sql.TrimEnd(',') + " where productid=?productid;";
 
 
@@ -265,13 +294,36 @@ namespace pan.kaikj.wxsupermarket.AdoDal
             parameter.Value = stock;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("?priority", MySqlDbType.Decimal);
-            parameter.Value = priority;
+            parameter = new MySqlParameter("?productformat", MySqlDbType.VarChar, 20);
+            parameter.Value = mproduct.productformat;
+            parameterList.Add(parameter);
+
+            parameter = new MySqlParameter("?productformatunit", MySqlDbType.VarChar, 50);
+            parameter.Value = mproduct.productformatunit;
+            parameterList.Add(parameter);
+
+
+            parameter = new MySqlParameter("?shelfstate", MySqlDbType.Int32);
+            parameter.Value = mproduct.shelfstate;
+            parameterList.Add(parameter);
+
+            parameter = new MySqlParameter("?productdetails", MySqlDbType.Text);
+            parameter.Value = mproduct.productdetails;
             parameterList.Add(parameter);
 
             parameter = new MySqlParameter("?productimgurl", MySqlDbType.VarChar, 100);
             parameter.Value = mproduct.productimgurl;
             parameterList.Add(parameter);
+
+            parameter = new MySqlParameter("?priority", MySqlDbType.Int32);
+            parameter.Value = mproduct.priority;
+            parameterList.Add(parameter);
+
+
+            parameter = new MySqlParameter("?productname", MySqlDbType.VarChar, 100);
+            parameter.Value = mproduct.productname;
+            parameterList.Add(parameter);
+
 
             //// 执行操作
             return PKMySqlHelper.ExecuteNonQuery(sql, parameterList.ToArray()) > 0;
@@ -409,7 +461,7 @@ namespace pan.kaikj.wxsupermarket.AdoDal
 
             if (shelfstate != 0)
             {
-                sql = sql + " and shelfstate =?shelfstate";
+                sql = sql + " and shelfstate ="+ shelfstate;
             }
 
             if (recommend>=0)
@@ -426,12 +478,8 @@ namespace pan.kaikj.wxsupermarket.AdoDal
             parameter.Value = supclassid;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("?productname", MySqlDbType.Int16, 100);
+            parameter = new MySqlParameter("?productname", MySqlDbType.VarChar, 100);
             parameter.Value = productname;
-            parameterList.Add(parameter);
-
-            parameter = new MySqlParameter("?shelfstate", MySqlDbType.Int32);
-            parameter.Value = shelfstate;
             parameterList.Add(parameter);
 
             using (MySqlDataReader sqlDataReader = PKMySqlHelper.ExecuteReader(sql, parameterList.ToArray()))
@@ -504,7 +552,7 @@ namespace pan.kaikj.wxsupermarket.AdoDal
             parameter.Value = supclassid;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("?productname", MySqlDbType.Int16, 100);
+            parameter = new MySqlParameter("?productname", MySqlDbType.VarChar, 100);
             parameter.Value = productname;
             parameterList.Add(parameter);
 

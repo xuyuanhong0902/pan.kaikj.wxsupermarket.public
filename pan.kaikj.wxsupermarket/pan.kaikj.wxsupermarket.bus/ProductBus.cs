@@ -444,7 +444,7 @@ namespace pan.kaikj.wxsupermarket.bus
         /// <param name="productname"></param>
         /// <param name="shelfstate"></param>
         /// <returns></returns>
-       public string GetProductcList(int pagIndex,  string productname,int shelfstate, int recommend,int type) {
+       public string GetProductcList(int pagIndex,  string productname,int shelfstate, int recommend,int type,int superClassid=-1) {
             try
             {
                 //// 实现步骤
@@ -460,7 +460,7 @@ namespace pan.kaikj.wxsupermarket.bus
                 //// 1、首先获取符号要求的数据总条数
                 ProductService productService = new ProductService();
                 type = type > 0 ? type : -1;
-                pageListResult.totalNum = productService.GetProductPagCount(type, -1, productname, shelfstate, recommend);
+                pageListResult.totalNum = productService.GetProductPagCount(type, superClassid, productname, shelfstate, recommend);
                 if (pageListResult.totalNum > 0)
                 {
                     //// 2、根据获取到数据条数、每页数据量、页码。优化处理页面
