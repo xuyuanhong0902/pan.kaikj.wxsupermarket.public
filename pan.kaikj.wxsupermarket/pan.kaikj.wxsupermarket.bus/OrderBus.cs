@@ -189,7 +189,7 @@ namespace pan.kaikj.wxsupermarket.bus
                             origPrice = item.origPrice,
                             sellPrice = item.sellPrice,
                             totalPrice = item.sellPrice * item.buyNum,
-                            freight = item.sellPrice,
+                           // freight = item.sellPrice,
 
                             shoppingCartId = item.shoppingCartId
                         });
@@ -200,7 +200,7 @@ namespace pan.kaikj.wxsupermarket.bus
                     {
                         foreach (var item in modelList)
                         {
-                            item.freight = 1M;
+                            item.freight = 0M;
                         }
                     }
 

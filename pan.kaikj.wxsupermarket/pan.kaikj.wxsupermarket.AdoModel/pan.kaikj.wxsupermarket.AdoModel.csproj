@@ -43,7 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Musercoupon.cs" />
     <Compile Include="Mnews.cs" />
+    <Compile Include="Mcoupon.cs" />
     <Compile Include="Mordersmain.cs" />
     <Compile Include="MstaticSendOrder.cs" />
     <Compile Include="Mwxmenu.cs" />

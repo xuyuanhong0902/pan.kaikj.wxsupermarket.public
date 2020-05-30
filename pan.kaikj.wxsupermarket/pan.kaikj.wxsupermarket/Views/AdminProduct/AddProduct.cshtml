@@ -18,8 +18,6 @@
                 <input id="productid" name="productid" style="display:none;" value="@mproduct.productid">
                 <script type="text/javascript">
                     var Vsupclassid =@mproduct.supclassid;
-                    var Vsupclassid =@mproduct.supclassid;
-                    var Vclassid =@mproduct.classid;
                     var Vclassid =@mproduct.classid;
                   var Vproductname ="@mproduct.productname";
                   var Vproductformat ="@mproduct.productformat";
@@ -29,7 +27,7 @@
                   var Vorigprice =@mproduct.origprice;
                   var Vsellprice =@mproduct.sellprice;
                   var Vstock =@mproduct.stock;
-                  var Vproductdetails =@mproduct.productdetails;
+                  var Vproductdetails ="@mproduct.productdetails";
                 </script>
             }
             else
@@ -346,9 +344,7 @@
     app.controller("myContro", function ($scope) {
         $scope.model = {
             supclassid: Vsupclassid,
-            supclassid: Vsupclassid,
             classid: Vclassid,
-            supclassid: Vsupclassid,
             productname: Vproductname,
             productformat: Vproductformat,
             productformatunit: Vproductformatunit,

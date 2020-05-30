@@ -468,7 +468,7 @@ namespace pan.kaikj.wxsupermarket.bus
                     pagIndex = pagIndex > pageListResult.totalPage ? pageListResult.totalPage : pagIndex;
 
                     //// 3、获取具体的分页数据信息
-                    pageListResult.dataList = productService.GetProductPagList(pagIndex, pagSize, -1, -1, productname, shelfstate, recommend);
+                    pageListResult.dataList = productService.GetProductPagList(pagIndex, pagSize, -1, superClassid, productname, shelfstate, recommend);
                 }
 
                 pageListResult.pagIndex = pagIndex;

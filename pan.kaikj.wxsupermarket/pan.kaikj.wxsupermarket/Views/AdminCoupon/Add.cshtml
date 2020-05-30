@@ -1,0 +1,151 @@
+﻿<link href="../Content/formPag.css" rel="stylesheet" />
+<link href="../Scripts/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" />
+<div class="console-title-border console-title">
+    <div class="pull-left">
+        <h5>优惠券管理</h5>
+        <h5 style="border-left: none">&gt;</h5>
+        <h5 style="border-left: none">新增优惠券</h5>
+    </div>
+</div>
+<div class="valueCount-body listOutCount">
+    <form ng-app="myApp" ng-controller="myContro" name="addForm" id="addForm"
+          class="ng-pristine ng-valid ng-scope" method="post" enctype="multipart/form-data">
+
+        <div class="oneListCount-body">
+            <div class="title">优惠券名称：</div>
+            <div class="value">
+                <div style="float: left;">
+                    <input ng-model="model.name" name="name" type="text" id="name" class="w250" required="required">
+                </div>
+                <div class="warning alert">*</div>
+                <div class="warning alert" ng-messages="addForm.name.$error">
+                    <span class="warning"
+                          ng-message="required">该项必填</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="oneListCount-body">
+            <div class="title">面额：</div>
+            <div class="value">
+                <div style="float: left;">
+                    <input ng-model="model.price" name="price" type="number" id="price" class="w250" required="required">
+                </div>
+                <div class="warning alert">*</div>
+                <div class="warning alert" ng-messages="addForm.price.$error">
+                    <span class="warning"
+                          ng-message="required">该项必填</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="oneListCount-body">
+            <div class="title">最低消费金额：</div>
+            <div class="value">
+                <div style="float: left;">
+                    <input ng-model="model.consumAmount" name="consumAmount" type="number" id="consumAmount" class="w250" required="required">
+                </div>
+                <div class="warning alert">*</div>
+                <div class="warning alert" ng-messages="addForm.consumAmount.$error">
+                    <span class="warning"
+                          ng-message="required">该项必填</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="oneListCount-body">
+            <div class="title">开始使用时间：</div>
+            <div class="value">
+                <div style="float: left;">
+                    <input placeholder="开始使用时间" class="Wdate  kbtn" type="text" style="background:none;border:none;height:auto;"
+                           onclick="WdatePicker({onpicked:function(dp){deliveryTimeonpicked(this,dp);}, el: this, dateFmt: 'yyyy-MM-dd HH:mm:ss' })"
+                           id="effectiveStart" value="@System.DateTime.Now.AddMinutes(1).ToString("yyyy-MM-dd HH:mm")" />
+
+                </div>
+                <div class="warning alert">*</div>
+
+            </div>
+        </div>
+
+        <div class="oneListCount-body">
+            <div class="title">结束使用时间：</div>
+            <div class="value">
+                <div style="float: left;">
+                    <input placeholder="开始使用时间" class="Wdate  kbtn" type="text" style="background:none;border:none;height:auto;"
+                           onclick="WdatePicker({onpicked:function(dp){deliveryTimeonpicked(this,dp);}, el: this, dateFmt: 'yyyy-MM-dd HH:mm:ss' })"
+                           id="effectiveEnd" value="@System.DateTime.Now.AddYears(1).ToString("yyyy-MM-dd HH:mm")" />
+
+                </div>
+                <div class="warning alert">*</div>
+
+            </div>
+        </div>
+
+        <div>
+            <input type="button" id="submit" class="submitBut" value="保存" ng-click="submit()" ng-disabled="addForm.$invalid">
+            <label style="color: #f00;" id="message" class="alert"></label>
+        </div>
+    </form>
+</div>
+<script src="../Scripts/jquery-form.js"></script>
+<script src="../Scripts/angular.min.js"></script>
+<script src="../Scripts/angular-messages.min.js"></script>
+<script src="../Scripts/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript">
+    var thisPagClass = "pagclass1202";
+
+    var app = angular.module("myApp", ['ngMessages']);
+    app.controller("myContro", function ($scope) {
+
+        //提交表单接受函数
+        $scope.submit = function () {
+            $scope.model.effectiveStart = $("#effectiveStart").val();
+            $scope.model.effectiveEnd = $("#effectiveStart").val();
+
+            if ($scope.addForm.$valid) {
+                $("#addForm").ajaxSubmit({
+                    url: "../AdminCoupon/AddMeth",
+                    type: "post",
+                     data: {
+                        name: $scope.model.name,
+                        price: $scope.model.price,
+                        consumAmount: $scope.model.consumAmount,
+                        effectiveStart: $scope.model.effectiveStart,
+                        effectiveEnd: $scope.model.effectiveEnd,
+                        },//将该表单序列化
+                    error: function (request) {//请求失败之后的操作
+                        alert("操作失败！");
+                    },
+                    success: function (data) {//请求成功之后的操作
+                        if (data == "-1") {
+                            window.location.href = '../Login/Index';
+                        } else {
+                            if (data) {
+                                var dataObj = $.parseJSON(data);
+                                if (dataObj) {
+                                    if (dataObj["errcode"] == "0") {
+                                        //// 操作成功：重置表单
+
+                                        document.getElementById("addForm").reset()
+                                    }
+
+                                    alert(dataObj["errmsg"]);
+                                }
+                            } else {
+                                alert("操作失败！");
+                            }
+                        }
+                    }
+                });
+            }
+        }
+    });
+
+    $(function () {
+        $("#supclassid").val(Vsupclassid);
+        $("#classid").val(Vclassid);
+        $("#productformatunit").val(Vproductformatunit);
+        $("#shelfstate").val(Vshelfstate);
+
+    });
+</script>

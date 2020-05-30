@@ -26,7 +26,7 @@ namespace pan.kaikj.wxsupermarket.Controllers
         public string Index()
         {
             //// 只有在第一次服务搭建的时候开启，后面注释掉该代码
-            // return CheckSignature();
+            /// CheckSignature();
             try
             {
                 MwxMessage wx = GetWxMessage();

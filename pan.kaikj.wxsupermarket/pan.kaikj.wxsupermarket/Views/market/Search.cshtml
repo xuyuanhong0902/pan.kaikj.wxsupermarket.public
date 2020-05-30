@@ -63,9 +63,9 @@
     <div class="content-list" id="outer" style="margin-top:5px;">
         <div style="width:100%;height:40px;margin-left:20px;">
             <div style="width:100%;height:40px;margin-top:10px; border-radius: 2%;">
-                <input id="keyValues" style="width: 80%;height: 30px;background-color: lightgray;
+                <input id="keyValues" style="width: 80%;height: 30px;background-color: #f4f5f6;
         border-radius: 20px;border: none;" />
-                <input type="button" id="searchBut" style="width: 10%;font-size: 14px;height: 30px;background-color: lightgray;border-radius: 20px;border: none;text-align: center;" value="搜索" />
+                <input type="button" id="searchBut" style="width: 10%;font-size: 14px;height: 30px;background-color: #39b867;border-radius: 20px;border: none;text-align: center;" value="搜索" />
             </div>
         </div>
         <div>
@@ -204,7 +204,7 @@
                                 var dataList = dataObj["dataList"];
                                 if (dataList) {
                                     for (var i = 0; i < dataList.length; i++) {
-                                         phtml = '<li><a href="detail?productId=' + dataList[i]["productid"] + '"><img src="/' + dataList[i]["productimgurl"] + '" class="list-pic" /></a>' +
+                                         phtml =phtml+ '<li><a href="detail?productId=' + dataList[i]["productid"] + '"><img src="/' + dataList[i]["productimgurl"] + '" class="list-pic" /></a>' +
                                             '<div class="shop-list-mid" data-id="' + dataList[i]["productid"] + '">' +
                                             '   <div class="tit"><a href="detail?productId=' + dataList[i]["productid"] + '">' + dataList[i]["productname"] + '</a></div>' +
                                             '   <div class="am-gallery-desc" >￥<label class="price">' + dataList[i]["sellprice"] + '</label><label style="color: white;">.</label><label class="delprice">￥' + dataList[i]["origprice"] + '</label></div > ' +

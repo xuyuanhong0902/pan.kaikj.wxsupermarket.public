@@ -129,9 +129,9 @@
     @*<textarea placeholder="备注说明" class="bz-infor" id="remark"></textarea>*@
     <div class="juli"></div>
     <div class="pricebox" style="margin-bottom:60px;">
-        <p>总价：<i id="totalPrice">@((totalMon >= 20 ? totalMon : totalMon + 1).ToString("0.00"))</i>元（含运费 <i id="totalFreight">@(totalMon >= 20 ? 0 : 1)</i>元）</p>
+        <p>总价：<i id="totalPrice">@((totalMon >= 20 ? totalMon : totalMon + 0).ToString("0.00"))</i>元（含运费 <i id="totalFreight">@(totalMon >= 20 ? 0 : 0)</i>元）</p>
         <p>支付方式：<i id="totalPriceTytpe" style="color:#ff0000;">货到付款</i></p>
-        <i style="display:none" id="realTotalPrice">@((totalMon >= 20 ? totalMon : totalMon + 1).ToString("0.00"))</i>
+        <i style="display:none" id="realTotalPrice">@((totalMon >= 20 ? totalMon : totalMon + 0).ToString("0.00"))</i>
         <button class="paybtn" type="button" id="creatOrder"> 立即下单</button>
     </div>
 
@@ -252,7 +252,7 @@
 
                 realTotalPrice = sel == "0" ? realTotalPrice + thisPrice : realTotalPrice - thisPrice;
                 if (realTotalPrice < 20) {
-                    freight = 1;
+                    freight = 0;
                 } 
                 totalPrice = realTotalPrice + freight;
 
@@ -502,7 +502,7 @@ $("#totalFreight").html("0");
             realTotalPrice = opertType == 1 ? realTotalPrice + thisPrice : realTotalPrice - thisPrice;
             var freight = 0;
             if (realTotalPrice < 20) {
-                freight = 1;
+                freight = 0;
             } 
             totalPrice = realTotalPrice + freight;
 

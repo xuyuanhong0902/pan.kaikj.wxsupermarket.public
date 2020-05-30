@@ -54,7 +54,7 @@
     </div>
     <div class="detail">
         <span>
-            规格：@(model.productformat +
+            规格：@(model.productformat +"/"+
                   (model.productformatunit == "0" ? "个" :
                   model.productformatunit == "1" ? "袋" :
                   model.productformatunit == "2" ? "斤" :

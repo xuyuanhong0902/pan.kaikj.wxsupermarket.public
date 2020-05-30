@@ -1,0 +1,96 @@
+﻿
+<link href="../Content/listPag.css" rel="stylesheet" />
+<div class="console-title-border console-title">
+    <div class="pull-left">
+        <h5>优惠券管理</h5>
+        <h5 style="border-left: none">&gt;</h5>
+        <h5 style="border-left: none">优惠券列表</h5>
+    </div>
+</div>
+<div class="listOutCount" ng-app="myApp" ng-controller="myContro">
+    <div class="solidLin"></div>
+    <div class="valueList-body w1000">
+        <div class="valueList-headCount w1000">
+            <div class="one w200">名称</div>
+            <div class="one w100">面额</div>
+            <div class="one w100">最低消费金额</div>
+            <div class="one w250">有效期</div>
+            <div class="one w100">已发数量</div>
+            <div class="one w100">使用数量</div>
+            <div class="one">操作</div>
+        </div>
+        <div class="valueList-valueCount w1000" id="valueListCount" style="display: none;">
+            <div ng-repeat="model in modelList" class="ng-scope w1000">
+                <div class="valueList-oneLinValueCount w1100">
+                    <div class="one w200">{{model.name}}</div>
+                    <div class="one w100">{{model.price|number:2}}</div>
+                    <div class="one w100">{{model.consumAmount|number:2}}</div>
+                    <div class="one w250">{{model.effectiveStart}}-{{model.effectiveEnd}}</div>
+                    <div class="one w100">{{model.creatCount}}</div>
+                    <div class="one w100">{{model.useCount}}</div>
+                    <div class="one ">
+                        <div class="w70 h16">
+                            <a target="_blank" ng-href='../AdminOrder/orderDetail?id={{model.orderid}}'>查看详情</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="solidLin"></div>
+            </div>
+        </div>
+        <div class="solidLin"></div>
+        <div id="pagCount" style="display: none;">
+            <div class="innerCount">
+                <div class="onePageC pageBut" ng-click="SearchFunPageBut('FirstPage')" id="FirstPage" go_value="1">FirstPage</div>
+                <div class="onePageC pageBut" ng-click="SearchFunPageBut('PreviPage')" id="PreviPage" go_value="5">PreviPage</div>
+                <div class="onePageC pageBut" ng-click="SearchFunPageBut('NextPage')" id="NextPage" go_value="6">NextPage</div>
+                <div class="onePageC pageBut" ng-click="SearchFunPageBut('LastPage')" id="LastPage" go_value="-1">LastPage</div>
+                <div class="pagInputC" id="gotopagCount">
+                    go to specific page:<input type="text" class="positInt w50" id="goPagInput" value="1">
+                    <input type="button" value="Go" class="" id="goPagBut" ng-click="SearchFunGoPagBut()">
+                </div>
+            </div>
+            <div class="totalNumCount">符合要求的数据总条数为：<label id="totalNum">0</label></div>
+        </div>
+    </div>
+</div>
+<script src="../Scripts/angular.min.js"></script>
+<script src="../Scripts/PagForAngular.js"></script>
+<script src="../Scripts/My97DatePicker/WdatePicker.js"></script>
+<script src="../Scripts/AdminCoupon/List.js"></script>
+<script type="text/javascript">
+    var thisPagClass = "pagclass1201";
+
+    //// 删除事件
+    function deleteOpert(id) {
+        $.ajax({
+            cache: true,//保留缓存数据
+            type: "get",//为post请求
+            url: "../news/DelectNewsMeth",//这是我在后台接受数据的文件名
+            data: "id=" + id,//将该表单序列化
+            async: true,//设置成true，这标志着在请求开始后，其他代码依然能够执行。如果把这个选项设置成false，这意味着所有的请求都不再是异步的了，这也会导致浏览器被锁死
+            error: function (request) {//请求失败之后的操作
+                alert("操作失败！");
+            },
+            success: function (data) {//请求成功之后的操作
+                if (data == "-1") {
+                    window.location.href = '../Login/Index';
+                } else {
+                    if (data) {
+                        var dataObj = $.parseJSON(data);
+                        if (dataObj) {
+                            if (dataObj["errcode"] == "0") {
+                                //// 操作成功：重新绑定数据
+                                history.go(0);
+                            }
+
+                            alert(dataObj["errmsg"]);
+                        }
+                    } else {
+                        alert("操作失败！");
+                    }
+                }
+            }
+        });
+    }
+
+</script>

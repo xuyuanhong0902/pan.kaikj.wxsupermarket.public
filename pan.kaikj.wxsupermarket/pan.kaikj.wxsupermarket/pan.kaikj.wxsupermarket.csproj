@@ -159,6 +159,7 @@
     <Compile Include="Content\Ueditor\net\App_Code\UploadHandler.cs" />
     <Compile Include="Controllers\AdminIndexController.cs" />
     <Compile Include="Controllers\AdminOrderController.cs" />
+    <Compile Include="Controllers\AdminCouponController.cs" />
     <Compile Include="Controllers\AdminProductController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -694,6 +695,7 @@
     <Content Include="images\sprite.png" />
     <Content Include="Scripts\AdminIndex\Adminlogin.js" />
     <Content Include="Scripts\AdminIndex\UserList.js" />
+    <Content Include="Scripts\AdminCoupon\List.js" />
     <Content Include="Scripts\AdminOrder\List.js" />
     <Content Include="Scripts\AdminProduct\ProductclassList.js" />
     <Content Include="Scripts\AdminProduct\ProductList.js" />
@@ -915,6 +917,8 @@
     <Content Include="Views\rotation\newsAdd.cshtml" />
     <Content Include="Views\rotation\newsList.cshtml" />
     <Content Include="Views\rotation\viewNew.cshtml" />
+    <Content Include="Views\AdminCoupon\List.cshtml" />
+    <Content Include="Views\AdminCoupon\Add.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\pan.kaikj.wxsupermarket.AdoModel\pan.kaikj.wxsupermarket.AdoModel.csproj">

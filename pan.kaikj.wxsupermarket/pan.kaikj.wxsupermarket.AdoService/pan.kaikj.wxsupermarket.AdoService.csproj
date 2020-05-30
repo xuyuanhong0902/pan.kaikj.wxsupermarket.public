@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="NewsService.cs" />
+    <Compile Include="CouponService.cs" />
     <Compile Include="SndGoodsUserService.cs" />
     <Compile Include="AdminuserService.cs" />
     <Compile Include="MailAddressService.cs" />
