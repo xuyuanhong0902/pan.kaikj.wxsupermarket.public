@@ -34,6 +34,7 @@ using System.Data;
 using System.Data.SqlClient;
 using MySql.Data.MySqlClient;
 using pan.kaikj.wxsupermarket.AdoSqlHelper;
+using pan.kaikj.wxsupermarket.tool;
 
 namespace pan.kaikj.wxsupermarket.AdoDal
 {
@@ -87,6 +88,8 @@ namespace pan.kaikj.wxsupermarket.AdoDal
                     model.subscribe = (sqlDataReader["subscribe"] != DBNull.Value && string.IsNullOrEmpty(sqlDataReader["subscribe"].ToString())) ? Convert.ToInt32(sqlDataReader["subscribe"].ToString()) : 0;
                     model.openid = sqlDataReader["openid"] != DBNull.Value ? sqlDataReader["openid"].ToString() : string.Empty;
                     model.nickname = sqlDataReader["nickname"] != DBNull.Value ? sqlDataReader["nickname"].ToString() : string.Empty;
+                    model.nickname = Base64.DecodeBase64(model.nickname);
+
                     model.sex = sqlDataReader["sex"] != DBNull.Value ? sqlDataReader["sex"].ToString() : string.Empty;
                     model.sexdes = sqlDataReader["sexdes"] != DBNull.Value ? sqlDataReader["sexdes"].ToString() : string.Empty;
 
@@ -186,6 +189,8 @@ namespace pan.kaikj.wxsupermarket.AdoDal
                         model.subscribe = (sqlDataReader["subscribe"] != DBNull.Value && string.IsNullOrEmpty(sqlDataReader["subscribe"].ToString())) ? Convert.ToInt32(sqlDataReader["subscribe"].ToString()) : 0;
                         model.openid = sqlDataReader["openid"] != DBNull.Value ? sqlDataReader["openid"].ToString() : string.Empty;
                         model.nickname = sqlDataReader["nickname"] != DBNull.Value ? sqlDataReader["nickname"].ToString() : string.Empty;
+                        model.nickname = Base64.DecodeBase64(model.nickname);
+
                         model.sex = sqlDataReader["sex"] != DBNull.Value ? sqlDataReader["sex"].ToString() : string.Empty;
                         model.sexdes = sqlDataReader["sexdes"] != DBNull.Value ? sqlDataReader["sexdes"].ToString() : string.Empty;
 
@@ -302,8 +307,8 @@ namespace pan.kaikj.wxsupermarket.AdoDal
             parameter.Value = model.openid;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("?nickname", MySqlDbType.VarChar, 50);
-            parameter.Value = model.nickname;
+            parameter = new MySqlParameter("?nickname", MySqlDbType.VarChar,1000);
+            parameter.Value = Base64.EncodeBase64(model.nickname);
             parameterList.Add(parameter);
 
             parameter = new MySqlParameter("?sex", MySqlDbType.VarChar, 1);
@@ -330,7 +335,7 @@ namespace pan.kaikj.wxsupermarket.AdoDal
             parameter.Value = model.language;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("?headimgurl", MySqlDbType.VarChar, 200);
+            parameter = new MySqlParameter("?headimgurl", MySqlDbType.VarChar, 1000);
             parameter.Value = model.headimgurl;
             parameterList.Add(parameter);
 
@@ -338,7 +343,7 @@ namespace pan.kaikj.wxsupermarket.AdoDal
             parameter.Value = model.subscribe_time;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("?remark", MySqlDbType.VarChar, 200);
+            parameter = new MySqlParameter("?remark", MySqlDbType.VarChar, 1000);
             parameter.Value = model.remark;
             parameterList.Add(parameter);
 

@@ -34,6 +34,8 @@ using System.Data;
 using System.Data.SqlClient;
 using MySql.Data.MySqlClient;
 using pan.kaikj.wxsupermarket.AdoSqlHelper;
+using pan.kaikj.wxsupermarket.tool;
+
 namespace pan.kaikj.wxsupermarket.AdoDal
 {
     /// <summary>
@@ -72,8 +74,8 @@ namespace pan.kaikj.wxsupermarket.AdoDal
                 parameter.Value = model[i].userId;
                 parameterList.Add(parameter);
 
-                parameter = new MySqlParameter("?userName" + i, MySqlDbType.VarChar, 50);
-                parameter.Value = model[i].userName;
+                parameter = new MySqlParameter("?userName" + i, MySqlDbType.VarChar, 500);
+                parameter.Value = Base64.EncodeBase64(model[i].userName);
                 parameterList.Add(parameter);
 
                 parameter = new MySqlParameter("?productId" + i, MySqlDbType.VarChar, 25);
@@ -443,8 +445,8 @@ namespace pan.kaikj.wxsupermarket.AdoDal
             parameter.Value = "%" + productname + "%";
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("?userName", MySqlDbType.VarChar, 50);
-            parameter.Value = "%" + userName + "%";
+            parameter = new MySqlParameter("?userName", MySqlDbType.VarChar, 500);
+            parameter.Value = "%" + Base64.EncodeBase64(userName)+ "%";
             parameterList.Add(parameter);
 
             parameter = new MySqlParameter("?startTime", MySqlDbType.VarChar);
@@ -552,8 +554,8 @@ namespace pan.kaikj.wxsupermarket.AdoDal
             parameter.Value = "%" + productname + "%";
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("?userName", MySqlDbType.VarChar, 50);
-            parameter.Value = "%" + userName + "%";
+            parameter = new MySqlParameter("?userName", MySqlDbType.VarChar, 500);
+            parameter.Value = "%" + Base64.EncodeBase64(userName) + "%";
             parameterList.Add(parameter);
 
             parameter = new MySqlParameter("?startTime", MySqlDbType.VarChar);
@@ -585,6 +587,8 @@ namespace pan.kaikj.wxsupermarket.AdoDal
                         model.orderGroupId = sqlDataReader["orderGroupId"] != DBNull.Value ? sqlDataReader["orderGroupId"].ToString() : string.Empty;
                         model.userId = sqlDataReader["userId"] != DBNull.Value ? sqlDataReader["userId"].ToString() : string.Empty;
                         model.userName = sqlDataReader["userName"] != DBNull.Value ? sqlDataReader["userName"].ToString() : string.Empty;
+                        model.userName = Base64.DecodeBase64(model.userName);
+
                         model.productId = sqlDataReader["productId"] != DBNull.Value ? sqlDataReader["productId"].ToString() : string.Empty;
 
                         model.productname = sqlDataReader["productname"] != DBNull.Value ? sqlDataReader["productname"].ToString() : string.Empty;
@@ -640,6 +644,8 @@ namespace pan.kaikj.wxsupermarket.AdoDal
                         model.orderGroupId = sqlDataReader["orderGroupId"] != DBNull.Value ? sqlDataReader["orderGroupId"].ToString() : string.Empty;
                         model.userId = sqlDataReader["userId"] != DBNull.Value ? sqlDataReader["userId"].ToString() : string.Empty;
                         model.userName = sqlDataReader["userName"] != DBNull.Value ? sqlDataReader["userName"].ToString() : string.Empty;
+                        model.userName = Base64.DecodeBase64(model.userName);
+
                         model.productId = sqlDataReader["productId"] != DBNull.Value ? sqlDataReader["productId"].ToString() : string.Empty;
 
                         model.productname = sqlDataReader["productname"] != DBNull.Value ? sqlDataReader["productname"].ToString() : string.Empty;
@@ -727,6 +733,8 @@ namespace pan.kaikj.wxsupermarket.AdoDal
                         model.orderGroupId = sqlDataReader["orderGroupId"] != DBNull.Value ? sqlDataReader["orderGroupId"].ToString() : string.Empty;
                         model.userId = sqlDataReader["userId"] != DBNull.Value ? sqlDataReader["userId"].ToString() : string.Empty;
                         model.userName = sqlDataReader["userName"] != DBNull.Value ? sqlDataReader["userName"].ToString() : string.Empty;
+                        model.userName = Base64.DecodeBase64(model.userName);
+
                         model.productId = sqlDataReader["productId"] != DBNull.Value ? sqlDataReader["productId"].ToString() : string.Empty;
 
                         model.productname = sqlDataReader["productname"] != DBNull.Value ? sqlDataReader["productname"].ToString() : string.Empty;

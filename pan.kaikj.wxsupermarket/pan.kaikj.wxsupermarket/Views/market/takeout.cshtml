@@ -7,7 +7,7 @@
     <title>吧啦啦便利店</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <link href="/Content/amazeui.min.css" type="text/css" rel="stylesheet" />
-    <link href="/Content/style.css?tim=200525" type="text/css" rel="stylesheet" />
+    <link href="/Content/style.css?tim=200531" type="text/css" rel="stylesheet" />
     <script src="/Scripts/jquery-3.3.1.min.js"></script>
     <link href="../Scripts/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" />
     <link href="~/Content/commMarkt.css" rel="stylesheet" />
@@ -280,9 +280,11 @@
 
                 //// 首先做数据合法性验证
                 //// 送货时间
-                var deliveryTime = $("#deliveryTime").val()+$("#deliveryTimeEnd").val();
+                var deliveryTime = $("#deliveryTime").val()+"-"+$("#deliveryTimeEnd").val();
                 //// 送货地址
                 var gladdAddress = $("#gladdAddress").text();
+               gladdAddress= gladdAddress.trim()
+
                 //// 备注
                ////  var remark = $("#remark").val();
                 //// 订单总价
@@ -305,7 +307,7 @@
                     return;
                 }
 
-                if (!gladdAddress) {
+                if (!gladdAddress || gladdAddress=="--") {
                     alert("请填上送货地址！");
                     return;
                 }

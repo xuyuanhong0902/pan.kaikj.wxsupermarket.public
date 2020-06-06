@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="UserCouponIdal.cs" />
     <Compile Include="NewsIdal.cs" />
     <Compile Include="CouponIdal.cs" />
     <Compile Include="SndGoodsUserIdal.cs" />

@@ -41,7 +41,7 @@ namespace pan.kaikj.wxsupermarket.Controllers
                 return "-1";
             }
 
-            return new CouponBus().GetPagList(pagIndex,20);
+            return new CouponBus().GetPagList(pagIndex, 20);
         }
 
         public ActionResult Add()
@@ -81,5 +81,72 @@ namespace pan.kaikj.wxsupermarket.Controllers
 
             return new CouponBus().Delete(id);
         }
+
+        #region 用户优惠券相关
+
+        /// <summary>
+        /// 新增产品分类方法接口
+        /// </summary>
+        /// <returns></returns>
+        public string AddUserGroupMeth(Musercoupon model)
+        {
+            if (!base.CheckIsLogin())
+            {
+                return "-1";
+            }
+            return new UserCouponBus().Add(model);
+        }
+
+        /// <summary>
+        /// 使用优惠券
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="orderId"></param>
+        /// <returns></returns>
+        public string UseUserGroupMeth(string id, string orderId)
+        {
+            if (!base.CheckIsLogin())
+            {
+                return "-1";
+            }
+
+            return new UserCouponBus().UseCoupon(id, orderId);
+        }
+
+        /// <summary>
+        /// 获取用户优惠券列表数据
+        /// </summary>
+        /// <param name="pagIndex"></param>
+        /// <param name="userName"></param>
+        /// <param name="productname"></param>
+        /// <param name="orderState"></param>
+        /// <param name="startDate"></param>
+        /// <param name="endDate"></param>
+        /// <returns></returns>
+        public string SelectUserGroupListMeth(string userId, int isUse, int pagIndex)
+        {
+            if (!base.CheckIsLogin())
+            {
+                return "-1";
+            }
+
+            return new UserCouponBus().GetPagList(userId, isUse, pagIndex, 20);
+        }
+
+        /// <summary>
+        /// 根据id删除
+        /// </summary>
+        /// <param name="adminuserid"></param>
+        /// <returns></returns>
+        public string DeletUserGroupByIdMeth(string id)
+        {
+            if (!base.CheckIsLogin())
+            {
+                return "-1";
+            }
+
+            return new UserCouponBus().Delete(id);
+        }
+        #endregion
     }
 }

@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Base64.cs" />
     <Compile Include="FileOpert.cs" />
     <Compile Include="JsonHelper.cs" />
     <Compile Include="LogOpert.cs" />

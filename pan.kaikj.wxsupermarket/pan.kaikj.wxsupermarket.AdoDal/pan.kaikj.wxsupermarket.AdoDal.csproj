@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="UserCouponDal.cs" />
     <Compile Include="CouponDal.cs" />
     <Compile Include="OrdermainDal.cs" />
     <Compile Include="SndGoodsUserDal.cs" />

@@ -52,19 +52,33 @@ namespace pan.kaikj.wxsupermarket.bus
                 errcode = -1
             };
 
+            try
+            {
+
             bool addResult = true;
 
             ShoppingCartService opert = new ShoppingCartService();
             //// 补全产品信息
             Mproduct product = new ProductBus().GetProductById(model.productId);
-            if (product==null|| string.IsNullOrEmpty(product.productid))
+            if (product == null || string.IsNullOrEmpty(product.productid))
             {
                 addResult = false;
             }
             else
             {
+                string productformatunit = product.productformatunit == "0" ? "个" :
+                  product.productformatunit == "1" ? "袋" :
+                  product.productformatunit == "2" ? "斤" :
+                  product.productformatunit == "3" ? "瓶" :
+                  product.productformatunit == "4" ? "升" :
+                  product.productformatunit == "5" ? "听" :
+                  product.productformatunit == "4" ? "升" :
+                  product.productformatunit == "6" ? "件" :
+                  product.productformatunit == "7" ? "盒" :
+                  product.productformatunit == "8" ? "包" :
+                  product.productformatunit == "9" ? "提" : "双";
                 model.origPrice = product.origprice;
-                model.productformat = product.productformat;
+                model.productformat = $"{product.productformat}/{productformatunit}";
                 model.productname = product.productname;
                 model.sellPrice = product.sellprice;
 
@@ -116,6 +130,14 @@ namespace pan.kaikj.wxsupermarket.bus
             else
             {
                 mwxResult.errmsg = "操作失败！";
+            }
+
+           
+            }
+            catch (Exception ex)
+            {
+                mwxResult.errmsg = "操作失败！";
+                LogOpert.AddWeiXinMessage("系统异常：" + ex.Message);
             }
 
             return JsonHelper.GetJson<MwxResult>(mwxResult);

@@ -34,6 +34,7 @@ using System.Data;
 using System.Data.SqlClient;
 using MySql.Data.MySqlClient;
 using pan.kaikj.wxsupermarket.AdoSqlHelper;
+using pan.kaikj.wxsupermarket.tool;
 
 namespace pan.kaikj.wxsupermarket.AdoDal
 {
@@ -58,8 +59,8 @@ namespace pan.kaikj.wxsupermarket.AdoDal
             parameter.Value = model.id;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("?userName", MySqlDbType.VarChar, 50);
-            parameter.Value = model.userName;
+            parameter = new MySqlParameter("?userName", MySqlDbType.VarChar, 500);
+            parameter.Value = Base64.EncodeBase64(model.userName) ;
             parameterList.Add(parameter);
 
             parameter = new MySqlParameter("?phone", MySqlDbType.VarChar, 50);
@@ -121,8 +122,8 @@ namespace pan.kaikj.wxsupermarket.AdoDal
             string sql = "update sendGoodsUser set userName = ?userName,phone=?phone,sex=?sex where id = ?id";
 
             List<MySqlParameter> parameterList = new List<MySqlParameter>();
-            MySqlParameter parameter = new MySqlParameter("?userName", MySqlDbType.VarChar, 50);
-            parameter.Value = model.userName;
+            MySqlParameter parameter = new MySqlParameter("?userName", MySqlDbType.VarChar, 500);
+            parameter.Value = Base64.EncodeBase64(model.userName);
             parameterList.Add(parameter);
 
             parameter = new MySqlParameter("?phone", MySqlDbType.VarChar, 50);
@@ -163,8 +164,8 @@ namespace pan.kaikj.wxsupermarket.AdoDal
             parameter.Value = "%" + phone + "%";
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("?userName", MySqlDbType.Int16, 50);
-            parameter.Value = "%" + userName + "%";
+            parameter = new MySqlParameter("?userName", MySqlDbType.VarChar, 500);
+            parameter.Value = "%" + Base64.EncodeBase64(userName) + "%";
             parameterList.Add(parameter);
 
             using (MySqlDataReader sqlDataReader = PKMySqlHelper.ExecuteReader(sql, parameterList.ToArray()))
@@ -213,8 +214,8 @@ namespace pan.kaikj.wxsupermarket.AdoDal
             parameter.Value = "%" + phone + "%";
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("?userName", MySqlDbType.Int16, 50);
-            parameter.Value = "%" + userName + "%";
+            parameter = new MySqlParameter("?userName", MySqlDbType.VarChar, 500);
+            parameter.Value = "%" + Base64.EncodeBase64(userName) + "%";
             parameterList.Add(parameter);
 
             List<MsendGoodsUser> listModel = null;
@@ -228,6 +229,8 @@ namespace pan.kaikj.wxsupermarket.AdoDal
                         MsendGoodsUser model = new MsendGoodsUser();
                         model.id = sqlDataReader["id"] != DBNull.Value ? sqlDataReader["id"].ToString() : string.Empty;
                         model.userName = sqlDataReader["userName"] != DBNull.Value ? sqlDataReader["userName"].ToString() : string.Empty;
+                        model.userName = Base64.DecodeBase64(model.userName);
+
                         model.phone = sqlDataReader["phone"] != DBNull.Value ? sqlDataReader["phone"].ToString() : string.Empty;
                         model.sex = sqlDataReader["sex"] != DBNull.Value ? Convert.ToInt32(sqlDataReader["sex"].ToString()) : 0;
                         model.great_time = sqlDataReader["great_time"] != DBNull.Value ? Convert.ToDateTime(sqlDataReader["great_time"].ToString()) : DateTime.MinValue;
@@ -265,6 +268,8 @@ namespace pan.kaikj.wxsupermarket.AdoDal
                         model = new MsendGoodsUser();
                         model.id = sqlDataReader["id"] != DBNull.Value ? sqlDataReader["id"].ToString() : string.Empty;
                         model.userName = sqlDataReader["userName"] != DBNull.Value ? sqlDataReader["userName"].ToString() : string.Empty;
+                        model.userName = Base64.DecodeBase64(model.userName);
+
                         model.phone = sqlDataReader["phone"] != DBNull.Value ? sqlDataReader["phone"].ToString() : string.Empty;
                         model.sex = sqlDataReader["sex"] != DBNull.Value ? Convert.ToInt32(sqlDataReader["sex"].ToString()) : 0;
                         model.great_time = sqlDataReader["great_time"] != DBNull.Value ? Convert.ToDateTime(sqlDataReader["great_time"].ToString()) : DateTime.MinValue;

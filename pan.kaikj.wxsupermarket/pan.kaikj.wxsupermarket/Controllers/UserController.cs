@@ -55,6 +55,5 @@ namespace pan.kaikj.wxsupermarket.Controllers
 
             return View(new UserBus().GetWXUserInfoByOpenid(id));
         }
-        
     }
 }

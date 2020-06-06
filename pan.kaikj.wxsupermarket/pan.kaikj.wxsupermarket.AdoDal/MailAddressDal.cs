@@ -34,6 +34,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using pan.kaikj.wxsupermarket.tool;
 
 namespace pan.kaikj.wxsupermarket.AdoDal
 {
@@ -67,8 +68,8 @@ namespace pan.kaikj.wxsupermarket.AdoDal
             parameter.Value = model.userId;
             parameterList.Add(parameter);
 
-            parameter = new MySqlParameter("?userName", MySqlDbType.VarChar, 50);
-            parameter.Value = model.userName;
+            parameter = new MySqlParameter("?userName", MySqlDbType.VarChar, 500);
+            parameter.Value = Base64.EncodeBase64(model.userName) ;
             parameterList.Add(parameter);
 
             parameter = new MySqlParameter("?province", MySqlDbType.VarChar, 30);
@@ -195,6 +196,8 @@ namespace pan.kaikj.wxsupermarket.AdoDal
                         model.addressId = sqlDataReader["addressId"] != DBNull.Value ? sqlDataReader["addressId"].ToString() : string.Empty;
                         model.userId = sqlDataReader["userId"] != DBNull.Value ? sqlDataReader["userId"].ToString() : string.Empty;
                         model.userName = sqlDataReader["userName"] != DBNull.Value ? sqlDataReader["userName"].ToString() : string.Empty;
+                        model.userName = Base64.DecodeBase64(model.userName);
+
                         model.province = sqlDataReader["province"] != DBNull.Value ? sqlDataReader["province"].ToString() : string.Empty;
 
                         model.city = sqlDataReader["city"] != DBNull.Value ? sqlDataReader["city"].ToString() : string.Empty;

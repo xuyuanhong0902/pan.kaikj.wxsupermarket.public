@@ -65,30 +65,30 @@
         </div>
     </header>
     <div class="content-list" id="outer" style="margin-top:50px;">
-       
+
 
         @{ List
-                                  <pan.kaikj.wxsupermarket.AdoModel.Mnews>
-                                      modelListRo = ViewData["Rotation"] == null ? null : (List<pan.kaikj.wxsupermarket.AdoModel.Mnews>
-                                          )ViewData["Rotation"];
+                                   <pan.kaikj.wxsupermarket.AdoModel.Mnews>
+                                       modelListRo = ViewData["Rotation"] == null ? null : (List<pan.kaikj.wxsupermarket.AdoModel.Mnews>
+                                           )ViewData["Rotation"];
             if (modelListRo != null && modelListRo.Count > 0)
             {
                 <div style="margin-top:10px;" class="swiper-container swiper-container-initialized swiper-container-horizontal">
-                            <div class="swiper-wrapper" style="transition-duration: 0ms;transform: translate3d(-5464px, 0px, 0px);">
+                    <div class="swiper-wrapper" style="transition-duration: 0ms;transform: translate3d(-5464px, 0px, 0px);">
 
-                                @foreach (var item in modelListRo)
-                                {
-                                    if (!string.IsNullOrEmpty(item.img))
-                                    {
-                                        <div class="swiper-slide" style="width:100%;">
-                                            <a href="@(string.IsNullOrEmpty(item.url)?"#":item.url)">
-                                                <img style="width:100%;" src="/@item.img" />
-                                            </a>
-                                        </div>
-                                    }
-                                }
+                        @foreach (var item in modelListRo)
+                        {
+                            if (!string.IsNullOrEmpty(item.img))
+                            {
+                                <div class="swiper-slide" style="width:100%;">
+                                    <a href="@(string.IsNullOrEmpty(item.url)?"#":item.url)">
+                                        <img style="width:100%;" src="/@item.img" />
+                                    </a>
+                                </div>
+                            }
+                        }
 
-                            </div>
+                    </div>
                     <!-- Add Pagination -->
                     <div class="swiper-pagination swiper-pagination-bullets swiper-pagination-bullets-dynamic" style="width: 80px;"><span class="swiper-pagination-bullet" style="left: -32px;"></span><span class="swiper-pagination-bullet" style="left: -32px;"></span><span class="swiper-pagination-bullet swiper-pagination-bullet-active-prev-prev" style="left: -32px;"></span><span class="swiper-pagination-bullet swiper-pagination-bullet-active-prev" style="left: -32px;"></span><span class="swiper-pagination-bullet swiper-pagination-bullet-active swiper-pagination-bullet-active-main" style="left: -32px;"></span><span class="swiper-pagination-bullet swiper-pagination-bullet-active-next" style="left: -32px;"></span><span class="swiper-pagination-bullet swiper-pagination-bullet-active-next-next" style="left: -32px;"></span><span class="swiper-pagination-bullet" style="left: -32px;"></span><span class="swiper-pagination-bullet" style="left: -32px;"></span><span class="swiper-pagination-bullet" style="left: -32px;"></span></div>
                     <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
@@ -96,24 +96,34 @@
             }
         }
 
-    <div style="width:auto;height: 100px;border-radius: 10px;margin:10px;background-color:#E0FFFF;">
-
-        <div style="height: 100px;">
-            <div style="margin-left: 30px;width: 100%;float:left;height: 100px;margin-top:5px;line-height: 18px;font-size: 14px;">
-                <label style="color:#3f51b5">送货时间：24小时</label><br>
-                <label style="color:#3f51b5">送货范围：天府城公寓楼+住宅楼</label><br>
-                <label style="color:#3f51b5">服务电话：18161256101</label>
-                <label style="color:#3f51b5">服务地址：天府城公寓 2栋2楼23号</label><br><br><br>
+        <div style="width:auto;height: 80px;border-radius: 10px;margin:10px;background-color: #a8e8e8;">
+            <div style="height: 80px;">
+                <div style="margin-left: 30px;width: 100%;float:left;height: 80px;margin-top:5px;line-height: 18px;font-size: 14px;">
+                    <label style="color: #f00958;">汤圆水饺冰淇淋8折</label><br>
+                    <label style="color: #f00958;">副食酒水百货调味9折(米油除外)</label><br>
+                    <label style="color: #f00958;font-size: 12px;">活动时间：2020年05月31日 至 6月-6日</label>
+                    <br>
+                </div>
             </div>
         </div>
+        <div style="width:auto;height: 100px;border-radius: 10px;margin:10px;background-color:#E0FFFF;">
 
-    </div>
+            <div style="height: 100px;">
+                <div style="margin-left: 30px;width: 100%;float:left;height: 100px;margin-top:5px;line-height: 18px;font-size: 14px;">
+                    <label style="color:#3f51b5">送货时间：24小时</label><br>
+                    <label style="color:#3f51b5">送货范围：天府城公寓楼+住宅楼</label><br>
+                    <label style="color:#3f51b5">服务电话：18161256101</label>
+                    <label style="color:#3f51b5">服务地址：天府城公寓 2栋2楼23号</label><br><br><br>
+                </div>
+            </div>
+
+        </div>
         <div style="width:100%;height:auto;margin-top:10px ; display: inline-table;">
 
             @{ List
-                                   <pan.kaikj.wxsupermarket.AdoModel.Mproductclass>
-                                       modelList = ViewData["AllClass"] == null ? null : (List<pan.kaikj.wxsupermarket.AdoModel.Mproductclass>
-                                           )ViewData["AllClass"];
+                                    <pan.kaikj.wxsupermarket.AdoModel.Mproductclass>
+                                        modelList = ViewData["AllClass"] == null ? null : (List<pan.kaikj.wxsupermarket.AdoModel.Mproductclass>
+                                            )ViewData["AllClass"];
                 if (modelList != null && modelList.Count > 0)
                 {
                     foreach (var item in modelList)
@@ -340,8 +350,9 @@
                     buyNum: buyNum
                 },//将该表单序列化
                 async: false,//设置成true，这标志着在请求开始后，其他代码依然能够执行。如果把这个选项设置成false，这意味着所有的请求都不再是异步的了，这也会导致浏览器被锁死
-                error: function (request) {//请求失败之后的操作
+                error: function (jqXHR, textStatus, errorThrown) {//请求失败之后的操作
                     alert("操作失败！");
+
                     return false;
                 },
                 success: function (data) {//请求成功之后的操作

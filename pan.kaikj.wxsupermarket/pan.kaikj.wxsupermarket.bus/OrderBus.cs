@@ -331,8 +331,6 @@ namespace pan.kaikj.wxsupermarket.bus
                 else
                 {
                     orderidS = orderidS.Trim(',');
-                    //// 获取一个新密码
-                    string newPass = PublicTools.RandomCode(10);
 
                     //// 重置
                     if (!new OrderService().UpdateOrderStateByIds(orderidS, 8))
@@ -376,8 +374,6 @@ namespace pan.kaikj.wxsupermarket.bus
                 else
                 {
                     orderidS = orderidS.Trim(',');
-                    //// 获取一个新密码
-                    string newPass = PublicTools.RandomCode(10);
 
                     //// 重置
                     if (!new OrderService().UpdateOrderStateByIds(orderidS, 2))

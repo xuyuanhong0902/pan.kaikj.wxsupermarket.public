@@ -38,6 +38,18 @@ namespace pan.kaikj.wxsupermarket.AdoModel
         public string id { get; set; }
 
         /// <summary>
+        /// userId
+        /// </summary>
+        public string userId { get; set; }
+
+        /// <summary>
+        /// userName
+        /// </summary>
+        public string userName { get; set; }
+
+        
+
+        /// <summary>
         /// 优惠券Id
         /// </summary>
         public string couponId { get; set; }
