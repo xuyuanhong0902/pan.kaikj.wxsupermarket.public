@@ -5,15 +5,22 @@ ul{ padding: 0; margin: 0;}
     top: 0;
     width: 100%;
     z-index: 100;
-    background-color:#fff;
+    background-color: #fff;
 }
 .sq-head .am-icon-trash{ color: #999;}
 .sq-head .am-header-left a { border: 1px solid #ddd; color: #fff; padding: 0 8px; height: 35px; line-height: 35px; border-radius: 8px;}
 .content-list{ margin-top: 5px;  width: 100%;}
 .list-content{ position: relative; overflow: hidden; }
 .list-left{ width: 25%; position: fixed;  height: 90%;  top: 0px;  overflow: auto; border-right: 1px solid #ddd; }
-.list-left li {width: 100%;  font-size: 1.4rem;
-    height: 4rem;line-height: 4rem;text-align: center; border-bottom: 1px solid #ddd;overflow: hidden;}
+    .list-left li {
+        width: 100%;
+        font-size: 1.4rem;
+        height: 3.7rem;
+        line-height: 3.7rem;
+        text-align: center;
+        border-bottom: 1px solid #ddd;
+        overflow: hidden;
+    }
 .list-left li a{ color: #666;}
 .list-left .current{ border-left: 3px solid #39b867;}
 .list-left .current a{ color: #39b867;}

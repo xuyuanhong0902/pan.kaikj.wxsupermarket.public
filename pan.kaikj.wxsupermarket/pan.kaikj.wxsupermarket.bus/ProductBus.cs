@@ -529,6 +529,29 @@ namespace pan.kaikj.wxsupermarket.bus
             }
         }
 
+
+        /// <summary>
+        /// 获取产品分页数据
+        /// </summary>
+        /// <param name="pagIndex"></param>
+        /// <param name="productname"></param>
+        /// <param name="shelfstate"></param>
+        /// <returns></returns>
+        public List<Mproduct> GetAllProductcListBySupClassId(int maxNum,int supClassid,
+            int shelfstate, int recommend, string keyValues, int classid = -1)
+        {
+            try
+            {
+               List<Mproduct> listPro = new ProductService().GetProductPagList(1, maxNum, classid, supClassid, keyValues, shelfstate, recommend);
+
+                return listPro;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
         /// <summary>
         /// 根据id删除商品类
         /// </summary>
@@ -670,6 +693,53 @@ namespace pan.kaikj.wxsupermarket.bus
             {
                 return null;
             }
+        }
+
+        /// <summary>
+        /// 根据用户ID获取所有推荐商品，并根据其购物车组装对应的购买信息
+        /// </summary>
+        /// <param name="userid"></param>
+        /// <returns></returns>
+        public string GetRecommentProductListAndCarInfor(string userid)
+        {
+            MPageListResult<Mproduct> pageListResult = new MPageListResult<Mproduct>();
+            // 所有推荐商品
+            if (CacheData.allRecommendProList != null && 
+                CacheData.allRecommendProList.Count > 0)
+            {
+                pageListResult.dataList =
+                JsonHelper.ParseFormJson<List<Mproduct>>(
+                JsonHelper.GetJson<List<Mproduct>>(CacheData.allRecommendProList));
+
+
+                List<MshoppingCart> listShoppingCart = null;
+
+                if (!string.IsNullOrEmpty(userid))
+                {
+                    // 获取用户的所有购物车详情
+                    listShoppingCart = new ShoppingCartBus().GetAllShoppingCartListBySserId(userid);
+                }
+
+                // 
+                MshoppingCart thisMshoppingCart = null;
+                if (pageListResult.dataList != null && pageListResult.dataList.Count > 0)
+                {
+                    foreach (var item in pageListResult.dataList)
+                    {
+                        thisMshoppingCart = listShoppingCart == null ? null : listShoppingCart.Find(x => x.productId == item.productid);
+                        if (thisMshoppingCart == null || string.IsNullOrEmpty(thisMshoppingCart.productId))
+                        {
+                            item.hassellnum = 0;
+                        }
+                        else
+                        {
+                            item.hassellnum = thisMshoppingCart.buyNum;
+                        }
+                    }
+                }
+            }
+
+            return JsonHelper.GetJson<MPageListResult<Mproduct>>(pageListResult);
         }
 
         #endregion

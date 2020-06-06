@@ -332,15 +332,20 @@ namespace pan.kaikj.wxsupermarket.bus
                 {
                     orderidS = orderidS.Trim(',');
 
-                    //// 重置
-                    if (!new OrderService().UpdateOrderStateByIds(orderidS, 8))
+                    string[] idList = orderidS.Split(',');
+                    foreach (var item in idList)
                     {
-                        mwxResult.errmsg = "操作失败";
-                    }
-                    else
-                    {
-                        mwxResult.errcode = 0;
-                        mwxResult.errmsg = "操作成功";
+                        //// 重置
+                        if (!new OrderService().UpdateOrderStateByIds(item, 8))
+                        {
+                            mwxResult.errmsg = "操作失败";
+                            break;
+                        }
+                        else
+                        {
+                            mwxResult.errcode = 0;
+                            mwxResult.errmsg = "操作成功";
+                        }
                     }
                 }
             }

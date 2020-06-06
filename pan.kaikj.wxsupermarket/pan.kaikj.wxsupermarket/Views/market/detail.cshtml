@@ -9,9 +9,9 @@
     <script src="../Scripts/jquery.min.js" type="text/javascript"></script>
     <script src="../Scripts/amazeui.min.js" type="text/javascript"></script>
     <link href="~/Content/amazeui.min.css" type="text/css" rel="stylesheet" />
-    <link href="~/Content/style.css?tim=200525" type="text/css" rel="stylesheet" />
+    <link href="~/Content/style.css?tim=200606" type="text/css" rel="stylesheet" />
     <link href="~/Content/commMarkt.css" rel="stylesheet" />
-    <script src="~/Scripts/comm.js"></script>
+    <script src="~/Scripts/comm.js?tim=200606"></script>
     <script>
         $(function () {
             $(".share").click(function () {
@@ -21,6 +21,9 @@
     </script>
 </head>
 <body>
+    <style>
+        
+    </style>
     <header data-am-widget="header" class="am-header am-header-default sq-head " style="position:absolute;height:auto;">
         <div class="am-header-right am-header-nav">
             <a href="/market/takeout">
@@ -35,11 +38,14 @@
                  new pan.kaikj.wxsupermarket.AdoModel.Mproduct() :
             (pan.kaikj.wxsupermarket.AdoModel.Mproduct)ViewData["ProductDetailInfo"];
     }
-    <div class="am-header-left am-header-nav return">
-        <a href="javascript:history.back()" class="" style="border: 0;">
-            <i class="am-icon-chevron-left"></i>
-        </a>
-    </div>
+<div class="am-header-left am-header-nav return" style="z-index:99999">
+    <a href="javascript:history.back()" style="z-index:99999;border: 0;display: flow-root;width: 30px;height: 30px;
+    background-color: #39b867;
+    border: 0;
+    text-align: center;">
+        <i class="am-icon-chevron-left"></i>
+    </a>
+</div>
     @*<div class="share">
             <i class="am-icon-share-alt"></i>
         </div>*@

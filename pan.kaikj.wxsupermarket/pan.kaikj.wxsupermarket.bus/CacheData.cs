@@ -53,5 +53,27 @@ namespace pan.kaikj.wxsupermarket.bus
 
             set { _allRecommendPro = value; }
         }
+
+
+        /// <summary>
+        /// 所有推荐(集合对象)
+        /// </summary>
+        private static List<Mproduct> _allRecommendProList;
+
+        public static List<Mproduct> allRecommendProList
+        {
+
+            get
+            {
+                if (_allRecommendProList == null)
+                {
+                    _allRecommendProList = new ProductBus().GetAllProductcListBySupClassId(50, 0, 1, 1, string.Empty);
+                }
+
+                return _allRecommendProList;
+            }
+
+            set { _allRecommendProList = value; }
+        }
     }
 }

@@ -42,6 +42,26 @@ namespace pan.kaikj.wxsupermarket.Controllers
             return View();
         }
 
+        public ActionResult IndexClass(String code)
+        {
+            ViewData["code"] = code;
+
+            new ProductBus().GetWXUserInfoJesonByCode(code);
+
+            ViewData["AllClass"] = CacheData.allProductClass;
+
+            if (this.CheckIsLogin())
+            {
+                ViewData["AllShoppingCartList"] = new ShoppingCartBus().GetAllShoppingCartListBySserId(Session["loginuserId"] + string.Empty);
+            }
+            else
+            {
+                ViewData["AllShoppingCartList"] = null;
+            }
+
+            return View();
+        }
+
         // GET: market
         public ActionResult IndexPage(String code)
         {
@@ -51,6 +71,14 @@ namespace pan.kaikj.wxsupermarket.Controllers
             ViewData["AllClass"] = CacheData.allProductClass;
             ViewData["Rotation"] = new NewsBus().GetAllNews(2);
 
+            if (this.CheckIsLogin())
+            {
+                ViewData["AllShoppingCartList"] = new ShoppingCartBus().GetAllShoppingCartListBySserId(Session["loginuserId"] + string.Empty);
+            }
+            else
+            {
+                ViewData["AllShoppingCartList"] = null;
+            }
             return View();
         }
 
@@ -58,6 +86,14 @@ namespace pan.kaikj.wxsupermarket.Controllers
         public ActionResult Search(String code)
         {
             new ProductBus().GetWXUserInfoJesonByCode(code);
+            if (this.CheckIsLogin())
+            {
+                ViewData["AllShoppingCartList"] = new ShoppingCartBus().GetAllShoppingCartListBySserId(Session["loginuserId"] + string.Empty);
+            }
+            else
+            {
+                ViewData["AllShoppingCartList"] = null;
+            }
             return View();
         }
 
@@ -70,8 +106,6 @@ namespace pan.kaikj.wxsupermarket.Controllers
             ViewData["ProductDetailInfo"] = new ProductBus().GetProductById(productId);
             return View();
         }
-
-
 
         /// <summary>
         /// 购物车结算页面
@@ -124,7 +158,6 @@ namespace pan.kaikj.wxsupermarket.Controllers
                 Int32.TryParse(recommend, out recommendI);
             }
 
-
             return new ProductBus().GetProductcListBySupClassId(pagIndexI, supClassidI, 1, recommendI, keyValues, classidI);
         }
 
@@ -137,7 +170,7 @@ namespace pan.kaikj.wxsupermarket.Controllers
         /// <returns></returns>
         public string GetRecommendProduct()
         {
-            return  CacheData.allRecommendPro;
+            return  new ProductBus().GetRecommentProductListAndCarInfor(Session["loginuserId"] + string.Empty);
         }
 
         /// <summary>

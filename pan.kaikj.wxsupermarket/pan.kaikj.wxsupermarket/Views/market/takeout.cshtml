@@ -7,24 +7,24 @@
     <title>吧啦啦便利店</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <link href="/Content/amazeui.min.css" type="text/css" rel="stylesheet" />
-    <link href="/Content/style.css?tim=200531" type="text/css" rel="stylesheet" />
+    <link href="/Content/style.css?tim=200606" type="text/css" rel="stylesheet" />
     <script src="/Scripts/jquery-3.3.1.min.js"></script>
     <link href="../Scripts/My97DatePicker/skin/WdatePicker.css" rel="stylesheet" />
     <link href="~/Content/commMarkt.css" rel="stylesheet" />
-    <script src="~/Scripts/comm.js"></script>
+    <script src="~/Scripts/comm.js?tim=200606"></script>
 </head>
 <body>
     <header data-am-widget="header" class="am-header am-header-default sq-head " style="background-color:#39b867">
         <div class="am-header-left am-header-nav">
-            <a href="/market/Index" class="">继续购物</a>
+            <a href="/market/IndexClass" class="">继续购物</a>
         </div>
     </header>
     <div style="height: 49px;"></div>
     <ul class="eat-list">
         @{ List
-                                                            <pan.kaikj.wxsupermarket.AdoModel.MshoppingCart>
-                                                                modelList = ViewData["AllShoppingCartList"] == null ? null : (List<pan.kaikj.wxsupermarket.AdoModel.MshoppingCart>
-                                                                    )ViewData["AllShoppingCartList"];
+                                                             <pan.kaikj.wxsupermarket.AdoModel.MshoppingCart>
+                                                                 modelList = ViewData["AllShoppingCartList"] == null ? null : (List<pan.kaikj.wxsupermarket.AdoModel.MshoppingCart>
+                                                                     )ViewData["AllShoppingCartList"];
             decimal totalMon = 0M;
             string selProductids = ViewData["SelProductids"] == null ? null : ViewData["SelProductids"].ToString();
             if (modelList != null && modelList.Count > 0)
@@ -32,7 +32,8 @@
 
                 foreach (var item in modelList)
                 {
-                    bool issel = string.IsNullOrEmpty(selProductids) || !selProductids.Contains(item.productId) ? false : true;
+                    // 都全选
+                    bool issel = true;// string.IsNullOrEmpty(selProductids) || !selProductids.Contains(item.productId) ? false : true;
                     string selPic = "noselect.png";
                     if (issel)
                     {

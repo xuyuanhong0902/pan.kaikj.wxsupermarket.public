@@ -7,10 +7,10 @@
     <title>吧啦啦便利店</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <link href="~/Content/amazeui.min.css" type="text/css" rel="stylesheet" />
-    <link href="~/Content/style.css?tim=200525" type="text/css" rel="stylesheet" />
+    <link href="~/Content/style.css?tim=200606" type="text/css" rel="stylesheet" />
     <script src="~/Scripts/jquery.min.js"></script>
     <link href="~/Content/commMarkt.css" rel="stylesheet" />
-    <script src="~/Scripts/comm.js"></script>
+    <script src="~/Scripts/comm.js?tim=200606"></script>
     <script src="~/Scripts/amazeui.min.js"></script>
 
     <link href="~/Content/swiper/swiper.min.css" rel="stylesheet" />
@@ -67,10 +67,27 @@
     <div class="content-list" id="outer" style="margin-top:50px;">
 
 
-        @{ List
-                                   <pan.kaikj.wxsupermarket.AdoModel.Mnews>
-                                       modelListRo = ViewData["Rotation"] == null ? null : (List<pan.kaikj.wxsupermarket.AdoModel.Mnews>
-                                           )ViewData["Rotation"];
+        @{
+            // 购物车数据处理
+            List<string> hasSleProIds = new List<string>();
+            List<pan.kaikj.wxsupermarket.AdoModel.MshoppingCart>
+                 carmodelList = ViewData["AllShoppingCartList"] == null ? null :
+                 (List<pan.kaikj.wxsupermarket.AdoModel.MshoppingCart>)ViewData["AllShoppingCartList"];
+            decimal totalMon = 0M;
+            int totalCount = 0;
+            if (carmodelList != null && carmodelList.Count > 0)
+            {
+
+                foreach (var item in carmodelList)
+                {
+                    totalCount += item.buyNum;
+                    hasSleProIds.Add(item.productId);
+                    totalMon = totalMon + item.sellPrice * item.buyNum;
+                }
+            }
+
+            List<pan.kaikj.wxsupermarket.AdoModel.Mnews> modelListRo = ViewData["Rotation"] == null ? null :
+                (List<pan.kaikj.wxsupermarket.AdoModel.Mnews>)ViewData["Rotation"];
             if (modelListRo != null && modelListRo.Count > 0)
             {
                 <div style="margin-top:10px;" class="swiper-container swiper-container-initialized swiper-container-horizontal">
@@ -121,9 +138,9 @@
         <div style="width:100%;height:auto;margin-top:10px ; display: inline-table;">
 
             @{ List
-                                    <pan.kaikj.wxsupermarket.AdoModel.Mproductclass>
-                                        modelList = ViewData["AllClass"] == null ? null : (List<pan.kaikj.wxsupermarket.AdoModel.Mproductclass>
-                                            )ViewData["AllClass"];
+                                      <pan.kaikj.wxsupermarket.AdoModel.Mproductclass>
+                                          modelList = ViewData["AllClass"] == null ? null : (List<pan.kaikj.wxsupermarket.AdoModel.Mproductclass>
+                                              )ViewData["AllClass"];
                 if (modelList != null && modelList.Count > 0)
                 {
                     foreach (var item in modelList)
@@ -132,7 +149,7 @@
                         {
                             // <li data-typeId="@item.classid"><a>@item.classname</a></li>
                             <div style="width:20%;float:left;">
-                                <a href="/market/Index?supClassid=@item.classid" style="display: flex; flex-direction: column;-webkit-box-align: center;align-items: center;    height: 100px;    width: 100%;    margin-top: 3px;">
+                                <a href="/market/IndexClass?supClassid=@item.classid" style="display: flex; flex-direction: column;-webkit-box-align: center;align-items: center;    height: 100px;    width: 100%;    margin-top: 3px;">
                                     <img style="width:80%;height:70px;" src="../@item.imgpath" />
                                     <span style="font-size: 14px;line-height:30px;color: rgb(102, 102, 102);">@item.classname</span>
                                 </a>
@@ -149,23 +166,23 @@
         <div>
             <ul id="productList" style="margin-top: 20px;" class="list-pro proListType2" data-hasPro="1" data-pagIndex="4">
                 @* <li>
-                    <a href="detail.html">
-                        <img src="/images/1.png" class="list-pic" />
-                    </a>
-                    <div class="shop-list-mid" data-id="4">
-                        <div class="tit" style="min-height:30px;height:auto;">
-                            <a href="detail.html" style="min-height:30px;height:auto;">法国21加力果12个装 进口新鲜水果 嘎啦苹果 包邮</a>
+                        <a href="detail.html">
+                            <img src="/images/1.png" class="list-pic" />
+                        </a>
+                        <div class="shop-list-mid" data-id="4">
+                            <div class="tit" style="min-height:30px;height:auto;">
+                                <a href="detail.html" style="min-height:30px;height:auto;">法国21加力果12个装 进口新鲜水果 嘎啦苹果 包邮</a>
+                            </div>
+                            <div class="am-gallery-desc" style="margin-top: 10px;">￥<label class="price">66</label><label class="delprice">￥899</label></div>
                         </div>
-                        <div class="am-gallery-desc" style="margin-top: 10px;">￥<label class="price">66</label><label class="delprice">￥899</label></div>
-                    </div>
-                    <div class="list-cart">
-                        <div class="d-stock ">
-                            <a class="decrease">-</a>
-                            <input id="num" readonly="" class="text_box" name="" type="text" value="0">
-                            <a class="increase">+</a>
+                        <div class="list-cart">
+                            <div class="d-stock ">
+                                <a class="decrease">-</a>
+                                <input id="num" readonly="" class="text_box" name="" type="text" value="0">
+                                <a class="increase">+</a>
+                            </div>
                         </div>
-                    </div>
-                </li>*@
+                    </li>*@
             </ul>
         </div>
         <script type="text/javascript">
@@ -186,7 +203,7 @@
     <div class="fix-bot" style="bottom:50px;">
         <a href="" class="list-js">
             合计：
-            <i><label id="totalPrice">0</label>元</i><em>(<label id="totalNum">0</label>份)</em>
+            <i><label id="totalPrice">@totalMon.ToString("0.00")</label>元</i><em>(<label id="totalNum">@totalCount</label>份)</em>
         </a>
         <a href="#" id="submit" class="list-jsk">选好了</a>
     </div>
@@ -203,7 +220,6 @@
     <script type="text/javascript">
         var hasSelProId = new Array();
         var codes = '@ViewData["code"]';
-        console.log(codes);
         //购物数量加减
         $(function () {
             $(".list-pro").delegate(".increase", "click", function () {
@@ -271,7 +287,6 @@
             window.onload = function () {
 
                 //// 获取产品列表数据
-
                 $.ajax({
                     cache: false,//保留缓存数据
                     type: "get",//为post请求
@@ -288,6 +303,7 @@
                                 var dataList = dataObj["dataList"];
                                 if (dataList) {
                                     for (var i = 0; i < dataList.length; i++) {
+                                        var hasSel = (dataList[i]["hassellnum"] && dataList[i]["hassellnum"] > 0) ? true : false;
                                         var phtml = '<li><a href="detail?productId=' + dataList[i]["productid"] + '"><img src="/' + dataList[i]["productimgurl"] + '" class="list-pic" /></a>' +
                                             '<div class="shop-list-mid" data-id="' + dataList[i]["productid"] + '">' +
                                             '   <div class="tit"><a href="detail?productId=' + dataList[i]["productid"] + '">' + dataList[i]["productname"] + '</a></div>' +
@@ -295,8 +311,8 @@
                                             '</div> ' +
                                             '<div class="list-cart">' +
                                             ' <div class="d-stock ">' +
-                                            '<a class="decrease">-</a>' +
-                                            ' <input id="num" readonly="" class="text_box" name="" type="text" value="0">' +
+                                            '<a class="decrease" style="'+(hasSel?"display: inline;":"")+'">-</a>' +
+                                            ' <input id="num" readonly="" class="text_box" name="" type="text" value="'+(hasSel?dataList[i]["hassellnum"]:"0")+'" style="'+(hasSel?"display: inline-block;":"")+'">' +
                                             '<a class="increase">+</a>' +
                                             '</div>' +
                                             '</div>' +
@@ -316,7 +332,8 @@
         //// 选好了单击事件
         $(function () {
             $('#submit').click(function () {
-                if (hasSelProId.length < 1) {
+                 var hasSelCount = $("#totalNum").text();
+                if (!hasSelCount || hasSelCount=="0") {
                     alert("请选中需要的产品！");
                     return false;
                 }
@@ -379,7 +396,6 @@
                 }
             });
         }
-
     </script>
 </body>
 </html>

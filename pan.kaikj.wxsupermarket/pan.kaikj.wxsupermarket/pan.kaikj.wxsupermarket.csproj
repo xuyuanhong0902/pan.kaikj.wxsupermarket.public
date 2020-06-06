@@ -919,6 +919,7 @@
     <Content Include="Views\rotation\viewNew.cshtml" />
     <Content Include="Views\AdminCoupon\List.cshtml" />
     <Content Include="Views\AdminCoupon\Add.cshtml" />
+    <Content Include="Views\market\IndexClass.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\pan.kaikj.wxsupermarket.AdoModel\pan.kaikj.wxsupermarket.AdoModel.csproj">

@@ -10,7 +10,7 @@
     <link href="~/Content/style.css?tim=200525" type="text/css" rel="stylesheet" />
     <script src="~/Scripts/jquery.min.js"></script>
     <link href="~/Content/commMarkt.css" rel="stylesheet" />
-    <script src="~/Scripts/comm.js"></script>
+    <script src="~/Scripts/comm.js?tim=200606"></script>
     <script src="~/Scripts/amazeui.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <style>
@@ -55,244 +55,280 @@
     </style>
 </head>
 <body>
-    @*<header data-am-widget="header" class="am-header am-header-default sq-head ">
-        <h1 class="am-header-title">
-            <a href="" class="" style="color: #ffffff;line-height:49px;">吧啦啦便利店</a>
-        </h1>
-    </header>*@
-    <div class="content-list" id="outer" style="margin-top:5px;">
-        <div style="width:100%;height:40px;margin-left:20px;">
-            <div style="width:100%;height:40px;margin-top:10px; border-radius: 2%;">
-                <input id="keyValues" style="width: 80%;height: 30px;background-color: #f4f5f6;
+    @{
+
+        // 购物车数据处理
+        List<string> hasSleProIds = new List<string>();
+        List<pan.kaikj.wxsupermarket.AdoModel.MshoppingCart>
+             carmodelList = ViewData["AllShoppingCartList"] == null ? null :
+             (List<pan.kaikj.wxsupermarket.AdoModel.MshoppingCart>)ViewData["AllShoppingCartList"];
+        decimal totalMon = 0M;
+        int totalCount = 0;
+        if (carmodelList != null && carmodelList.Count > 0)
+        {
+
+            foreach (var item in carmodelList)
+            {
+                totalCount += item.buyNum;
+                hasSleProIds.Add(item.productId + "-" + item.buyNum);
+                totalMon = totalMon + item.sellPrice * item.buyNum;
+            }
+        }
+    }
+        @*<header data-am-widget="header" class="am-header am-header-default sq-head ">
+                <h1 class="am-header-title">
+                    <a href="" class="" style="color: #ffffff;line-height:49px;">吧啦啦便利店</a>
+                </h1>
+            </header>*@
+        <div class="content-list" id="outer" style="margin-top:5px;">
+            <div style="width:100%;height:40px;margin-left:20px;">
+                <div style="width:100%;height:40px;margin-top:10px; border-radius: 2%;">
+                    <input id="keyValues" style="width: 80%;height: 30px;background-color: #f4f5f6;
         border-radius: 20px;border: none;" />
-                <input type="button" id="searchBut" style="width: 10%;font-size: 14px;height: 30px;background-color: #39b867;border-radius: 20px;border: none;text-align: center;" value="搜索" />
+                    <input type="button" id="searchBut" style="width: 10%;font-size: 14px;height: 30px;background-color: #39b867;border-radius: 20px;border: none;text-align: center;" value="搜索" />
+                </div>
+            </div>
+            <div>
+                <ul id="productList" style="margin-top: 20px;" class="list-pro proListType2" data-hasPro="1" data-pagIndex="4">
+                    @* <li>
+                            <a href="detail.html">
+                                <img src="/images/1.png" class="list-pic" />
+                            </a>
+                            <div class="shop-list-mid" data-id="4">
+                                <div class="tit" style="min-height:30px;height:auto;">
+                                    <a href="detail.html" style="min-height:30px;height:auto;">法国21加力果12个装 进口新鲜水果 嘎啦苹果 包邮</a>
+                                </div>
+                                <div class="am-gallery-desc" style="margin-top: 10px;">￥<label class="price">66</label><label class="delprice">￥899</label></div>
+                            </div>
+                            <div class="list-cart">
+                                <div class="d-stock ">
+                                    <a class="decrease">-</a>
+                                    <input id="num" readonly="" class="text_box" name="" type="text" value="0">
+                                    <a class="increase">+</a>
+                                </div>
+                            </div>
+                        </li>*@
+                </ul>
             </div>
         </div>
-        <div>
-            <ul id="productList" style="margin-top: 20px;" class="list-pro proListType2" data-hasPro="1" data-pagIndex="4">
-                @* <li>
-                    <a href="detail.html">
-                        <img src="/images/1.png" class="list-pic" />
-                    </a>
-                    <div class="shop-list-mid" data-id="4">
-                        <div class="tit" style="min-height:30px;height:auto;">
-                            <a href="detail.html" style="min-height:30px;height:auto;">法国21加力果12个装 进口新鲜水果 嘎啦苹果 包邮</a>
-                        </div>
-                        <div class="am-gallery-desc" style="margin-top: 10px;">￥<label class="price">66</label><label class="delprice">￥899</label></div>
-                    </div>
-                    <div class="list-cart">
-                        <div class="d-stock ">
-                            <a class="decrease">-</a>
-                            <input id="num" readonly="" class="text_box" name="" type="text" value="0">
-                            <a class="increase">+</a>
-                        </div>
-                    </div>
-                </li>*@
-            </ul>
+        <!--底部-->
+        <div style="height: 100px;"></div>
+        <div class="fix-bot" style="bottom:50px;">
+            <a href="" class="list-js">
+                合计：
+                <i><label id="totalPrice">@totalMon.ToString("0.00")</label>元</i><em>(<label id="totalNum">@totalCount</label>份)</em>
+            </a>
+            <a href="#" id="submit" class="list-jsk">选好了</a>
         </div>
-    </div>
-    <!--底部-->
-    <div style="height: 100px;"></div>
-    <div class="fix-bot" style="bottom:50px;">
-        <a href="" class="list-js">
-            合计：
-            <i><label id="totalPrice">0</label>元</i><em>(<label id="totalNum">0</label>份)</em>
-        </a>
-        <a href="#" id="submit" class="list-jsk">选好了</a>
-    </div>
 
-    <div class="botCount" id="botCount">
+        <div class="botCount" id="botCount">
+            <script type="text/javascript">
+                //// 底部事件
+                $(function () {
+                    initBotom(1);
+                });
+            </script>
+        </div>
+
         <script type="text/javascript">
-            //// 底部事件
+            var hasSelProId = new Array();
+            var carSelProIdListStr = "@((hasSleProIds==null ||hasSleProIds.Count<1)?"": string.Join(",",hasSleProIds.ToArray()))";
+            var carSelProIdList= new Array(); //定义一数组
+            carSelProIdList = carSelProIdListStr.split(","); //字符分割
+
+            //购物数量加减
             $(function () {
-                initBotom(1);
-            });
-        </script>
-    </div>
-
-    <script type="text/javascript">
-        var hasSelProId = new Array();
-
-        //购物数量加减
-        $(function () {
-            $(".list-pro").delegate(".increase", "click", function () {
-                //// 数量加1
-                var self = $(this);
-                addShopingCartResult = false;
-                addShopingCart(self.parent().parent().prev().attr("data-id"), 1);
-                if (addShopingCartResult) {
-                    var current_num = parseInt(self.siblings('input').val());
-                    current_num += 1;
-                    if (current_num > 0) {
-                        self.siblings(".decrease").fadeIn();
-                        self.siblings(".text_box").fadeIn();
-                    }
-                    self.siblings('input').val(current_num);
-
-                    //// 购物车数量展示处理
-                    update_item(self, 1);
-                }
-            });
-
-            $(".list-pro").delegate(".decrease", "click", function () {
-                //// 数量减1
-                var self = $(this);
-                addShopingCartResult = false;
-                addShopingCart(self.parent().parent().prev().attr("data-id"), -1);
-                if (addShopingCartResult) {
-                    var current_num = parseInt(self.siblings('input').val());
-                    if (current_num > 0) {
-                        current_num -= 1;
-                        if (current_num < 1) {
-                            self.fadeOut();
-                            self.siblings(".text_box").fadeOut();
+                $(".list-pro").delegate(".increase", "click", function () {
+                    //// 数量加1
+                    var self = $(this);
+                    addShopingCartResult = false;
+                    addShopingCart(self.parent().parent().prev().attr("data-id"), 1);
+                    if (addShopingCartResult) {
+                        var current_num = parseInt(self.siblings('input').val());
+                        current_num += 1;
+                        if (current_num > 0) {
+                            self.siblings(".decrease").fadeIn();
+                            self.siblings(".text_box").fadeIn();
                         }
                         self.siblings('input').val(current_num);
 
                         //// 购物车数量展示处理
-                        update_item(self, 0);
+                        update_item(self, 1);
                     }
-                }
-            });
-        })
-
-        //删除提示信息
-        $(function () {
-            $('#doc-modal-list').find('.am-icon-close').add('#doc-confirm-toggle').
-                on('click', function () {
-                    $('#my-confirm').modal({
-                        relatedTarget: this,
-                        onConfirm: function (options) {
-                            var $link = $(this.relatedTarget).prev('a');
-                            var msg = $link.length ? '你要删除的饮品 为 ' + $link.data('id') :
-                                '确定了';
-                            //        alert(msg);
-                        },
-                        onCancel: function () {
-                            alert('不删除');
-                        }
-                    });
                 });
-        });
-        var finished = false;
-        //tab切换
-        $(function () {
-            window.onload = function () {
 
-                //// 获取产品列表数据
-            }
+                $(".list-pro").delegate(".decrease", "click", function () {
+                    //// 数量减1
+                    var self = $(this);
+                    addShopingCartResult = false;
+                    addShopingCart(self.parent().parent().prev().attr("data-id"), -1);
+                    if (addShopingCartResult) {
+                        var current_num = parseInt(self.siblings('input').val());
+                        if (current_num > 0) {
+                            current_num -= 1;
+                            if (current_num < 1) {
+                                self.fadeOut();
+                                self.siblings(".text_box").fadeOut();
+                            }
+                            self.siblings('input').val(current_num);
 
-            $("#searchBut").click(function () {
-                if (!$("#keyValues").val()) {
-                    alert("请输入搜索关键词");
-                    return;
+                            //// 购物车数量展示处理
+                            update_item(self, 0);
+                        }
+                    }
+                });
+            })
+
+            //删除提示信息
+            $(function () {
+                $('#doc-modal-list').find('.am-icon-close').add('#doc-confirm-toggle').
+                    on('click', function () {
+                        $('#my-confirm').modal({
+                            relatedTarget: this,
+                            onConfirm: function (options) {
+                                var $link = $(this.relatedTarget).prev('a');
+                                var msg = $link.length ? '你要删除的饮品 为 ' + $link.data('id') :
+                                    '确定了';
+                                //        alert(msg);
+                            },
+                            onCancel: function () {
+                                alert('不删除');
+                            }
+                        });
+                    });
+            });
+            var finished = false;
+            //tab切换
+            $(function () {
+                window.onload = function () {
+
+                    //// 获取产品列表数据
                 }
-                 $.ajax({
-                    cache: false,//保留缓存数据
-                    type: "get",//为post请求
-                     url: "/market/GetProductcListBySupClassId",//这是我在后台接受数据的文件名
-                     data: "pagIndex=1&supClassid=0&recommend=-1&keyValues=" + $("#keyValues").val(),//将该表单序列化
-                    async: false,//设置成true，这标志着在请求开始后，其他代码依然能够执行。如果把这个选项设置成false，这意味着所有的请求都不再是异步的了，这也会导致浏览器被锁死
-                    error: function (request) {//请求失败之后的操作
-                        alert("操作失败！");
-                    },
-                     success: function (data) {//请求成功之后的操作
-                         var phtml = "";
-                        if (data) {
-                            var dataObj = $.parseJSON(data);
-                            if (dataObj) {
-                                var dataList = dataObj["dataList"];
-                                if (dataList) {
-                                    for (var i = 0; i < dataList.length; i++) {
-                                         phtml =phtml+ '<li><a href="detail?productId=' + dataList[i]["productid"] + '"><img src="/' + dataList[i]["productimgurl"] + '" class="list-pic" /></a>' +
-                                            '<div class="shop-list-mid" data-id="' + dataList[i]["productid"] + '">' +
-                                            '   <div class="tit"><a href="detail?productId=' + dataList[i]["productid"] + '">' + dataList[i]["productname"] + '</a></div>' +
-                                            '   <div class="am-gallery-desc" >￥<label class="price">' + dataList[i]["sellprice"] + '</label><label style="color: white;">.</label><label class="delprice">￥' + dataList[i]["origprice"] + '</label></div > ' +
-                                            '</div> ' +
-                                            '<div class="list-cart">' +
-                                            ' <div class="d-stock ">' +
-                                            '<a class="decrease">-</a>' +
-                                            ' <input id="num" readonly="" class="text_box" name="" type="text" value="0">' +
-                                            '<a class="increase">+</a>' +
-                                            '</div>' +
-                                            '</div>' +
-                                            '</li>';
+
+                $("#searchBut").click(function () {
+                    if (!$("#keyValues").val()) {
+                        alert("请输入搜索关键词");
+                        return;
+                    }
+                    $.ajax({
+                        cache: false,//保留缓存数据
+                        type: "get",//为post请求
+                        url: "/market/GetProductcListBySupClassId",//这是我在后台接受数据的文件名
+                        data: "pagIndex=1&supClassid=0&recommend=-1&keyValues=" + $("#keyValues").val(),//将该表单序列化
+                        async: false,//设置成true，这标志着在请求开始后，其他代码依然能够执行。如果把这个选项设置成false，这意味着所有的请求都不再是异步的了，这也会导致浏览器被锁死
+                        error: function (request) {//请求失败之后的操作
+                            alert("操作失败！");
+                        },
+                        success: function (data) {//请求成功之后的操作
+                            var phtml = "";
+                            if (data) {
+                                var dataObj = $.parseJSON(data);
+                                if (dataObj) {
+                                    var dataList = dataObj["dataList"];
+                                    if (dataList) {
+                                        for (var i = 0; i < dataList.length; i++) {
+
+                                             var hasSel = false;
+                                                var hasSelNum = 0;
+                                                if (carSelProIdList && carSelProIdList.length>0) {
+                                                    for (var j = 0; j < carSelProIdList.length; j++) {
+                                                        if (carSelProIdList[j].indexOf(dataList[i]["productid"]) != -1) {
+                                                            hasSel = true;
+                                                            hasSelNum = carSelProIdList[j].split("-")[1];
+                                                        }
+                                                    }
+                                                }
+
+                                            phtml = phtml + '<li><a href="detail?productId=' + dataList[i]["productid"] + '"><img src="/' + dataList[i]["productimgurl"] + '" class="list-pic" /></a>' +
+                                                '<div class="shop-list-mid" data-id="' + dataList[i]["productid"] + '">' +
+                                                '   <div class="tit"><a href="detail?productId=' + dataList[i]["productid"] + '">' + dataList[i]["productname"] + '</a></div>' +
+                                                '   <div class="am-gallery-desc" >￥<label class="price">' + dataList[i]["sellprice"] + '</label><label style="color: white;">.</label><label class="delprice">￥' + dataList[i]["origprice"] + '</label></div > ' +
+                                                '</div> ' +
+                                                '<div class="list-cart">' +
+                                                ' <div class="d-stock ">' +
+                                                '<a class="decrease" style="' + (hasSel ? "display: inline;" : "") + '">-</a>' +
+                                                    ' <input id="num" readonly="" class="text_box" name="" type="text" value="'+(hasSel?hasSelNum:"0")+'" style="'+(hasSel?"display: inline-block;":"")+'">' +
+                                                '<a class="increase">+</a>' +
+                                                '</div>' +
+                                                '</div>' +
+                                                '</li>';
+                                        }
                                     }
                                 }
                             }
+                            $("#productList").html(phtml);
                         }
-                       $("#productList").html(phtml);
-                    }
+                    });
                 });
             });
-        });
 
-        //// 选好了单击事件
-        $(function () {
-            $('#submit').click(function () {
-                if (hasSelProId.length < 1) {
-                    alert("请选中需要的产品！");
-                    return false;
-                }
-                window.location.href = '/market/takeout?selProductids=' + hasSelProId.join(",");
-            });
-        });
-
-        //// 选择商品总价显示
-        function update_item(self, opertType) {
-            //// 购物车数量展示处理
-            var totalPrice = parseFloat($("#totalPrice").html().trim());
-            var totalNum = parseInt($("#totalNum").html().trim());
-            var thisPrice = parseFloat(self.parent().parent().prev().children().find(".price").html().trim());
-
-            hasSelProId.push(self.parent().parent().prev().attr("data-id"));
-
-            totalPrice = opertType == 1 ? totalPrice + thisPrice : totalPrice - thisPrice;
-            totalNum = opertType == 1 ? totalNum + 1 : totalNum - 1;
-            $("#totalPrice").html(totalPrice.toFixed(2));
-            $("#totalNum").html(totalNum)
-        }
-
-        //// 添加到购物车
-        function addShopingCart(productId, buyNum) {
-            $.ajax({
-                cache: false,//保留缓存数据
-                type: "get",//为post请求
-                url: "/market/AddShopCart",//这是我在后台接受数据的文件名
-                data: {
-                    productId: productId,
-                    buyNum: buyNum
-                },//将该表单序列化
-                async: false,//设置成true，这标志着在请求开始后，其他代码依然能够执行。如果把这个选项设置成false，这意味着所有的请求都不再是异步的了，这也会导致浏览器被锁死
-                error: function (request) {//请求失败之后的操作
-                    alert("操作失败！");
-                    return false;
-                },
-                success: function (data) {//请求成功之后的操作
-                    if (data == "-1") {
-                        alert("请先登录");
-                        window.location.href = '../market/userCenter';
+            //// 选好了单击事件
+            $(function () {
+                $('#submit').click(function () {
+                    var hasSelCount = $("#totalNum").text();
+                    if (!hasSelCount || hasSelCount == "0") {
+                        alert("请选中需要的产品！");
                         return false;
-                    } else {
-                        if (data) {
-                            var dataObj = $.parseJSON(data);
-                            if (dataObj) {
-                                if (dataObj["errcode"] == "0") {
-                                    addShopingCartResult = true;
-                                    return true;
+                    }
+                    window.location.href = '/market/takeout?selProductids=' + hasSelProId.join(",");
+                });
+            });
+
+            //// 选择商品总价显示
+            function update_item(self, opertType) {
+                //// 购物车数量展示处理
+                var totalPrice = parseFloat($("#totalPrice").html().trim());
+                var totalNum = parseInt($("#totalNum").html().trim());
+                var thisPrice = parseFloat(self.parent().parent().prev().children().find(".price").html().trim());
+
+                hasSelProId.push(self.parent().parent().prev().attr("data-id"));
+
+                totalPrice = opertType == 1 ? totalPrice + thisPrice : totalPrice - thisPrice;
+                totalNum = opertType == 1 ? totalNum + 1 : totalNum - 1;
+                $("#totalPrice").html(totalPrice.toFixed(2));
+                $("#totalNum").html(totalNum)
+            }
+
+            //// 添加到购物车
+            function addShopingCart(productId, buyNum) {
+                $.ajax({
+                    cache: false,//保留缓存数据
+                    type: "get",//为post请求
+                    url: "/market/AddShopCart",//这是我在后台接受数据的文件名
+                    data: {
+                        productId: productId,
+                        buyNum: buyNum
+                    },//将该表单序列化
+                    async: false,//设置成true，这标志着在请求开始后，其他代码依然能够执行。如果把这个选项设置成false，这意味着所有的请求都不再是异步的了，这也会导致浏览器被锁死
+                    error: function (request) {//请求失败之后的操作
+                        alert("操作失败！");
+                        return false;
+                    },
+                    success: function (data) {//请求成功之后的操作
+                        if (data == "-1") {
+                            alert("请先登录");
+                            window.location.href = '../market/userCenter';
+                            return false;
+                        } else {
+                            if (data) {
+                                var dataObj = $.parseJSON(data);
+                                if (dataObj) {
+                                    if (dataObj["errcode"] == "0") {
+                                        addShopingCartResult = true;
+                                        return true;
+                                    }
+                                    alert(dataObj["errmsg"]);
+                                    return false;
                                 }
-                                alert(dataObj["errmsg"]);
+                            } else {
+                                alert("操作失败！");
                                 return false;
                             }
-                        } else {
-                            alert("操作失败！");
-                            return false;
                         }
                     }
-                }
-            });
-        }
+                });
+            }
 
-    </script>
-</body>
+        </script>
+    </body>
 </html>

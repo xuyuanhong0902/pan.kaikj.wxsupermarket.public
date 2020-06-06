@@ -28,31 +28,73 @@
     </header>
     <div class="content-list" id="outer" style="margin-top:50px;border-top: 1px solid rgb(247, 243, 243);">
         <div class="list-left" id="tab" style="bottom:100px;height:auto;margin-top:50px;">
+          
             <!--<li><a style="position: relative;">新品推荐<i class="num">8</i></a></li>-->
             <ul>
-                @{ List
-                        <pan.kaikj.wxsupermarket.AdoModel.Mproductclass>
-                            modelList = ViewData["AllClass"] == null ? null : (List<pan.kaikj.wxsupermarket.AdoModel.Mproductclass>
-                                )ViewData["AllClass"];
-                    string subClassHtml = "<li data-classid='' data-supClassid='' class='allSubdaohang subdaohang active2'>全 部</li>";
+                @{ 
+
+                   // 购物车数据处理
+            List<string> hasSleProIds = new List<string>();
+            List<pan.kaikj.wxsupermarket.AdoModel.MshoppingCart>
+                 carmodelList = ViewData["AllShoppingCartList"] == null ? null :
+                 (List<pan.kaikj.wxsupermarket.AdoModel.MshoppingCart>)ViewData["AllShoppingCartList"];
+            decimal totalMon = 0M;
+            int totalCount = 0;
+            if (carmodelList != null && carmodelList.Count > 0)
+            {
+
+                foreach (var item in carmodelList)
+                {
+                    totalCount += item.buyNum;
+                    hasSleProIds.Add(item.productId+"-"+item.buyNum);
+                    totalMon = totalMon + item.sellPrice * item.buyNum;
+                }
+            }
+
+                    string supClassId = Request.QueryString["supClassid"];
+                    string classId = Request.QueryString["classid"];
+
+                    List
+                         <pan.kaikj.wxsupermarket.AdoModel.Mproductclass>
+                             modelList = ViewData["AllClass"] == null ? null : (List<pan.kaikj.wxsupermarket.AdoModel.Mproductclass>
+                                 )ViewData["AllClass"];
+                    string thisSubClassHtml = "";
+                    string subClassHtml = "";
+
                     if (modelList != null && modelList.Count > 0)
                     {
                         foreach (var item in modelList)
                         {
+                            supClassId = string.IsNullOrEmpty(supClassId) ? (item.supclassid > 0 ? item.supclassid.ToString() : item.classid.ToString()) : supClassId;
                             if (@item.supclassid == 0)
                             {
-                                <li data-typeId="@item.classid"><a>@item.classname</a></li>
+                                <li class='@((supClassId == item.classid.ToString()) ? "current currentLi" : "")'  data-typeId="@item.classid"><a style="display: block;height: 100%;width: 100%;" href='/market/IndexClass?classid=0&supClassid=@item.classid'>@item.classname</a></li>
                             }
                             else
                             {
-                                subClassHtml = $"{subClassHtml}<li style='display: none;' data-classid='{item.classid}' data-supClassid='{item.supclassid}' class='subdaohangInfor subdaohang'>{item.classname}</li>";
+                                if (supClassId == item.supclassid.ToString())
+                                {
+                                    if (string.IsNullOrEmpty(classId) || classId == "0")
+                                    {
+                                        thisSubClassHtml = $@"{thisSubClassHtml}<div style='width:30%;float:left;text-align:center;'>
+                                    <a href='/market/IndexClass?classid={@item.classid}&supClassid={@item.supclassid}' style='display: flex; flex-direction: column;-webkit-box-align: center;align-items: center;    height: 100px;    width: 100%;    margin-top: 3px;'>
+                                        <img style='width:80%;height:70px;' src='../{@item.imgpath}'>
+                                        <span style='font-size: 12px;line-height:30px;text-align:center;color: rgb(102, 102, 102);'>{@item.classname}</span>
+                                    </a>
+                                </div>";
+                                    }
+                                    else
+                                    {
+                                        subClassHtml = $"{subClassHtml}<li  data-classid='{item.classid}' data-supClassid='{item.supclassid}' class='subdaohangInfor subdaohang {((classId==item.classid.ToString())?"active2":"")} '><a class='{((classId==item.classid.ToString())?"active2":"")}' href='/market/IndexClass?classid={@item.classid}&supClassid={@item.supclassid}'>{item.classname}</a></li>";
+                                    }
+                                }
                             }
                         }
                     }
                 }
             </ul>
         </div>
-        <div class="list-right">
+        <div class="list-right" style="position: inherit;">
             <style type="text/css">
                 .subdaohang {
                     width: auto;
@@ -74,7 +116,7 @@
                 .wrap {
                     overflow: hidden;
                     height: 30px;
-                    border-bottom: 1px solid #999;
+                    /*border-bottom: 1px solid #999;*/
                 }
 
                 .cont {
@@ -110,17 +152,25 @@
                     }
             </style>
 
-            <div class="wrap">
-                <div class="cont">
-                    <ul class="state">
-                        @Html.Raw(subClassHtml)
-                    </ul>
-                </div>
-            </div>
-
-            <script type="text/javascript">
-               
-            </script>
+            @*子分类*@
+            @{
+                if (!string.IsNullOrEmpty(thisSubClassHtml))
+                {
+                    <div style="width:100%;height:auto;margin-top:10px ; " id="sbuClassCount">
+                        @Html.Raw(thisSubClassHtml)
+                    </div>
+                }
+                else
+                {
+                    <div class="wrap">
+                        <div class="cont"  style="border-bottom: 1px solid #ddd;">
+                            <ul class="state">
+                                @Html.Raw(subClassHtml)
+                            </ul>
+                        </div>
+                    </div>
+                }
+            }
 
             <div class="" id="content">
                 @{
@@ -128,38 +178,38 @@
                     {
                         foreach (var item in modelList)
                         {
-                            if (@item.supclassid == 0)
+                            if (@item.supclassid == 0 && supClassId == item.classid.ToString())
                             {
-                                <ul class='list-pro  @("proListType"+item.classid)' data-hasPro="1" data-pagIndex="1"></ul>
+                                 <ul class='list-pro  @("proListType"+item.classid)' data-hasPro="1" data-pagIndex="1"></ul>
                             }
                         }
                     }
                 }
                 @*<ul class="list-pro proListType2" data-hasPro="1" data-pagIndex="4">
-                        <li>
-                            <a href="detail.html"><img src="/images/1.png" class="list-pic" /></a>
-                            <div class="shop-list-mid" data-id="4">
-                                <div class="tit"><a href="detail.html">法国21加力果12个装 进口新鲜水果 嘎啦苹果 包邮</a></div>
-                                <div class="am-gallery-desc">￥<label class="price">66</label></div>
-                            </div>
-                            <div class="list-cart">
-                                <div class="d-stock ">
-                                    <a class="decrease">-</a>
-                                    <input id="num" readonly="" class="text_box" name="" type="text" value="0">
-                                    <a class="increase">+</a>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>*@
+                <li>
+                    <a href="detail.html"><img src="/images/1.png" class="list-pic" /></a>
+                    <div class="shop-list-mid" data-id="4">
+                        <div class="tit"><a href="detail.html">法国21加力果12个装 进口新鲜水果 嘎啦苹果 包邮</a></div>
+                        <div class="am-gallery-desc">￥<label class="price">66</label></div>
+                    </div>
+                    <div class="list-cart">
+                        <div class="d-stock ">
+                            <a class="decrease">-</a>
+                            <input id="num" readonly="" class="text_box" name="" type="text" value="0">
+                            <a class="increase">+</a>
+                        </div>
+                    </div>
+                </li>
+            </ul>*@
             </div>
         </div>
     </div>
     <!--底部-->
     <div style="height: 100px;"></div>
-    <div class="fix-bot" style="bottom:50px;">
+    <div class="fix-bot" style="bottom: 50px;">
         <a href="" class="list-js">
             合计：
-            <i><label id="totalPrice">0</label>元</i><em>(<label id="totalNum">0</label>份)</em>
+            <i><label id="totalPrice">@totalMon.ToString("0.00")</label>元</i><em>(<label id="totalNum">@totalCount</label>份)</em>
         </a>
         <a href="#" id="submit" class="list-jsk">选好了</a>
     </div>
@@ -175,6 +225,11 @@
     <script src="../Scripts/Tools.js"></script>
     <script type="text/javascript">
         var supClassid = getUrlParam("supClassid");
+        var classId = getUrlParam("classid");
+        var carSelProIdListStr = "@((hasSleProIds==null ||hasSleProIds.Count<1)?"": string.Join(",",hasSleProIds.ToArray()))";
+        var carSelProIdList= new Array(); //定义一数组
+        carSelProIdList = carSelProIdListStr.split(","); //字符分割
+
         var hasSelProId = new Array();
         var selSupClassid = "";
         var selClassid = -1;
@@ -247,57 +302,60 @@
                 var $li = $('#tab li');
                 var $ul = $('#content ul');
 
-                // 初始化
-                if (supClassid) {
-                    getPro($("li[data-typeid='" + supClassid + "']"));
+                // 初始化 以选择产品子分类，进入页面
+                if (supClassid && classId && classId != "0") {
+                    this.console.log("supClassid="+supClassid+";classId="+classId);
+                    getProD(supClassid, classId, 2);
+                   // getPro($("li[data-typeid='" + supClassid + "']"));
 
                 } else {
-                    getPro($li.first());
+                   // getPro($li.first());
                     //// 初始化加载第一个类别数据
-                    $li.first().addClass("current").addClass("currentLi");
+                   // $li.first().addClass("current").addClass("currentLi");
                 }
 
-                $li.click(function () {
-                    var $this = $(this);
-                    selClassid = -1
-                    getPro($this);
-                });
+                //$li.click(function () {
+                //    var $this = $(this);
+                //    selClassid = -1
+                //    getPro($this);
+                //});
 
                 //// 获取产品列表数据
                 function getPro($this) {
-                    var $seleType = $this.attr("data-typeId");
-                    selSupClassid = $seleType;
-                    $(".subdaohangInfor").hide();
-                    $(".subdaohangInfor[data-supClassid=" + $seleType + "]").show();
-                    $(".active").removeClass("active");
-                    $(".allSubdaohang").addClass("active");
+                    if (classId && classId != "0") {
+                        var $seleType = $this.attr("data-typeId");
+                        selSupClassid = $seleType;
+                        $(".subdaohangInfor").hide();
+                        $(".subdaohangInfor[data-supClassid=" + $seleType + "]").show();
+                        $(".active").removeClass("active");
+                        $(".allSubdaohang").addClass("active");
 
+                        $li.removeClass();
+                        $this.addClass('current');
+                        $this.addClass('currentLi');
 
-                    $li.removeClass();
-                    $this.addClass('current');
-                    $this.addClass('currentLi');
+                        $ul.css('display', 'none');
 
-                    $ul.css('display', 'none');
-                  
-
-                    getProD($seleType,selClassid,1);
+                        getProD(supClassid, classId, 2);
+                    }
                 }
 
-                 $(".subdaohang").click(function () {
-                    selClassid = $(this).attr("data-classid");
-                    var supClassid = $(this).attr("data-supClassid");
-                    $(".active2").removeClass('active2');
-                     $(this).addClass('active2');
+                // 顶子分类单击事件
+                //$(".subdaohang").click(function () {
+                //    selClassid = $(this).attr("data-classid");
+                //    var supClassid = $(this).attr("data-supClassid");
+                //    $(".active2").removeClass('active2');
+                //    $(this).addClass('active2');
 
-                     getProD(selSupClassid,selClassid,2);
-                 });
+                //    getProD(selSupClassid, selClassid, 2);
+                //});
 
 
-                  //// 获取产品列表数据(根据子类id)
-                function getProD(supClassid, classid,type) {
-                      var $selProCount = $(".proListType" + supClassid);
+                //// 获取产品列表数据(根据子类id)
+                function getProD(supClassid, classid, type) {
+                    var $selProCount = $(".proListType" + supClassid);
                     $selProCount.css('display', 'block');
-                     //// 查找是否是否还有数据标识
+                    //// 查找是否是否还有数据标识
                     var hasPro = $selProCount.attr("data-hasPro");
                     if (hasPro != "0") {
                         ///// 获取当前数据所显示的页码
@@ -310,7 +368,7 @@
                             cache: false,//保留缓存数据
                             type: "get",//为post请求
                             url: "/market/GetProductcListBySupClassId",//这是我在后台接受数据的文件名
-                            data: "pagIndex=" + pagIndex + "&supClassid=" + supClassid+"&classid=-1",//将该表单序列化
+                            data: "pagIndex=" + pagIndex + "&supClassid=" + supClassid + "&classid="+classid,//将该表单序列化
                             async: false,//设置成true，这标志着在请求开始后，其他代码依然能够执行。如果把这个选项设置成false，这意味着所有的请求都不再是异步的了，这也会导致浏览器被锁死
                             error: function (request) {//请求失败之后的操作
                                 alert("操作失败！");
@@ -322,6 +380,17 @@
                                         var dataList = dataObj["dataList"];
                                         if (dataList) {
                                             for (var i = 0; i < dataList.length; i++) {
+                                                var hasSel = false;
+                                                var hasSelNum = 0;
+                                                if (carSelProIdList && carSelProIdList.length>0) {
+                                                    for (var j = 0; j < carSelProIdList.length; j++) {
+                                                        if (carSelProIdList[j].indexOf(dataList[i]["productid"]) != -1) {
+                                                            hasSel = true;
+                                                            hasSelNum = carSelProIdList[j].split("-")[1];
+                                                        }
+                                                    }
+                                                }
+                                                  
                                                 var phtml = '<li dta-pro-lsitLis="lsitLis" data-pro-supClassId=' + dataList[i]["supclassid"] + ' data-pro-classId=' + dataList[i]["classid"] + '><a href="detail?productId=' + dataList[i]["productid"] + '"><img src="/' + dataList[i]["productimgurl"] + '" class="list-pic" /></a>' +
                                                     '<div class="shop-list-mid" data-id="' + dataList[i]["productid"] + '">' +
                                                     '   <div class="tit"><a href="detail?productId=' + dataList[i]["productid"] + '">' + dataList[i]["productname"] + '</a></div>' +
@@ -329,8 +398,8 @@
                                                     '</div> ' +
                                                     '<div class="list-cart">' +
                                                     ' <div class="d-stock ">' +
-                                                    '<a class="decrease">-</a>' +
-                                                    ' <input id="num" readonly="" class="text_box" name="" type="text" value="0">' +
+                                                    '<a class="decrease" style="' + (hasSel ? "display: inline;" : "") + '">-</a>' +
+                                                    ' <input id="num" readonly="" class="text_box" name="" type="text" value="'+(hasSel?hasSelNum:"0")+'" style="'+(hasSel?"display: inline-block;":"")+'">' +
                                                     '<a class="increase">+</a>' +
                                                     '</div>' +
                                                     '</div>' +
@@ -345,7 +414,7 @@
                                                 $selProCount.attr("data-pagIndex", parseInt($selProCount.attr("data-pagIndex")) + 1);
                                             }
 
-                                            if (selClassid>0) {
+                                            if (selClassid > 0) {
                                                 $("li[dta-pro-lsitLis=lsitLis]").css('display', 'none');
                                                 $("li[data-pro-classId=" + classid + "]").css('display', 'block');
                                             } else {
@@ -363,7 +432,7 @@
                         });
                     }
                     else {
-                         // 如果未取完数据，并且是根据子分类来查询数据，需要晴空查询
+                        // 如果未取完数据，并且是根据子分类来查询数据，需要晴空查询
                         if (type == 2) {
                             if (classid) {
                                 $("li[dta-pro-lsitLis=lsitLis]").css('display', 'none');
@@ -371,7 +440,7 @@
                             } else {
                                 $("li[dta-pro-lsitLis=lsitLis]").css('display', 'block');
                             }
-                          
+
                         }
                     }
                 }
@@ -403,7 +472,7 @@
         //// 选好了单击事件
         $(function () {
             $('#submit').click(function () {
-                 var hasSelCount = $("#totalNum").text();
+                var hasSelCount = $("#totalNum").text();
                 if (!hasSelCount || hasSelCount=="0") {
                     alert("请选中需要的产品！");
                     return false;
