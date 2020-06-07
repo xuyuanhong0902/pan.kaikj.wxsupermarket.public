@@ -213,7 +213,12 @@ namespace pan.kaikj.wxsupermarket.AdoDal
         /// <returns></returns>
         public List<MshoppingCart> GetAllShoppingCartListBySserId(string userId)
         {
-            string sql = "select shoppingCartId,userId,userName,productId,productname,productformat,buyNum,origPrice,sellPrice,totalPrice,isDelete,isEffective,great_time,modify_time from shoppingCart where userId=?userId;";
+            string sql = @"select sc.shoppingCartId,sc.userId,sc.userName,sc.productId,
+                           p.productname,p.productformat,sc.buyNum,p.origPrice,p.sellPrice,
+                           sc.totalPrice,sc.isDelete,sc.isEffective,sc.great_time,
+                           sc.modify_time from shoppingCart as sc 
+                           JOIN product as p on sc.productId = p.productId 
+                           where sc.userId=?userId;";
 
             List<MySqlParameter> parameterList = new List<MySqlParameter>();
             MySqlParameter parameter = parameter = new MySqlParameter("?userId", MySqlDbType.VarChar, 25);

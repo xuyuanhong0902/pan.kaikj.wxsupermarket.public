@@ -26,7 +26,7 @@
             </div>
         </div>
     </header>
-    <div class="content-list" id="outer" style="margin-top:50px;border-top: 1px solid rgb(247, 243, 243);">
+    <div class="content-list" id="outer" style="margin-top:48px;border-top: 1px solid rgb(247, 243, 243);">
         <div class="list-left" id="tab" style="bottom:100px;height:auto;margin-top:50px;">
           
             <!--<li><a style="position: relative;">新品推荐<i class="num">8</i></a></li>-->
@@ -91,6 +91,7 @@
                             }
                         }
                     }
+
                 }
             </ul>
         </div>
@@ -162,17 +163,18 @@
                 }
                 else
                 {
-                    <div class="wrap">
-                        <div class="cont"  style="border-bottom: 1px solid #ddd;">
+                    <div class="wrap" style="position: fixed;z-index: 9999;width: 100%;background-color: white;">
+                        <div class="cont" style="border-bottom: 1px solid #ddd;">
                             <ul class="state">
                                 @Html.Raw(subClassHtml)
+				<li class="subdaohangInfor subdaohang" style=" width: 100px;"><a></a></li>
                             </ul>
                         </div>
                     </div>
                 }
             }
 
-            <div class="" id="content">
+            <div class="" id="content" style="margin-top:30px;">
                 @{
                     if (modelList != null && modelList.Count > 0)
                     {
@@ -180,7 +182,7 @@
                         {
                             if (@item.supclassid == 0 && supClassId == item.classid.ToString())
                             {
-                                 <ul class='list-pro  @("proListType"+item.classid)' data-hasPro="1" data-pagIndex="1"></ul>
+                                <ul class='list-pro  @("proListType"+item.classid)' data-hasPro="1" data-pagIndex="1"></ul>
                             }
                         }
                     }

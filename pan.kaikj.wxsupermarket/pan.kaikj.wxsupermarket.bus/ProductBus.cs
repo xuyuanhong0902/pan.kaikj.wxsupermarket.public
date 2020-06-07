@@ -361,6 +361,7 @@ namespace pan.kaikj.wxsupermarket.bus
                 mwxResult.errmsg = "新增成功！";
                 mwxResult.errcode = 0;
                 CacheData.allRecommendPro = null;
+                CacheData.allRecommendProList = null;
             }
             else
             {
@@ -402,7 +403,7 @@ namespace pan.kaikj.wxsupermarket.bus
                 mwxResult.errmsg = "保存成功！";
                 mwxResult.errcode = 0;
                 CacheData.allRecommendPro = null;
-
+                CacheData.allRecommendProList = null;
             }
             else
             {
@@ -581,7 +582,7 @@ namespace pan.kaikj.wxsupermarket.bus
                         mwxResult.errcode = 0;
                         mwxResult.errmsg = "操作成功";
                         CacheData.allRecommendPro = null;
-
+                        CacheData.allRecommendProList = null;
                     }
                 }
             }
@@ -622,7 +623,7 @@ namespace pan.kaikj.wxsupermarket.bus
                         mwxResult.errcode = 0;
                         mwxResult.errmsg = "操作成功";
                         CacheData.allRecommendPro = null;
-
+                        CacheData.allRecommendProList = null;
                     }
                 }
             }
@@ -665,6 +666,7 @@ namespace pan.kaikj.wxsupermarket.bus
                         mwxResult.errcode = 0;
                         mwxResult.errmsg = "操作成功";
                         CacheData.allRecommendPro = null;
+                        CacheData.allRecommendProList = null;
                     }
                 }
             }
